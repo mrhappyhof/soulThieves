@@ -1,0 +1,15 @@
+[remap]
+
+importer="codeandweb.texturepacker_import_spritesheet"
+type="Resource"
+path="res://.import/powerups.tpsheet-2fd3668327107972e826b07549d0875c.res"
+
+[deps]
+
+files=[ "res://resources/images/powerups.sprites/bonus_bad_hyperactive.tres", "res://resources/images/powerups.sprites/bonus_bad_mirror.tres", "res://resources/images/powerups.sprites/bonus_bad_restrain.tres", "res://resources/images/powerups.sprites/bonus_bad_scatty.tres", "res://resources/images/powerups.sprites/bonus_bad_slow.tres", "res://resources/images/powerups.sprites/bonus_bomb.tres", "res://resources/images/powerups.sprites/bonus_kick.tres", "res://resources/images/powerups.sprites/bonus_mason.tres", "res://resources/images/powerups.sprites/bonus_neutral_pandora.tres", "res://resources/images/powerups.sprites/bonus_neutral_resurrect.tres", "res://resources/images/powerups.sprites/bonus_neutral_teleport.tres", "res://resources/images/powerups.sprites/bonus_power.tres", "res://resources/images/powerups.sprites/bonus_shield.tres", "res://resources/images/powerups.sprites/bonus_speed.tres", "res://resources/images/powerups.sprites/bonus_throw.tres" ]
+
+source_file="res://resources/images/powerups.tpsheet"
+dest_files=[ "res://.import/powerups.tpsheet-2fd3668327107972e826b07549d0875c.res", "res://resources/images/powerups.sprites/bonus_bad_hyperactive.tres", "res://resources/images/powerups.sprites/bonus_bad_mirror.tres", "res://resources/images/powerups.sprites/bonus_bad_restrain.tres", "res://resources/images/powerups.sprites/bonus_bad_scatty.tres", "res://resources/images/powerups.sprites/bonus_bad_slow.tres", "res://resources/images/powerups.sprites/bonus_bomb.tres", "res://resources/images/powerups.sprites/bonus_kick.tres", "res://resources/images/powerups.sprites/bonus_mason.tres", "res://resources/images/powerups.sprites/bonus_neutral_pandora.tres", "res://resources/images/powerups.sprites/bonus_neutral_resurrect.tres", "res://resources/images/powerups.sprites/bonus_neutral_teleport.tres", "res://resources/images/powerups.sprites/bonus_power.tres", "res://resources/images/powerups.sprites/bonus_shield.tres", "res://resources/images/powerups.sprites/bonus_speed.tres", "res://resources/images/powerups.sprites/bonus_throw.tres" ]
+
+[params]
+

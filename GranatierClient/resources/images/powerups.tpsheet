@@ -1,0 +1,243 @@
+{
+	"textures": [
+		{
+			"image": "powerups.png",
+			"size": {
+				"w": 240,
+				"h": 400
+			},
+			"sprites": [
+				{
+					"filename": "bonus_bad_hyperactive.svg",
+					"region": {
+						"x": 0,
+						"y": 0,
+						"w": 80,
+						"h": 80
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "bonus_bad_mirror.svg",
+					"region": {
+						"x": 80,
+						"y": 0,
+						"w": 80,
+						"h": 80
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "bonus_bad_restrain.svg",
+					"region": {
+						"x": 160,
+						"y": 0,
+						"w": 80,
+						"h": 80
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "bonus_bad_scatty.svg",
+					"region": {
+						"x": 0,
+						"y": 80,
+						"w": 80,
+						"h": 80
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "bonus_bad_slow.svg",
+					"region": {
+						"x": 80,
+						"y": 80,
+						"w": 80,
+						"h": 80
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "bonus_bomb.svg",
+					"region": {
+						"x": 160,
+						"y": 80,
+						"w": 80,
+						"h": 80
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "bonus_kick.svg",
+					"region": {
+						"x": 0,
+						"y": 160,
+						"w": 80,
+						"h": 80
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "bonus_mason.svg",
+					"region": {
+						"x": 80,
+						"y": 160,
+						"w": 80,
+						"h": 80
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "bonus_neutral_pandora.svg",
+					"region": {
+						"x": 160,
+						"y": 160,
+						"w": 80,
+						"h": 80
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "bonus_neutral_resurrect.svg",
+					"region": {
+						"x": 0,
+						"y": 240,
+						"w": 80,
+						"h": 80
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "bonus_neutral_teleport.svg",
+					"region": {
+						"x": 80,
+						"y": 240,
+						"w": 80,
+						"h": 80
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "bonus_power.svg",
+					"region": {
+						"x": 160,
+						"y": 240,
+						"w": 80,
+						"h": 80
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "bonus_shield.svg",
+					"region": {
+						"x": 0,
+						"y": 320,
+						"w": 80,
+						"h": 80
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "bonus_speed.svg",
+					"region": {
+						"x": 80,
+						"y": 320,
+						"w": 80,
+						"h": 80
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "bonus_throw.svg",
+					"region": {
+						"x": 160,
+						"y": 320,
+						"w": 80,
+						"h": 80
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "1.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:c34c29c16e9e85ac4cc2cb2c770bdbc7:4360f09258d41c4905998be495bacc59:22e565853adc64c50a1aa0104d7d9a45$"
+	}
+}

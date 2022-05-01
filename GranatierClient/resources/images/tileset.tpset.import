@@ -1,0 +1,15 @@
+[remap]
+
+importer="codeandweb.texturepacker_import_tileset"
+type="Resource"
+path="res://.import/tileset.tpset-54d25894c1b01b88529a05acfdd26e2a.res"
+
+[deps]
+
+files=[ "tileset.png", "res://resources/images/tileset.res" ]
+
+source_file="res://resources/images/tileset.tpset"
+dest_files=[ "res://.import/tileset.tpset-54d25894c1b01b88529a05acfdd26e2a.res", "tileset.png", "res://resources/images/tileset.res" ]
+
+[params]
+

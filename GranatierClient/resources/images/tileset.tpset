@@ -1,0 +1,168 @@
+{
+	"textures": [
+		{
+			"image": "tileset.png",
+			"size": {
+				"w": 420,
+				"h": 42
+			},
+			"sprites": [
+				{
+					"filename": "arena_arrow_down.svg",
+					"region": {
+						"x": 1,
+						"y": 1,
+						"w": 40,
+						"h": 40
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "arena_arrow_left.svg",
+					"region": {
+						"x": 43,
+						"y": 1,
+						"w": 40,
+						"h": 40
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "arena_arrow_right.svg",
+					"region": {
+						"x": 85,
+						"y": 1,
+						"w": 40,
+						"h": 40
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "arena_arrow_up.svg",
+					"region": {
+						"x": 127,
+						"y": 1,
+						"w": 40,
+						"h": 40
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "arena_bomb_mortar.svg",
+					"region": {
+						"x": 169,
+						"y": 1,
+						"w": 40,
+						"h": 40
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "arena_greenwall.svg",
+					"region": {
+						"x": 211,
+						"y": 1,
+						"w": 40,
+						"h": 40
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "arena_ground.svg",
+					"region": {
+						"x": 253,
+						"y": 1,
+						"w": 40,
+						"h": 40
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "arena_ice.svg",
+					"region": {
+						"x": 295,
+						"y": 1,
+						"w": 40,
+						"h": 40
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "arena_mine.svg",
+					"region": {
+						"x": 337,
+						"y": 1,
+						"w": 40,
+						"h": 40
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "arena_wall.svg",
+					"region": {
+						"x": 379,
+						"y": 1,
+						"w": 40,
+						"h": 40
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "1.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:3ac62d18b2d6d8aa3f9b3186d0e8fc71:25b4f39f8a1358e6c1bf841e0b4ff1d0:22d72128a9f3a99a7d27423de829fed2$"
+	}
+}
