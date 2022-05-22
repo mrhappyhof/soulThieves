@@ -33,19 +33,17 @@ remote func MovePlayer(motion, timestamp):
 	var player_id = get_tree().get_rpc_sender_id()
 	var player = $World.get_node(str(player_id))
 	var rotation
-	if motion.y == 0:
-		rotation = motion.angle_to(Vector2.RIGHT)
-	else:
-		rotation = -motion.angle_to(Vector2.RIGHT)
-	$World.players[str(player_id)]["R"] = rotation
-	$World.players[str(player_id)]["T"] = timestamp
-	player.move(motion)
 	
-remote func SpawnPlayer():
+	player.move(motion)
+	$World.players[str(player_id)]["T"] = timestamp
+	$World.players[str(player_id)]["P"] = player.position
+	
+remote func SpawnPlayer(timestamp):
 	var player_id = get_tree().get_rpc_sender_id()
 	var position = $World.spawn_player(player_id)
 	var player_no = $World.players.size()
 	$World.players[str(player_id)] = {}
+	$World.players[str(player_id)]["T"] = timestamp
+	$World.players[str(player_id)]["P"] = position
 	$World.players[str(player_id)]["N"] = player_no
-	$World.players[str(player_id)]["T"] = OS.get_system_time_msecs()
-	rpc_id(0, "SpawnPlayer", position, player_id, player_no)
+	rpc_id(0, "SpawnPlayer", position, player_id, player_no, timestamp)

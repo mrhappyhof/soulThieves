@@ -1,16 +1,27 @@
 extends Node
 
 var network = NetworkedMultiplayerENet.new()
-var address = "localhost"
+#var address = "localhost"
 #var address = "game.url.de"
-var port = 1909
+#var port = 1909
 var world
+var initial = true
+
+var past_states = {}
+
+enum PlayerAction{
+	SPAWN,
+	MOVE_LEFT,
+	MOVE_RIGHT,
+	MOVE_UP,
+	MOVE_DOWN,
+}
 
 func _ready():
-	ConnectToServer()
+	#ConnectToServer()
 	#rpc_id(1, "SpawnPlayer")
-	
-func ConnectToServer():
+	pass
+func ConnectToServer(address, port):
 	network.create_client(address, port)
 	get_tree().set_network_peer(network)
 	
@@ -23,26 +34,53 @@ func _OnConnectionFailed():
 	
 func _OnConnectionSucceeded():
 	print("Succesfully connected")
-	rpc_id(1, "SpawnPlayer")
+	var timestamp = OS.get_system_time_msecs()
+	rpc_id(1, "SpawnPlayer", timestamp)
 
 func MovePlayer(motion):
-	rpc_unreliable_id(1, "MovePlayer", motion, OS.get_system_time_msecs())
+	var timestamp = OS.get_system_time_msecs()
+	var world_state = world.get_world_state()
+	past_states[timestamp] = world_state
+	rpc_unreliable_id(1, "MovePlayer", motion, timestamp)
+
+func reconcile_player(player_pos, timestamp):
+	var player = world.get_node(str(get_tree().get_network_unique_id()))
+	if (past_states.size() > 0 and past_states.keys().back() <= timestamp) or past_states.size() == 0:
+			player.position = player_pos
 
 remote func UpdateWorldState(world_state):
-	var world = get_node("/root/World")
-	for player_id in world_state.keys():
+	var local_id = get_tree().get_network_unique_id() #get id of local player
+	
+	for time in past_states.keys(): #iterate timestamps of all past states1
+		if time < world_state.players[str(local_id)].T: #delete states older than update
+			past_states.erase(time)
+	
+	reconcile_player(world_state.players[str(local_id)].P, world_state.players[str(local_id)].T)
+	#delete reconciled state:
+	past_states.erase(world_state.players[str(local_id)].T)
+	for player_id in world_state.players.keys():
 		var player
 		if world.has_node(str(player_id)):
-			player = world.get_node(str(player_id))
-			player.position = world_state[player_id]["P"]
+			if int(player_id) != local_id:
+				player = world.get_node(str(player_id))
+				player.add_position(world_state.players[player_id]["P"], world_state.time)
+				#player.position = world_state.players[player_id]["P"]
 		else:
-			player = world.spawn_player(world_state[player_id]["P"], player_id, world_state[player_id]["N"])
-		player.rotation = world_state[player_id]["R"]
+			player = world.spawn_player(world_state.players[player_id]["P"], player_id, world_state.players[player_id]["N"])
+	if(initial or not past_states.has(world_state.players[str(local_id)].T) or past_states[world_state.players[str(local_id)].T].map != world_state.map):
+		var tilemap = world.get_node("TileMap")
+		tilemap.clear()
+		for coords in world_state.map.keys():
+			tilemap.set_cellv(coords, tilemap.tile_set.find_tile_by_name(world_state.map[coords]))
+		tilemap.place_in_center()
 
-remote func SpawnPlayer(position, player_id, player_no):
-	print("spawn player at " + str(position))
+remote func SpawnPlayer(position, player_id, player_no, timestamp):
+	#print("spawn player at " + str(position))
 	get_node("/root/World").spawn_player(position, player_id, player_no)
-	
+	var world_state = world.get_world_state()
+	past_states[timestamp] = world_state
+	past_states[timestamp]["action"] = PlayerAction.SPAWN
+
 remote func despawn_player(player_id):
 	get_node("/root/World").despawn_player(player_id)
 	
