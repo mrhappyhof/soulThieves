@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scripts/Bomb.gd" type="Script" id=4]
+
+[sub_resource type="CircleShape2D" id=14]
+radius = 450.0
+
+[sub_resource type="CircleShape2D" id=15]
+radius = 90.1388
+
+[node name="Bomb" type="KinematicBody2D"]
+scale = Vector2( 0.2, 0.2 )
+script = ExtResource( 4 )
+
+[node name="ExplosionTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2( 0.2, 0.2 )
+shape = SubResource( 14 )
+disabled = true
+
+[node name="PlayerIntersection" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerIntersection"]
+modulate = Color( 0.0431373, 0.0431373, 0.0431373, 1 )
+shape = SubResource( 15 )
+
+[connection signal="timeout" from="ExplosionTimer" to="." method="_on_ExplosionTimer_timeout"]
+[connection signal="body_exited" from="PlayerIntersection" to="." method="_on_PlayerIntersection_body_exited"]
