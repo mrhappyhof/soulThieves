@@ -28,7 +28,7 @@ const POWERUP = {
 func _ready():	
 	
 	# Dictionary of all powerups with index as keys, e.g. [0] => First Powerup, ...
-	var powerups = {}
+	#var powerups = {}
 	
 	# Generate dictionaries for each powerup with the image path and time as properties
 	"""
@@ -43,7 +43,7 @@ func _ready():
 	"""
 	
 	# Alternatively dictionaries can be added to powerups manually
-	powerups = [
+	var powerups = [
 			{
 				"image" : PATH + "bad_hyperactive",
 				"timer" : 0.0
