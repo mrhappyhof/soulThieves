@@ -328,7 +328,7 @@ animations = [ {
 "frames": [ SubResource( 51 ), SubResource( 52 ), SubResource( 53 ), SubResource( 54 ), SubResource( 55 ), SubResource( 56 ), SubResource( 57 ), SubResource( 58 ), SubResource( 59 ), SubResource( 60 ), SubResource( 61 ), SubResource( 62 ) ],
 "loop": true,
 "name": "player4",
-"speed": 5.0
+"speed": 30.0
 } ]
 
 [sub_resource type="CircleShape2D" id=14]
