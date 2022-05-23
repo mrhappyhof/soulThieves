@@ -37,9 +37,9 @@ func spawn_player(player_id):
 	var spawn = last_spawn + 1
 	player.position = $TileMap.get_node("SpawnPoint" + str(spawn)).position
 	#Used to test Powerups
-	var powerup = Powerup.instance()
-	powerup.position = player.position + Vector2.DOWN*40
-	add_child(powerup)
+	#var powerup = Powerup.instance()
+	#powerup.position = player.position + Vector2.DOWN*40
+	#add_child(powerup)
 	
 	last_spawn = spawn
 	player.name = str(player_id)
