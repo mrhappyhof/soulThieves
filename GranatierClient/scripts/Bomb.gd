@@ -7,7 +7,8 @@ var bomb_explosion_scene
 
 ## Member variables
 var cell_pos = Vector2() # Bomb tilemap coordinates
-var bomb_range = 1# Range of the bomb explosion
+var bomb_range = 2# Range of the bomb explosion
+var explode_directions = [Vector2.UP,Vector2.DOWN,Vector2.RIGHT,Vector2.LEFT]
 
 var exploding = false # Is the bomb exploding?
 var chained_bombs = [] # Bombs triggered by the chain reaction
@@ -23,115 +24,47 @@ func _ready():
 	bomb_explosion_scene = load("res://scenes/BombExplosion.tscn")
 	self.get_node("BombAnim/AnimationPlayer").play("Bomb")
 
+func _physics_process(delta):
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
 
-
 func _on_TimerAnim_timeout():
 	get_parent().remove_child(self)
 
 
-func _on_AnimationPlayer_animation_finished(anim_name):
-	explode()
-
-
 func explode():
 	var tilemap = get_parent().get_node("TileMap")
-	var coords = Vector2(tilemap.world_to_map(self.get_position()))
+	var coords = tilemap.world_to_map(self.position - tilemap.position)
 	print("exploding")
 	$BombAnim.hide()
-	for i in range(bomb_range):
-		print("going up")
-		var current_coords = coords+Vector2.UP*i
-		var cell_id = tilemap.get_cellv(current_coords)
-		var cell_type = tilemap.tile_set.tile_get_name(cell_id)
-		match cell_type:
-			"arena_greenwall":
-				print("greenwall")
-				break
-			"arena_wall":
-				print("arenawall")
-				tilemap.destroy_cell(coords.x,coords.y)
-				#create explosion
-				var bomb_explosion = bomb_explosion_scene.instance()
-				bomb_explosion.position = to_global(tilemap.map_to_world(current_coords)+tilemap.cell_size/2)
-				add_child(bomb_explosion)
-				break
-			_:
-				print("nothing")
-				var bomb_explosion = bomb_explosion_scene.instance()
-				bomb_explosion.position = to_global(tilemap.map_to_world(current_coords)+tilemap.cell_size/2)
-				add_child(bomb_explosion)
-	for i in range(bomb_range):
-		print("going up")
-		var current_coords = coords+Vector2.LEFT*i
-		var cell_id = tilemap.get_cellv(current_coords)
-		var cell_type = tilemap.tile_set.tile_get_name(cell_id)
-		match cell_type:
-			"arena_greenwall":
-				print("greenwall")
-				break
-			"arena_wall":
-				print("arenawall")
-				tilemap.destroy_cell(coords.x,coords.y)
-				#create explosion
-				var bomb_explosion = bomb_explosion_scene.instance()
-				bomb_explosion.position = to_global(tilemap.map_to_world(current_coords)+tilemap.cell_size/2)
-				add_child(bomb_explosion)
-				break
-			_:
-				print("nothing")
-				var bomb_explosion = bomb_explosion_scene.instance()
-				bomb_explosion.position = to_global(tilemap.map_to_world(current_coords)+tilemap.cell_size/2)
-				add_child(bomb_explosion)
-	for i in range(bomb_range):
-		print("going up")
-		var current_coords = coords+Vector2.RIGHT*i
-		var cell_id = tilemap.get_cellv(current_coords)
-		var cell_type = tilemap.tile_set.tile_get_name(cell_id)
-		match cell_type:
-			"arena_greenwall":
-				print("greenwall")
-				break
-			"arena_wall":
-				print("arenawall")
-				tilemap.destroy_cell(coords.x,coords.y)
-				#create explosion
-				var bomb_explosion = bomb_explosion_scene.instance()
-				bomb_explosion.position = to_global(tilemap.map_to_world(current_coords)+tilemap.cell_size/2)
-				add_child(bomb_explosion)
-				break
-			_:
-				print("nothing")
-				var bomb_explosion = bomb_explosion_scene.instance()
-				bomb_explosion.position = to_global(tilemap.map_to_world(current_coords)+tilemap.cell_size/2)
-				add_child(bomb_explosion)
-	for i in range(bomb_range):
-		print("going up")
-		var current_coords = coords+Vector2.DOWN*i
-		var cell_id = tilemap.get_cellv(current_coords)
-		var cell_type = tilemap.tile_set.tile_get_name(cell_id)
-		match cell_type:
-			"arena_greenwall":
-				print("greenwall")
-				break
-			"arena_wall":
-				print("arenawall")
-				tilemap.destroy_cell(coords.x,coords.y)
-				#create explosion
-				var bomb_explosion = bomb_explosion_scene.instance()
-				bomb_explosion.position = to_global(tilemap.map_to_world(current_coords)+tilemap.cell_size/2)
-				add_child(bomb_explosion)
-				break
-			_:
-				print("nothing")
-				var bomb_explosion = bomb_explosion_scene.instance()
-				bomb_explosion.position = to_global(tilemap.map_to_world(current_coords)+tilemap.cell_size/2)
-				add_child(bomb_explosion)
-	get_node("ExplotionTimer").start()
+	var cell_id = tilemap.get_cellv(coords)
+	var cell_type = tilemap.tile_set.tile_get_name(cell_id)
+	if cell_type == "arena_wall":
+		tilemap.destroy_cell(coords.x,coords.y)
+	for y in range(4):
+		for i in range(bomb_range):
+			var current_coords = coords+(explode_directions[y]*(i+1))
+			cell_id = tilemap.get_cellv(current_coords)
+			cell_type = tilemap.tile_set.tile_get_name(cell_id)
+			match cell_type:
+				"arena_greenwall":
+					break
+				"arena_wall":
+					tilemap.destroy_cell(current_coords.x,current_coords.y)
+					break
+	get_node("TimerAnim").start()
+	#create explosion
+				#var bomb_explosion = bomb_explosion_scene.instance()
+				#bomb_explosion.position = to_global(tilemap.map_to_world(current_coords)+tilemap.cell_size/2)
+				#add_child(bomb_explosion)
 
 
 func _on_PlayerIntersection_body_exited(body):
 	$CollisionShape2D.set_deferred("disabled", false)
+
+
+func _on_ExplotionTimer_timeout():
+	explode()

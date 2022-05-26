@@ -7,6 +7,7 @@
 [sub_resource type="Animation" id=1]
 resource_name = "Bomb"
 length = 3.0
+loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:scale")
 tracks/0/interp = 1
@@ -63,10 +64,11 @@ radius = 90.1388
 scale = Vector2( 0.2, 0.2 )
 script = ExtResource( 4 )
 
-[node name="ExplotionTimer" type="Timer" parent="."]
+[node name="TimerAnim" type="Timer" parent="."]
 one_shot = true
 
 [node name="BombAnim" type="Sprite" parent="."]
+scale = Vector2( 1.06767, 1.06767 )
 texture = ExtResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="BombAnim"]
@@ -90,6 +92,11 @@ collision_layer = 0
 modulate = Color( 0.0431373, 0.0431373, 0.0431373, 1 )
 shape = SubResource( 15 )
 
-[connection signal="timeout" from="ExplotionTimer" to="." method="_on_TimerAnim_timeout"]
+[node name="ExplotionTimer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[connection signal="timeout" from="TimerAnim" to="." method="_on_TimerAnim_timeout"]
 [connection signal="animation_finished" from="BombAnim/AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="body_exited" from="PlayerIntersection" to="." method="_on_PlayerIntersection_body_exited"]
+[connection signal="timeout" from="ExplotionTimer" to="." method="_on_ExplotionTimer_timeout"]
