@@ -14,8 +14,10 @@ var has_mirror = false
 var has_teleport = false
 var has_bad_powerup = false
 
-#func _ready():
-	#screen_size = get_viewport_rect().size
+func _ready():
+	$AnimatedSprite.set_z_index(2)
+	
+	
 var nextPositions = []
 var powerups = []
 

@@ -10,21 +10,21 @@ outline_size = 5
 outline_color = Color( 0.333333, 0.329412, 0.164706, 1 )
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="StyleBoxEmpty" id=2]
+
+[sub_resource type="StyleBoxEmpty" id=3]
+
+[sub_resource type="StyleBoxEmpty" id=4]
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0, 0, 0, 1 )
+draw_center = false
+
+[sub_resource type="DynamicFont" id=6]
 size = 80
 outline_size = 3
 outline_color = Color( 0.333333, 0.329412, 0.164706, 1 )
 font_data = ExtResource( 1 )
-
-[sub_resource type="StyleBoxEmpty" id=5]
-
-[sub_resource type="StyleBoxEmpty" id=6]
-
-[sub_resource type="StyleBoxEmpty" id=7]
-
-[sub_resource type="StyleBoxFlat" id=4]
-bg_color = Color( 0, 0, 0, 1 )
-draw_center = false
 
 [node name="MainMenu" type="Node2D"]
 script = ExtResource( 3 )
@@ -40,8 +40,8 @@ margin_top = 50.0
 margin_right = 1028.0
 margin_bottom = 67.0
 grow_horizontal = 2
-custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
 custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
 text = "Granatier Online"
 align = 1
 
@@ -52,12 +52,12 @@ margin_right = 1203.5
 margin_bottom = 431.0
 grow_horizontal = 2
 focus_mode = 0
+custom_styles/hover = SubResource( 2 )
+custom_styles/pressed = SubResource( 3 )
+custom_styles/focus = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
+custom_fonts/font = SubResource( 6 )
 custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
-custom_fonts/font = SubResource( 2 )
-custom_styles/hover = SubResource( 5 )
-custom_styles/pressed = SubResource( 6 )
-custom_styles/focus = SubResource( 7 )
-custom_styles/normal = SubResource( 4 )
 enabled_focus_mode = 0
 text = "Start Game"
 
@@ -68,12 +68,12 @@ margin_right = 1203.5
 margin_bottom = 531.0
 grow_horizontal = 2
 focus_mode = 0
+custom_styles/hover = SubResource( 2 )
+custom_styles/pressed = SubResource( 3 )
+custom_styles/focus = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
+custom_fonts/font = SubResource( 6 )
 custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
-custom_fonts/font = SubResource( 2 )
-custom_styles/hover = SubResource( 5 )
-custom_styles/pressed = SubResource( 6 )
-custom_styles/focus = SubResource( 7 )
-custom_styles/normal = SubResource( 4 )
 enabled_focus_mode = 0
 text = "Highscore"
 
@@ -84,12 +84,12 @@ margin_right = 1156.0
 margin_bottom = 631.0
 grow_horizontal = 2
 focus_mode = 0
+custom_styles/hover = SubResource( 2 )
+custom_styles/pressed = SubResource( 3 )
+custom_styles/focus = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
+custom_fonts/font = SubResource( 6 )
 custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
-custom_fonts/font = SubResource( 2 )
-custom_styles/hover = SubResource( 5 )
-custom_styles/pressed = SubResource( 6 )
-custom_styles/focus = SubResource( 7 )
-custom_styles/normal = SubResource( 4 )
 enabled_focus_mode = 0
 text = "Settings"
 
@@ -100,12 +100,12 @@ margin_right = 1174.0
 margin_bottom = 731.0
 grow_horizontal = 2
 focus_mode = 0
+custom_styles/hover = SubResource( 2 )
+custom_styles/pressed = SubResource( 3 )
+custom_styles/focus = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
+custom_fonts/font = SubResource( 6 )
 custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
-custom_fonts/font = SubResource( 2 )
-custom_styles/hover = SubResource( 5 )
-custom_styles/pressed = SubResource( 6 )
-custom_styles/focus = SubResource( 7 )
-custom_styles/normal = SubResource( 4 )
 enabled_focus_mode = 0
 text = "Quit Game"
 

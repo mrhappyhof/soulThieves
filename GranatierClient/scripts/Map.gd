@@ -20,6 +20,7 @@ const MAP_CHAR_TO_NAME = {
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	set_z_index(0)
 	pass
 
 func place_in_center():

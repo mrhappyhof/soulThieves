@@ -6,7 +6,7 @@ var players = {}
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$TileMap.parse_xml_map("clanbomber_Broken_Heart")
+	$TileMap.parse_xml_map("clanbomber_Bloody_Ring")
 	#$TileMap.place_in_center()
 
 func _physics_process(_delta):
