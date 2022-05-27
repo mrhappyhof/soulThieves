@@ -43,6 +43,9 @@ func MovePlayer(motion):
 	past_states[timestamp] = world_state
 	rpc_unreliable_id(1, "MovePlayer", motion, timestamp)
 
+func place_bomb():
+	rpc_id(1, "place_bomb")
+
 func reconcile_player(player_pos, timestamp):
 	var player = world.get_node(str(get_tree().get_network_unique_id()))
 	if (past_states.size() > 0 and past_states.keys().back() <= timestamp) or past_states.size() == 0:

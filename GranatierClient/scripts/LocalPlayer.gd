@@ -25,8 +25,8 @@ func _physics_process(_delta):
 		var bomb = bomb_scene.instance()
 		var tilemap = get_node("../TileMap")
 		bomb.position = tilemap.map_to_world(tilemap.world_to_map(position - tilemap.position)) + tilemap.position + Vector2(20,20)
-		print("spawn bomb")
 		get_parent().add_child(bomb)
+		Server.place_bomb()
 
 	if motion.length() > 0:
 		var _v = move_and_slide(motion * speed)

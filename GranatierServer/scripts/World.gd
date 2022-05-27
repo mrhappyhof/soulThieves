@@ -50,3 +50,7 @@ func despawn_player(player_id):
 	var player = get_node(str(player_id))
 	remove_child(player)
 	players[str(player_id)]["D"] = true
+
+func spawn_powerup():
+	#TODO
+	pass
