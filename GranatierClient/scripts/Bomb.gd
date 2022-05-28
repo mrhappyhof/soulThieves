@@ -71,7 +71,7 @@ func move(dir):
 		self.position=get_center_coords_from_cell_in_world_coords()
 
 func explode():
-	var tilemap = get_parent().get_node("TileMap")
+	var tilemap = get_parent().get_parent().get_node("TileMap")
 	var coords = get_map_coords()
 	print("exploding")
 	$BombAnim.hide()
@@ -101,18 +101,18 @@ func _on_ExplotionTimer_timeout():
 	explode()
 	
 func get_map_coords():
-	var tilemap = get_parent().get_node("TileMap")
+	var tilemap = get_parent().get_parent().get_node("TileMap")
 	var coords = tilemap.world_to_map(self.position - tilemap.position)
 	return coords
 	
 func get_celltype_from_coords(coords:Vector2 = get_map_coords()):
-	var tilemap = get_parent().get_node("TileMap")
+	var tilemap = get_parent().get_parent().get_node("TileMap")
 	var cell_id = tilemap.get_cellv(coords)
 	var cell_type = tilemap.tile_set.tile_get_name(cell_id)
 	return cell_type
 	
 func get_center_coords_from_cell_in_world_coords():
-	var tilemap = get_parent().get_node("TileMap")
+	var tilemap = get_parent().get_parent().get_node("TileMap")
 	var map_coords=get_map_coords()
 	var coords=tilemap.map_to_world(map_coords)+Vector2(20,20)+tilemap.position
 	return coords	

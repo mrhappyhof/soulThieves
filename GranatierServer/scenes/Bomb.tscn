@@ -27,5 +27,12 @@ collision_layer = 0
 modulate = Color( 0.0431373, 0.0431373, 0.0431373, 1 )
 shape = SubResource( 15 )
 
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = -65.0
+margin_top = -65.0
+margin_right = 60.0
+margin_bottom = 65.0
+color = Color( 0, 0, 0, 1 )
+
 [connection signal="timeout" from="ExplosionTimer" to="." method="_on_ExplosionTimer_timeout"]
 [connection signal="body_exited" from="PlayerIntersection" to="." method="_on_PlayerIntersection_body_exited"]

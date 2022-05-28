@@ -29,11 +29,11 @@ func _ready():
 
 
 func _on_ExplosionTimer_timeout():
-	get_parent().remove_child(self)
+	get_parent().get_parent().remove_child(self)
 
 
 func explode():
-	var tilemap = get_parent().get_node("TileMap")
+	var tilemap = get_parent().get_parent().get_node("TileMap")
 	var coords = Vector2(tilemap.world_to_map(self.get_position()))
 	print("exploding")
 	for i in range(bomb_range):

@@ -15,5 +15,11 @@ collision_layer = 2
 format = 1
 script = ExtResource( 3 )
 
+[node name="Players" type="Node2D" parent="."]
+
+[node name="Bombs" type="Node2D" parent="."]
+
+[node name="Powerups" type="Node2D" parent="."]
+
 [node name="DefeatVictory" parent="." instance=ExtResource( 4 )]
 visible = false
