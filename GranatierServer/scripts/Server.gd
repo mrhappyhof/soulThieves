@@ -32,7 +32,7 @@ func send_world_state(world_state):
 
 remote func MovePlayer(motion, timestamp):
 	var player_id = get_tree().get_rpc_sender_id()
-	var player = $World.get_node(str(player_id))
+	var player = $World.get_node("Players/" + str(player_id))
 	var rotation
 	
 	player.move(motion)
@@ -51,8 +51,8 @@ remote func SpawnPlayer(timestamp):
 
 remote func place_bomb():
 	var player_id = get_tree().get_rpc_sender_id()
-	var player = $World.get_node(str(player_id))
+	var player = $World.get_node("Players/" + str(player_id))
 	var tilemap = $World/TileMap
 	var bomb = bomb_scene.instance()
 	bomb.position = tilemap.map_to_world(tilemap.world_to_map(player.position - tilemap.position)) + tilemap.position + Vector2(20,20)
-	$World.add_child(bomb)
+	$World/Bombs.add_child(bomb)

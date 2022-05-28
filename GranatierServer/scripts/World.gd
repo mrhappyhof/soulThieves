@@ -17,7 +17,7 @@ func get_world_state():
 	if players.size() > 0:
 		for player_id in players.keys():
 			if(not players[str(player_id)].has("D") or not players[str(player_id)]["D"]):
-				players[player_id]["P"] = get_node(player_id).position
+				players[player_id]["P"] = get_node("Players/" + player_id).position
 				#players[player_id]["T"] = OS.get_system_time_msecs()
 			else:
 				players.erase(player_id)
@@ -43,11 +43,11 @@ func spawn_player(player_id):
 	
 	last_spawn = spawn
 	player.name = str(player_id)
-	add_child(player, true)
+	$Players.add_child(player, true)
 	return player.position
 
 func despawn_player(player_id):
-	var player = get_node(str(player_id))
+	var player = $Players.get_node(str(player_id))
 	remove_child(player)
 	players[str(player_id)]["D"] = true
 

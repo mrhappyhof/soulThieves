@@ -21,7 +21,7 @@ func spawn_player(position, player_id, player_no):
 	else:
 		player = playerNode.instance()
 		player.position = position
-	add_child(player, true)
+	$Players.add_child(player, true)
 	#change player animation based on player_no
 	player.set_animation(player_no)
 	player.name = str(player_id)
@@ -32,7 +32,7 @@ func despawn_player(player_id):
 	remove_child(player)
 
 func get_world_state():
-	var player = get_node(str(get_tree().get_network_unique_id()))
+	var player = $Players.get_node(str(get_tree().get_network_unique_id()))
 	var world_state
 	var map = {}
 	for v in $TileMap.get_used_cells():
