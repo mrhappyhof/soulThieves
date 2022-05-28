@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://resources/images/Background.svg" type="Texture" id=1]
 [ext_resource path="res://resources/fonts/gomarice_no_continue.ttf" type="DynamicFontData" id=2]
@@ -25,6 +25,21 @@ font_data = ExtResource( 2 )
 [sub_resource type="StyleBoxFlat" id=6]
 bg_color = Color( 0, 0, 0, 1 )
 draw_center = false
+
+[sub_resource type="DynamicFont" id=9]
+size = 60
+outline_size = 3
+outline_color = Color( 0.333333, 0.329412, 0.164706, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=10]
+size = 60
+outline_size = 2
+outline_color = Color( 0.333333, 0.329412, 0.164706, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="StyleBoxFlat" id=11]
+bg_color = Color( 0, 0, 0, 0.45098 )
 
 [sub_resource type="DynamicFont" id=7]
 size = 40
@@ -68,10 +83,44 @@ custom_styles/normal = SubResource( 6 )
 enabled_focus_mode = 0
 text = "Return"
 
+[node name="SessionNameLabel" type="Label" parent="."]
+margin_left = 101.0
+margin_top = 283.0
+margin_right = 977.0
+margin_bottom = 358.0
+grow_horizontal = 2
+custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
+custom_fonts/font = SubResource( 9 )
+text = "Session Name"
+align = 1
+
+[node name="SessionName" type="LineEdit" parent="."]
+margin_left = 254.0
+margin_top = 360.0
+margin_right = 822.0
+margin_bottom = 437.0
+custom_colors/selection_color = Color( 1, 0.964706, 0.333333, 1 )
+custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
+custom_fonts/font = SubResource( 10 )
+custom_styles/normal = SubResource( 11 )
+max_length = 18
+context_menu_enabled = false
+
+[node name="MapListLabel" type="Label" parent="."]
+margin_left = 953.0
+margin_top = 283.0
+margin_right = 1829.0
+margin_bottom = 358.0
+grow_horizontal = 2
+custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
+custom_fonts/font = SubResource( 9 )
+text = "Map List"
+align = 1
+
 [node name="MapList" type="ItemList" parent="."]
-margin_left = 560.0
-margin_top = 267.0
-margin_right = 1430.0
+margin_left = 953.0
+margin_top = 360.0
+margin_right = 1823.0
 margin_bottom = 867.0
 custom_colors/guide_color = Color( 0, 0, 0, 0 )
 custom_colors/font_color_selected = Color( 1, 0.964706, 0.333333, 1 )
