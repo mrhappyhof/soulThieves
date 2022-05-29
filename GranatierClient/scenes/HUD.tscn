@@ -1,0 +1,57 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://resources/fonts/gomarice_no_continue.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://resources/images/Background.svg" type="Texture" id=2]
+[ext_resource path="res://scripts/HUD.gd" type="Script" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+size = 49
+outline_size = 5
+outline_color = Color( 0.333333, 0.329412, 0.164706, 1 )
+font_data = ExtResource( 1 )
+
+[node name="HUD" type="CanvasLayer"]
+layer = 0
+script = ExtResource( 3 )
+
+[node name="Background" type="Sprite" parent="."]
+position = Vector2( 960, 540 )
+scale = Vector2( 6.66, 5.83 )
+texture = ExtResource( 2 )
+
+[node name="Title" type="Label" parent="."]
+margin_left = 455.0
+margin_top = 27.0
+margin_right = 813.0
+margin_bottom = 77.0
+grow_horizontal = 2
+custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
+custom_fonts/font = SubResource( 1 )
+text = "Granatier Online"
+align = 1
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[node name="TimerLabel" type="Label" parent="."]
+margin_left = 1774.0
+margin_top = 27.0
+margin_right = 1883.0
+margin_bottom = 77.0
+grow_horizontal = 2
+custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
+custom_fonts/font = SubResource( 1 )
+text = "05:00"
+align = 1
+
+[node name="PlayerList" type="ItemList" parent="."]
+modulate = Color( 1, 1, 1, 0.776471 )
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 45.0
+margin_top = -60.0
+margin_right = 337.0
+margin_bottom = 60.0
+auto_height = true
+
+[connection signal="timeout" from="Timer" to="." method="countdown"]

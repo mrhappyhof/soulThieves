@@ -3,7 +3,7 @@ var localPlayerNode = preload("res://scenes/LocalPlayer.tscn")
 var playerNode = preload("res://scenes/Player.tscn")
 var port = 1909
 
-
+signal new_player()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -22,9 +22,14 @@ func spawn_player(position, player_id, player_no):
 		player = playerNode.instance()
 		player.position = position
 	$Players.add_child(player, true)
+	
 	#change player animation based on player_no
 	player.set_animation(player_no)
 	player.name = str(player_id)
+	
+	# Emit signal for HUD
+	emit_signal("new_player")
+	
 	return player
 
 func despawn_player(player_id):
