@@ -1,6 +1,6 @@
 extends Node
 var localPlayerNode = preload("res://scenes/LocalPlayer.tscn")
-var playerNode = preload("res://scenes/Player.tscn")
+var onlinePlayerNode = preload("res://scenes/OnlinePlayer.tscn")
 var port = 1909
 
 signal new_player()
@@ -19,7 +19,7 @@ func spawn_player(position, player_id, player_no):
 		player = localPlayerNode.instance()
 		player.position = position
 	else:
-		player = playerNode.instance()
+		player = onlinePlayerNode.instance()
 		player.position = position
 	$Players.add_child(player, true)
 	

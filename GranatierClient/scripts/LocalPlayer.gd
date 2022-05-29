@@ -5,6 +5,8 @@ var bomb_scene = preload("res://scenes/Bomb.tscn")
 
 var placed_bomb_count = 0
 
+func _ready():
+	pass
 
 func _physics_process(_delta):
 	var motion = Vector2.ZERO

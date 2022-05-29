@@ -29,7 +29,6 @@ func get_world_state():
 			}
 			var bomb_path = bomb.get_path()
 			bombs[bomb_path.get_name(bomb_path.get_name_count() - 1)] = bomb_data
-			print("bomb_name is: " + bomb_path.get_name(bomb_path.get_name_count() - 1))
 		var map = {}
 		for v in $TileMap.get_used_cells():
 			var tile_id = $TileMap.get_cellv(v)
@@ -58,7 +57,7 @@ func spawn_player(player_id):
 
 func despawn_player(player_id):
 	var player = $Players.get_node(str(player_id))
-	remove_child(player)
+	$Players.remove_child(player)
 	players[str(player_id)]["D"] = true
 
 func spawn_powerup():

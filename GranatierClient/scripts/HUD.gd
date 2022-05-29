@@ -6,6 +6,7 @@ signal lose()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	$PlayerList.set_icon_scale(0.2)
 	pass # Replace with function body.
 
 
@@ -28,7 +29,8 @@ func hud_display_player():
 	$PlayerList.clear()
 	var i = 1
 	
-	for child in $Players.get_children():
+	for child in get_node("../Players").get_children():
 		var sprite = child.get_node("AnimatedSprite")
-		$PlayerList.add_item("Player " + i, sprite.get_frame())
+		var frame = sprite.get_sprite_frames().get_frame(sprite.get_animation(), sprite.get_frame())
+		$PlayerList.add_item("Player " + str(i), frame)
 		i += 1
