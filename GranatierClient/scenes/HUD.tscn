@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://resources/fonts/gomarice_no_continue.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://resources/images/Background.svg" type="Texture" id=2]
@@ -10,6 +10,22 @@ outline_size = 5
 outline_color = Color( 0.333333, 0.329412, 0.164706, 1 )
 font_data = ExtResource( 1 )
 
+[sub_resource type="DynamicFont" id=2]
+size = 35
+outline_size = 2
+outline_color = Color( 0.333333, 0.329412, 0.164706, 1 )
+font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxEmpty" id=6]
+
+[sub_resource type="StyleBoxEmpty" id=3]
+
+[sub_resource type="StyleBoxEmpty" id=5]
+
+[sub_resource type="StyleBoxEmpty" id=7]
+
+[sub_resource type="StyleBoxEmpty" id=4]
+
 [node name="HUD" type="CanvasLayer"]
 layer = 0
 script = ExtResource( 3 )
@@ -20,9 +36,9 @@ scale = Vector2( 6.66, 5.83 )
 texture = ExtResource( 2 )
 
 [node name="Title" type="Label" parent="."]
-margin_left = 455.0
+margin_left = 628.0
 margin_top = 27.0
-margin_right = 813.0
+margin_right = 986.0
 margin_bottom = 77.0
 grow_horizontal = 2
 custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
@@ -49,9 +65,21 @@ modulate = Color( 1, 1, 1, 0.776471 )
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_left = 45.0
-margin_top = -60.0
+margin_top = -257.0
 margin_right = 337.0
-margin_bottom = 60.0
+margin_bottom = -213.0
+focus_mode = 0
+custom_colors/guide_color = Color( 0, 0, 0, 0 )
+custom_colors/font_color_selected = Color( 1, 0.964706, 0.333333, 1 )
+custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
+custom_constants/icon_margin = 15
+custom_fonts/font = SubResource( 2 )
+custom_styles/cursor = SubResource( 6 )
+custom_styles/selected_focus = SubResource( 3 )
+custom_styles/bg_focus = SubResource( 5 )
+custom_styles/cursor_unfocused = SubResource( 7 )
+custom_styles/selected = SubResource( 4 )
+select_mode = 1
 auto_height = true
 
 [connection signal="timeout" from="Timer" to="." method="countdown"]
