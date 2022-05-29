@@ -26,11 +26,11 @@ func load_scene(var path):
 #	pass
 
 # Loads the game
-func _on_StartGame_pressed():
+func _on_CreateSession_pressed():
 	load_scene(createSessionScene)
 
 # Loads the highscore scene
-func _on_Highscore_pressed():
+func _on_JoinSession_pressed():
 	Server.join_session("test")
 	load_scene(worldScene)
 

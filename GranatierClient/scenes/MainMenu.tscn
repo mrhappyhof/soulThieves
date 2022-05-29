@@ -109,7 +109,7 @@ custom_styles/normal = SubResource( 5 )
 enabled_focus_mode = 0
 text = "Quit Game"
 
-[connection signal="pressed" from="CreateSession" to="." method="_on_StartGame_pressed"]
-[connection signal="pressed" from="JoinSession" to="." method="_on_Highscore_pressed"]
+[connection signal="pressed" from="CreateSession" to="." method="_on_CreateSession_pressed"]
+[connection signal="pressed" from="JoinSession" to="." method="_on_JoinSession_pressed"]
 [connection signal="pressed" from="Settings" to="." method="_on_Settings_pressed"]
 [connection signal="pressed" from="QuitGame" to="." method="_on_QuitGame_pressed"]
