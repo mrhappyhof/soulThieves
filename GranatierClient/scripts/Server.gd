@@ -35,14 +35,20 @@ func _OnConnectionFailed():
 	
 func _OnConnectionSucceeded():
 	print("Succesfully connected")
-	var timestamp = OS.get_system_time_msecs()
-	rpc_id(1, "SpawnPlayer", timestamp)
 
-func MovePlayer(motion):
+func create_session(name, map):
+	rpc_id(1, "create_world", name, map)
+	join_session(name)
+
+func join_session(name):
+	var timestamp = OS.get_system_time_msecs()
+	rpc_id(1, "join_world", name, timestamp)
+
+func move_player(motion):
 	var timestamp = OS.get_system_time_msecs()
 	var world_state = world.get_world_state()
 	past_states[timestamp] = world_state
-	rpc_unreliable_id(1, "MovePlayer", motion, timestamp)
+	rpc_unreliable_id(1, "move_player", motion, timestamp)
 
 func place_bomb():
 	rpc_id(1, "place_bomb")
@@ -52,7 +58,7 @@ func reconcile_player(player_pos, timestamp):
 	if (past_states.size() > 0 and past_states.keys().back() <= timestamp) or past_states.size() == 0:
 			player.position = player_pos
 
-remote func UpdateWorldState(world_state):
+remote func update_world_state(world_state):
 	var local_id = get_tree().get_network_unique_id() #get id of local player
 	
 	for time in past_states.keys(): #iterate timestamps of all past states1
@@ -89,7 +95,7 @@ remote func UpdateWorldState(world_state):
 			bomb.name = bomb_name
 			world.get_node("Bombs").add_child(bomb, true)
 
-remote func SpawnPlayer(position, player_id, player_no, timestamp):
+remote func spawn_player(position, player_id, player_no, timestamp):
 	#print("spawn player at " + str(position))
 	get_node("/root/World").spawn_player(position, player_id, player_no)
 	var world_state = world.get_world_state()

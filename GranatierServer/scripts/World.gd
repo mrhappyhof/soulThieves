@@ -4,13 +4,18 @@ var Powerup = preload("res://scenes/Powerup.tscn")
 var last_spawn = -1;
 var players = {}
 
+var map
+var session_name
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$TileMap.parse_xml_map("clanbomber_Bloody_Ring")
+	if(map != null):
+		$TileMap.parse_xml_map(map)
+	session_name = get_path().get_name(get_path().get_name_count() - 2)
 	#$TileMap.place_in_center()
 
 func _physics_process(_delta):
-		get_parent().send_world_state(get_world_state())
+		get_parent().get_parent().send_world_state(get_world_state(), session_name)
 
 func get_world_state():
 	var world_state

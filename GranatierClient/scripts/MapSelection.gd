@@ -11,7 +11,7 @@ var selectedItem
 
 # Load the map files from the directory
 func _ready():
-	var label
+	#var label
 	var dir = Directory.new()
 	dir.open(PATH)
 	dir.list_dir_begin()
@@ -53,4 +53,5 @@ func _on_MapList_item_selected(index):
 # Emit signal with the session and the map name, then load the world scene
 func _on_CreateSession_pressed():
 	emit_signal("session", $SessionName.text, selectedItem)
+	Server.create_session($SessionName.text, selectedItem)
 	load_scene(world)

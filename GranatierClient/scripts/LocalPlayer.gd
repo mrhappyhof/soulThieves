@@ -33,7 +33,7 @@ func _physics_process(_delta):
 
 	if motion.length() > 0:
 		var _v = move_and_slide(motion * speed)
-		Server.MovePlayer(motion)
+		Server.move_player(motion)
 		$AnimatedSprite.play()
 	else:
 		$AnimatedSprite.stop()

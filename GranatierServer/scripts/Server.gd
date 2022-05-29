@@ -1,5 +1,6 @@
 extends Node
 var bomb_scene = preload("res://scenes/Bomb.tscn")
+var world_scene = preload("res://scenes/World.tscn")
 
 var network = NetworkedMultiplayerENet.new()
 var port = 1909
@@ -7,6 +8,8 @@ var max_players = 10
 var speed = 100
 
 var placed_bomb_count = {}
+var sessions = {}
+var player_session_map = {}
 
 func _ready():
 	StartServer()
@@ -24,38 +27,62 @@ func _Peer_Connected(player_id):
 
 func _Peer_Disconnected(player_id):
 	print("User " + str(player_id) + " Disconnected")
-	$World.despawn_player(player_id)
-	rpc_id(0, "despawn_player", player_id)
+	var session = player_session_map[player_id]
+	get_node(session + "/World").despawn_player(player_id)
+	sessions[session].erase(player_id)
+	player_session_map.erase(player_id)
+	
+	for id in sessions[session]:
+		rpc_id(id, "despawn_player", player_id)
 
-func send_world_state(world_state):
-	rpc_unreliable_id(0, "UpdateWorldState", world_state)
+func send_world_state(world_state, session_name):
+	for id in sessions[session_name]:
+		rpc_unreliable_id(id, "update_world_state", world_state)
 
-remote func MovePlayer(motion, timestamp):
+remote func create_world(name, map):
+	var viewport = Viewport.new()
+	viewport.world = World2D.new()
+	viewport.set_size(Vector2(1920, 1080))
+	var world = world_scene.instance()
+	world.map = map
+	#world.name = name
+	viewport.name = name
+	viewport.add_child(world)
+	sessions[name] = []
+	add_child(viewport, true)
+
+remote func move_player(motion, timestamp):
 	var player_id = get_tree().get_rpc_sender_id()
-	var player = $World.get_node("Players/" + str(player_id))
+	var world = get_node(player_session_map[player_id] + "/World")
+	var player = world.get_node("Players/" + str(player_id))
 	
 	player.move(motion)
-	$World.players[str(player_id)]["T"] = timestamp
-	$World.players[str(player_id)]["P"] = player.position
+	world.players[str(player_id)]["T"] = timestamp
+	world.players[str(player_id)]["P"] = player.position
 	
-remote func SpawnPlayer(timestamp):
+remote func join_world(name, timestamp):
+	var world = get_node(name + "/World")
 	var player_id = get_tree().get_rpc_sender_id()
-	var position = $World.spawn_player(player_id)
-	var player_no = $World.players.size()
+	var position = world.spawn_player(player_id)
+	var player_no = world.players.size()
 	placed_bomb_count[player_id] = 0
-	$World.players[str(player_id)] = {}
-	$World.players[str(player_id)]["T"] = timestamp
-	$World.players[str(player_id)]["P"] = position
-	$World.players[str(player_id)]["N"] = player_no
-	rpc_id(0, "SpawnPlayer", position, player_id, player_no, timestamp)
+	world.players[str(player_id)] = {}
+	world.players[str(player_id)]["T"] = timestamp
+	world.players[str(player_id)]["P"] = position
+	world.players[str(player_id)]["N"] = player_no
+	sessions[name].push_back(player_id)
+	player_session_map[player_id] = name
+	for id in sessions[name]:
+		rpc_id(id, "spawn_player", position, player_id, player_no, timestamp)
 
 remote func place_bomb():
 	var player_id = get_tree().get_rpc_sender_id()
-	var player = $World.get_node("Players/" + str(player_id))
-	var tilemap = $World/TileMap
+	var world = get_node(player_session_map[player_id] + "/World")
+	var player = world.get_node("Players/" + str(player_id))
+	var tilemap = world.get_node("TileMap")
 	var bomb = bomb_scene.instance()
 	bomb.name = str(player_id) + "-" + str(placed_bomb_count[player_id])
 	print("placed bomb: " + bomb.name)
 	placed_bomb_count[player_id] += 1
 	bomb.position = tilemap.map_to_world(tilemap.world_to_map(player.position - tilemap.position)) + tilemap.position + Vector2(20,20)
-	$World/Bombs.add_child(bomb, true)
+	world.get_node("Bombs").add_child(bomb, true)

@@ -9,7 +9,6 @@ signal new_player()
 func _ready():
 	#$TileMap.parse_xml_map("clanbomber_Broken_Heart")
 	#$TileMap.place_in_center()
-	Server.ConnectToServer("localhost", port)
 	Server.world = self
 
 func spawn_player(position, player_id, player_no):

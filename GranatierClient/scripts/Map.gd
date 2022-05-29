@@ -10,7 +10,7 @@ const MAP_CHAR_TO_NAME = {
 	'_':'arena_ground',
 	'+':'arena_wall',
 	'-':'arena_ice',
-	'o':'arena_bomb_morter',
+	'o':'arena_bomb_mortar',
 	'u':'arena_arrow_up',
 	'r':'arena_arrow_right',
 	'd':'arena_arrow_down',

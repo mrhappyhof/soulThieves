@@ -4,10 +4,12 @@ extends Node2D
 export var createSessionScene = "res://scenes/MapSelection.tscn"
 export var joinSessionScene = "res://scenes/Session.tscn"
 export var settingsScene = "res://scenes/Settings.tscn"
+var worldScene = "res://scenes/World.tscn"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	Server.ConnectToServer("localhost", 1909)
+	#pass # Replace with function body.
 
 # Checks if the scene at the given path exists and loads it
 func load_scene(var path):
@@ -29,7 +31,8 @@ func _on_StartGame_pressed():
 
 # Loads the highscore scene
 func _on_Highscore_pressed():
-	load_scene(joinSessionScene)
+	Server.join_session("test")
+	load_scene(worldScene)
 
 # Loads the settings scene
 func _on_Settings_pressed():
