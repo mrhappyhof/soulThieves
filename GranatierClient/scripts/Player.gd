@@ -14,12 +14,12 @@ var has_mirror = false
 var has_teleport = false
 var has_bad_powerup = false
 
-func _ready():
-	$AnimatedSprite.set_z_index(2)
-	
-	
 var nextPositions = []
 var powerups = []
+
+
+func _ready():
+	$AnimatedSprite.set_z_index(2)
 
 func set_animation(player_no):
 	$AnimatedSprite.animation = "player" + str(player_no)

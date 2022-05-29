@@ -1,4 +1,5 @@
 extends Node
+var bomb_scene = preload("res://scenes/Bomb.tscn")
 
 var network = NetworkedMultiplayerENet.new()
 #var address = "localhost"
@@ -76,6 +77,17 @@ remote func UpdateWorldState(world_state):
 		for coords in world_state.map.keys():
 			tilemap.set_cellv(coords, tilemap.tile_set.find_tile_by_name(world_state.map[coords]))
 		tilemap.place_in_center()
+	for bomb_name in world_state.bombs.keys():
+		if world.get_node("Bombs").has_node(bomb_name):
+			var bomb = world.get_node("Bombs/" + bomb_name)
+			bomb.bomb_range = world_state.bombs[bomb_name].range
+			bomb.position = world_state.bombs[bomb_name].position
+		else:
+			var bomb = bomb_scene.instance()
+			bomb.position = world_state.bombs[bomb_name].position
+			bomb.bomb_range = world_state.bombs[bomb_name].range
+			bomb.name = bomb_name
+			world.get_node("Bombs").add_child(bomb, true)
 
 remote func SpawnPlayer(position, player_id, player_no, timestamp):
 	#print("spawn player at " + str(position))

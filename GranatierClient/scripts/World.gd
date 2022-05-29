@@ -4,7 +4,6 @@ var playerNode = preload("res://scenes/Player.tscn")
 var port = 1909
 
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	#$TileMap.parse_xml_map("clanbomber_Broken_Heart")

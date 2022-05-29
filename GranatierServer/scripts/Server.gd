@@ -6,7 +6,7 @@ var port = 1909
 var max_players = 10
 var speed = 100
 
-
+var placed_bomb_count = {}
 
 func _ready():
 	StartServer()
@@ -33,7 +33,6 @@ func send_world_state(world_state):
 remote func MovePlayer(motion, timestamp):
 	var player_id = get_tree().get_rpc_sender_id()
 	var player = $World.get_node("Players/" + str(player_id))
-	var rotation
 	
 	player.move(motion)
 	$World.players[str(player_id)]["T"] = timestamp
@@ -43,6 +42,7 @@ remote func SpawnPlayer(timestamp):
 	var player_id = get_tree().get_rpc_sender_id()
 	var position = $World.spawn_player(player_id)
 	var player_no = $World.players.size()
+	placed_bomb_count[player_id] = 0
 	$World.players[str(player_id)] = {}
 	$World.players[str(player_id)]["T"] = timestamp
 	$World.players[str(player_id)]["P"] = position
@@ -54,5 +54,8 @@ remote func place_bomb():
 	var player = $World.get_node("Players/" + str(player_id))
 	var tilemap = $World/TileMap
 	var bomb = bomb_scene.instance()
+	bomb.name = str(player_id) + "-" + str(placed_bomb_count[player_id])
+	print("placed bomb: " + bomb.name)
+	placed_bomb_count[player_id] += 1
 	bomb.position = tilemap.map_to_world(tilemap.world_to_map(player.position - tilemap.position)) + tilemap.position + Vector2(20,20)
-	$World/Bombs.add_child(bomb)
+	$World/Bombs.add_child(bomb, true)

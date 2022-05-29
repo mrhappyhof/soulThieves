@@ -21,12 +21,22 @@ func get_world_state():
 				#players[player_id]["T"] = OS.get_system_time_msecs()
 			else:
 				players.erase(player_id)
+		var bombs = {}
+		for bomb in $Bombs.get_children():
+			var bomb_data = {
+				"range": bomb.bomb_range,
+				"position": bomb.position
+			}
+			var bomb_path = bomb.get_path()
+			bombs[bomb_path.get_name(bomb_path.get_name_count() - 1)] = bomb_data
+			print("bomb_name is: " + bomb_path.get_name(bomb_path.get_name_count() - 1))
 		var map = {}
 		for v in $TileMap.get_used_cells():
 			var tile_id = $TileMap.get_cellv(v)
 			map[v] = $TileMap.tile_set.tile_get_name(tile_id)
 		world_state = {
 			"players": players.duplicate(),
+			"bombs": bombs,
 			"map": map,
 			"time": OS.get_system_time_msecs()
 		}

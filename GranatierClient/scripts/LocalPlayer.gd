@@ -1,11 +1,10 @@
-extends KinematicBody2D
+extends "res://scripts/Player.gd"
 
 var bomb_scene = preload("res://scenes/Bomb.tscn")
 
-var speed = 100
 
-func set_animation(player_no):
-	$AnimatedSprite.animation = "player" + str(player_no)
+var placed_bomb_count = 0
+
 
 func _physics_process(_delta):
 	var motion = Vector2.ZERO
@@ -25,7 +24,9 @@ func _physics_process(_delta):
 		var bomb = bomb_scene.instance()
 		var tilemap = get_node("../../TileMap")
 		bomb.position = tilemap.map_to_world(tilemap.world_to_map(position - tilemap.position)) + tilemap.position + Vector2(20,20)
-		get_node("/root/World/Bombs").add_child(bomb)
+		bomb.name = str(get_tree().get_network_unique_id()) + "-" + str(placed_bomb_count)
+		placed_bomb_count += 1
+		get_node("../../Bombs").add_child(bomb, true)
 		Server.place_bomb()
 
 	if motion.length() > 0:
