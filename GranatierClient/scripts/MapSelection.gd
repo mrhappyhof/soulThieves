@@ -5,11 +5,11 @@ const PATH = "res://resources/maps"
 export var mainMenu = "res://scenes/MainMenu.tscn"
 export var world = "res://scenes/World.tscn"
 
-signal map(map_name)
+signal session(session_name, map_name)
 
 var selectedItem
 
-# Called when the node enters the scene tree for the first time.
+# Load the map files from the directory
 func _ready():
 	var label
 	var dir = Directory.new()
@@ -18,6 +18,7 @@ func _ready():
 	
 	var file_name = dir.get_next()
 	
+	# Load every map and cut of the file extension
 	while file_name != "":
 		if !dir.current_is_dir():
 			file_name.erase(file_name.length() - 4, 4)
@@ -45,11 +46,11 @@ func load_scene(var path):
 func _on_Return_pressed():
 	load_scene(mainMenu)
 
-
+# Update the selected map from the list
 func _on_MapList_item_selected(index):
 	selectedItem = $MapList.get_item_text(index)
 
-# Emit signal with the map name, then load the world scene
+# Emit signal with the session and the map name, then load the world scene
 func _on_CreateSession_pressed():
-	emit_signal("map", selectedItem)
+	emit_signal("session", $SessionName.text, selectedItem)
 	load_scene(world)
