@@ -43,7 +43,22 @@ func _ready():
 	"""
 	
 	# Alternatively dictionaries can be added to powerups manually
-	var powerups = [
+	var powerups = powerups()
+	
+	# Create a random number generator and randomize it
+	var randomNumber = RandomNumberGenerator.new()
+	randomNumber.randomize()
+	
+	# Get a random powerup an load the image in the sprite
+	var p = powerups[randomNumber.randi_range(0, powerups.size() - 1)]
+	$Sprite.texture = load(p.image + ".tres")
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+
+static func powerups():
+	return [
 			{
 				"image" : PATH + "bad_hyperactive",
 				"timer" : 0.0
@@ -74,20 +89,6 @@ func _ready():
 			
 			{
 				"image" : PATH + "bad_slow",
-				"timer" : 0.0
-			},
-			
-			##########################################
-			
-			{
-				"image" : PATH + "bomb",
-				"timer" : 0.0
-			},
-			
-			##########################################
-			
-			{
-				"image" : PATH + "kick",
 				"timer" : 0.0
 			},
 			
@@ -145,17 +146,19 @@ func _ready():
 			{
 				"image" : PATH + "throw",
 				"timer" : 0.0
+			},
+			
+			##########################################
+			
+			{
+				"image" : PATH + "bomb",
+				"timer" : 0.0
+			},
+			
+			##########################################
+			
+			{
+				"image" : PATH + "kick",
+				"timer" : 0.0
 			}
 	]
-	
-	# Create a random number generator and randomize it
-	var randomNumber = RandomNumberGenerator.new()
-	randomNumber.randomize()
-	
-	# Get a random powerup an load the image in the sprite
-	var p = powerups[randomNumber.randi_range(0, powerups.size() - 1)]
-	$Sprite.texture = load(p.image + ".tres")
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass

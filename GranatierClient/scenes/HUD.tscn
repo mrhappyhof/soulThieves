@@ -65,9 +65,10 @@ modulate = Color( 1, 1, 1, 0.776471 )
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_left = 45.0
-margin_top = -257.0
+margin_top = -20.0
 margin_right = 337.0
-margin_bottom = -213.0
+margin_bottom = 24.0
+grow_vertical = 2
 focus_mode = 0
 custom_colors/guide_color = Color( 0, 0, 0, 0 )
 custom_colors/font_color_selected = Color( 1, 0.964706, 0.333333, 1 )
@@ -79,7 +80,7 @@ custom_styles/selected_focus = SubResource( 3 )
 custom_styles/bg_focus = SubResource( 5 )
 custom_styles/cursor_unfocused = SubResource( 7 )
 custom_styles/selected = SubResource( 4 )
-select_mode = 1
 auto_height = true
+max_columns = 5
 
 [connection signal="timeout" from="Timer" to="." method="countdown"]
