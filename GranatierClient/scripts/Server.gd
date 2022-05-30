@@ -88,6 +88,8 @@ remote func update_world_state(world_state):
 			var bomb = world.get_node("Bombs/" + bomb_name)
 			bomb.bomb_range = world_state.bombs[bomb_name].range
 			bomb.position = world_state.bombs[bomb_name].position
+			var time_left =  world_state.bombs[bomb_name].left - ((OS.get_system_time_msecs() - world_state.bombs[bomb_name].time) / 1000)
+			bomb.get_node("ExplotionTimer").start(time_left)
 		else:
 			var bomb = bomb_scene.instance()
 			bomb.position = world_state.bombs[bomb_name].position

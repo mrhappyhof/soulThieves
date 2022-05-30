@@ -31,6 +31,13 @@ shape = SubResource( 2 )
 wait_time = 3.0
 autostart = true
 
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = -60.0
+margin_top = -60.0
+margin_right = 60.0
+margin_bottom = 60.0
+color = Color( 0, 0, 0, 1 )
+
 [connection signal="timeout" from="TimerAnim" to="." method="_on_TimerAnim_timeout"]
 [connection signal="body_exited" from="PlayerIntersection" to="." method="_on_PlayerIntersection_body_exited"]
 [connection signal="timeout" from="ExplotionTimer" to="." method="_on_ExplotionTimer_timeout"]

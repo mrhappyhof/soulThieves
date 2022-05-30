@@ -30,10 +30,13 @@ func get_world_state():
 		for bomb in $Bombs.get_children():
 			var bomb_data = {
 				"range": bomb.bomb_range,
-				"position": bomb.position
+				"position": bomb.position,
+				"time": OS.get_system_time_msecs(),
+				"left": bomb.get_node("ExplotionTimer").get_time_left()
 			}
 			var bomb_path = bomb.get_path()
 			bombs[bomb_path.get_name(bomb_path.get_name_count() - 1)] = bomb_data
+		print("bombs: " + str(bombs.size()))
 		var map = {}
 		for v in $TileMap.get_used_cells():
 			var tile_id = $TileMap.get_cellv(v)

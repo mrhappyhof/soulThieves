@@ -2,5 +2,8 @@
 
 [ext_resource path="res://scripts/Server.gd" type="Script" id=1]
 
-[node name="Server" type="Node"]
+[node name="Server" type="ViewportContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+stretch = true
 script = ExtResource( 1 )
