@@ -32,7 +32,7 @@ script = ExtResource( 3 )
 
 [node name="Background" type="Sprite" parent="."]
 position = Vector2( 960, 540 )
-scale = Vector2( 6.66, 5.83 )
+scale = Vector2( 1.12, 1 )
 texture = ExtResource( 2 )
 
 [node name="Title" type="Label" parent="."]

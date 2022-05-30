@@ -4,6 +4,7 @@ extends Node2D
 export var createSessionScene = "res://scenes/MapSelection.tscn"
 export var joinSessionScene = "res://scenes/Session.tscn"
 export var settingsScene = "res://scenes/Settings.tscn"
+export var gameSelectionScene = "res://scenes/GameSelection.tscn"
 var worldScene = "res://scenes/World.tscn"
 
 # Called when the node enters the scene tree for the first time.
@@ -41,3 +42,7 @@ func _on_Settings_pressed():
 # Quits the game
 func _on_QuitGame_pressed():
 	get_tree().quit()
+
+
+func _on_Multiplayer_pressed():
+	load_scene(gameSelectionScene)
