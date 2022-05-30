@@ -42,7 +42,14 @@ func create_session(name, map):
 
 func join_session(name):
 	var timestamp = OS.get_system_time_msecs()
-	rpc_id(1, "join_world", name, timestamp)
+	rpc_id(1, "join_session", name, timestamp)
+
+func request_session_list():
+	rpc_id(1, "request_session_list")
+
+remote func recieve_session_list(list):
+	var reciever = get_node("/root/JoinLobby")
+	reciever.update_list(list)
 
 func move_player(motion):
 	var timestamp = OS.get_system_time_msecs()
@@ -107,3 +114,4 @@ remote func spawn_player(position, player_id, player_no, timestamp):
 remote func despawn_player(player_id):
 	get_node("/root/World").despawn_player(player_id)
 	
+

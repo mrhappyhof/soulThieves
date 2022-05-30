@@ -7,100 +7,23 @@ var icon = ResourceLoader.load("res://resources/images/bomb.svg")
 
 var row = preload("res://scenes/row.tscn")
 onready var table = get_node("MenuBackground/VBoxContainer/PanelContainer2/ScrollContainer/VBoxContainer")
-var i = 0
-#testdata
-var data=[{
-	"name": "Lobby A",
-	"map": "Three of three",
-	"players": "1/4"},
-	{
-	"name": "Lobby Be",
-	"map": "Broken Heart",
-	"players": "2/4"},
-	{
-	"name": "Lobby Cee",
-	"map": "Broken Heart",
-	"players": "0/4"},
-	{
-	"name": "Maximaler Lobby Name",
-	"map": "Broken Heart",
-	"players": "0/4"},{
-	"name": "Lobby A",
-	"map": "Three of three",
-	"players": "1/4"},
-	{
-	"name": "Lobby Be",
-	"map": "Broken Heart",
-	"players": "2/4"},
-	{
-	"name": "Lobby Cee",
-	"map": "Broken Heart",
-	"players": "0/4"},
-	{
-	"name": "Maximaler Lobby Name",
-	"map": "Broken Heart",
-	"players": "0/4"},{
-	"name": "Lobby A",
-	"map": "Three of three",
-	"players": "1/4"},
-	{
-	"name": "Lobby Be",
-	"map": "Broken Heart",
-	"players": "2/4"},
-	{
-	"name": "Lobby Cee",
-	"map": "Broken Heart",
-	"players": "0/4"},
-	{
-	"name": "Maximaler Lobby Name",
-	"map": "Broken Heart",
-	"players": "0/4"},{
-	"name": "Lobby A",
-	"map": "Three of three",
-	"players": "1/4"},
-	{
-	"name": "Lobby Be",
-	"map": "Broken Heart",
-	"players": "2/4"},
-	{
-	"name": "Lobby Cee",
-	"map": "Broken Heart",
-	"players": "0/4"},
-	{
-	"name": "Maximaler Lobby Name",
-	"map": "Broken Heart",
-	"players": "0/4"},{
-	"name": "Lobby A",
-	"map": "Three of three",
-	"players": "1/4"},
-	{
-	"name": "Lobby Be",
-	"map": "Broken Heart",
-	"players": "2/4"},
-	{
-	"name": "Lobby Cee",
-	"map": "Broken Heart",
-	"players": "0/4"},
-	{
-	"name": "Maximaler Lobby Name",
-	"map": "Broken Heart",
-	"players": "0/4"}]
-
-var openLobbys = ["Lobby C", "Lobby A", "Lobby D", "Lobby F", "Lobby Z", "Lobby M", "Lobby R",
-				  "Lobby N", "Lobby Q", "Lobby P", "Lobby T", "Lobby I", "Lobby L", "Lobby Y"]
+var row_count = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	#sets icon size of itemList
 	#for lobby in openLobbys:
 		#itemList.add_item(lobby)
-	for x in range(0, data.size()):
-		set_data(data[x])
-		
+	Server.request_session_list()
+
+func update_list(list):
+	for x in range(0, list.size()):
+		set_data(list[x])
+
 func set_data(data:Dictionary):
-	i = i + 1
+	row_count += 1
 	var instance = row.instance()
-	instance.name=str(i)
+	instance.name=str(row_count)
 	table.add_child(instance)
 	
 	#changing data of row

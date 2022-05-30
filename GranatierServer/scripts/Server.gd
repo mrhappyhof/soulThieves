@@ -39,6 +39,20 @@ func send_world_state(world_state, session_name):
 	for id in sessions[session_name]:
 		rpc_unreliable_id(id, "update_world_state", world_state)
 
+func get_session_list():
+	var list = []
+	
+	for s in sessions.keys():
+		var world = get_node(s + "/World")
+		var max_players = world.get_node("TileMap").spawn_count
+		var current_players = sessions[s].size()
+		list.push_back({"name": s, "map": world.map ,"players": str(current_players) + "/" + str(max_players)})
+	return list
+
+remote func request_session_list():
+	var list = get_session_list()
+	rpc_id(get_tree().get_rpc_sender_id(), "recieve_session_list", list)
+
 remote func create_world(name, map):
 	var viewport = Viewport.new()
 	viewport.world = World2D.new()
@@ -70,10 +84,17 @@ remote func join_world(name, timestamp):
 	world.players[str(player_id)]["T"] = timestamp
 	world.players[str(player_id)]["P"] = position
 	world.players[str(player_id)]["N"] = player_no
-	sessions[name].push_back(player_id)
-	player_session_map[player_id] = name
 	for id in sessions[name]:
 		rpc_id(id, "spawn_player", position, player_id, player_no, timestamp)
+	
+remote func join_session(name, timestamp):
+	var player_id = get_tree().get_rpc_sender_id()
+	sessions[name].push_back(player_id)
+	player_session_map[player_id] = name
+	join_world(name, timestamp)
+	#var list = get_session_list()
+	#for id in sessions[name]:
+		#rpc_id(id, "recieve_session_list", list)
 
 remote func place_bomb():
 	var player_id = get_tree().get_rpc_sender_id()

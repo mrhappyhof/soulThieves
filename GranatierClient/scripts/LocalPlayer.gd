@@ -6,7 +6,7 @@ var bomb_scene = preload("res://scenes/Bomb.tscn")
 var placed_bomb_count = 0
 var motion = Vector2.ZERO
 
-var last_pressed = ""
+var last_pressed
 
 func _ready():
 	pass
@@ -36,7 +36,7 @@ func _physics_process(_delta):
 		placed_bomb_count += 1
 		get_node("../../Bombs").add_child(bomb, true)
 		Server.place_bomb()
-	elif Input.is_action_just_released(last_pressed):
+	elif not last_pressed == null and Input.is_action_just_released(last_pressed):
 		motion = Vector2.ZERO
 
 	if motion.length() > 0:
