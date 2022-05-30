@@ -40,8 +40,8 @@ func hud_display_player():
 		var sprite = child.get_node("AnimatedSprite")
 		var frame = sprite.get_sprite_frames().get_frame(sprite.get_animation(), sprite.get_frame())
 		
-		$PlayerList.add_item("Player " + str(player_number), frame)
-	
+		$PlayerList.add_item("Player " + str(player_number))
+
 		# Add four empty items, in order to reach an item count of 20 (20 items / 5 columns = 4 rows)
 		$PlayerList.add_item("")
 		$PlayerList.add_item("")
@@ -52,15 +52,17 @@ func hud_display_player():
 		for n in Powerup.powerups().size():
 			$PlayerList.add_icon_item(load(Powerup.powerups()[n]["image"] + ".tres"))
 			hud_disable_powerup(player_number, n)
-			
+		
+	player_number += 1
+		
 	# Disable Tooltip for all items
 	for index in $PlayerList.get_item_count():
 		$PlayerList.set_item_tooltip_enabled(index, false)
 		
 func hud_enable_powerup(player_number, powerup_index):
-	var powerup = (player_number + 4) + powerup_index
+	var powerup = (((player_number - 1) * 20) + 5) + powerup_index
 	$PlayerList.set_item_icon_modulate(powerup, Color(1, 1, 1, 1))
 	
 func hud_disable_powerup(player_number, powerup_index):
-	var powerup = (player_number + 4) + powerup_index
+	var powerup = (((player_number - 1) * 20) + 5) + powerup_index
 	$PlayerList.set_item_icon_modulate(powerup, Color(1, 1, 1, 0.4))
