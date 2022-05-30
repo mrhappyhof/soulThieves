@@ -9,7 +9,7 @@ var bomb_explosion_scene
 var cell_pos = Vector2() # Bomb tilemap coordinates
 var bomb_range = 2# Range of the bomb explosion
 var explode_directions = [Vector2.UP,Vector2.DOWN,Vector2.RIGHT,Vector2.LEFT]
-
+var cell_size
 var exploding = false # Is the bomb exploding?
 var chained_bombs = [] # Bombs triggered by the chain reaction
 var flame_cells = [] # Coordinates and orientation of the cells with flame animation
@@ -24,24 +24,19 @@ func _ready():
 	$BombAnim.set_z_index(1)
 	bomb_explosion_scene = load("res://scenes/BombExplosion.tscn")
 	self.get_node("BombAnim/AnimationPlayer").play("Bomb")
+	cell_size = get_node("../../TileMap").get_cell_size()
 
 func _physics_process(delta):
-	var collision_info = move_and_collide(delta*slide_dir*20)
-	if collision_info:
+	var field_free = !test_move(Transform2D(Vector2(self.scale.x,0),Vector2(-0,self.scale.y),get_center_coords_from_cell_in_world_coords()),slide_dir*(cell_size))
+	var collision_info
+	if field_free:
+		collision_info = move_and_collide(delta*slide_dir*200)
+	if collision_info or !field_free:
 		slide_dir=Vector2(0,0)
 		self.position = get_center_coords_from_cell_in_world_coords()
 		$ExplotionTimer.set_paused(false)
-#	var collision = false
-#	get_map_coords()+slide_dir
-#	if test_move(Transform2D(get_map_coords(),Vector2(),Vector2()),slide_dir*40):
-#		collision=true
-#	if !collision:
-#		self.position+=(delta*slide_dir*200)
-#	else:
-#		slide_dir=Vector2(0,0)
-#		self.position = get_center_coords_from_cell_in_world_coords()
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	var celltype = get_celltype_from_coords()
 	if moving_bomb_is_more_then_half_on_cell():
 		match celltype:
@@ -93,7 +88,7 @@ func explode():
 				#add_child(bomb_explosion)
 
 
-func _on_PlayerIntersection_body_exited(body):
+func _on_PlayerIntersection_body_exited(_body):
 	$CollisionShape2D.set_deferred("disabled", false)
 
 
