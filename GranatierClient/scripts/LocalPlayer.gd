@@ -4,25 +4,31 @@ var bomb_scene = preload("res://scenes/Bomb.tscn")
 
 
 var placed_bomb_count = 0
+var motion = Vector2.ZERO
+
+var last_pressed = ""
 
 func _ready():
 	pass
 
 func _physics_process(_delta):
-	var motion = Vector2.ZERO
-	if Input.is_action_pressed("move_right"):
+	if Input.is_action_just_pressed("move_right"):
+		last_pressed = "move_right"
 		motion = Vector2.RIGHT
 		rotation = 0
-	if Input.is_action_pressed("move_down"):
+	elif Input.is_action_just_pressed("move_down"):
+		last_pressed = "move_down"
 		motion = Vector2.DOWN
 		rotation = PI/2
-	if Input.is_action_pressed("move_left"):
+	elif Input.is_action_just_pressed("move_left"):
+		last_pressed = "move_left"
 		motion = Vector2.LEFT
 		rotation = PI
-	if Input.is_action_pressed("move_up"):
+	elif Input.is_action_just_pressed("move_up"):
+		last_pressed = "move_up"
 		motion = Vector2.UP
 		rotation = 1.5*PI
-	if Input.is_action_just_pressed("place_bomb"):
+	elif Input.is_action_just_pressed("place_bomb"):
 		var bomb = bomb_scene.instance()
 		var tilemap = get_node("../../TileMap")
 		bomb.position = tilemap.map_to_world(tilemap.world_to_map(position - tilemap.position)) + tilemap.position + Vector2(20,20)
@@ -30,6 +36,8 @@ func _physics_process(_delta):
 		placed_bomb_count += 1
 		get_node("../../Bombs").add_child(bomb, true)
 		Server.place_bomb()
+	elif Input.is_action_just_released(last_pressed):
+		motion = Vector2.ZERO
 
 	if motion.length() > 0:
 		var _v = move_and_slide(motion * speed)
@@ -38,3 +46,4 @@ func _physics_process(_delta):
 	else:
 		$AnimatedSprite.stop()
 		$AnimatedSprite.frame = 0
+		
