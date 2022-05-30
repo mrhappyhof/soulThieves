@@ -3,40 +3,40 @@
 [ext_resource path="res://resources/images/bombExplosionSpread.svg" type="Texture" id=1]
 [ext_resource path="res://scripts/BombExplosion.gd" type="Script" id=2]
 
-[sub_resource type="AtlasTexture" id=8]
+[sub_resource type="AtlasTexture" id=1]
 flags = 4
 atlas = ExtResource( 1 )
 region = Rect2( 0, 0, 100, 300 )
 
-[sub_resource type="AtlasTexture" id=9]
+[sub_resource type="AtlasTexture" id=2]
 flags = 4
 atlas = ExtResource( 1 )
 region = Rect2( 100, 0, 100, 300 )
 
-[sub_resource type="AtlasTexture" id=10]
+[sub_resource type="AtlasTexture" id=3]
 flags = 4
 atlas = ExtResource( 1 )
 region = Rect2( 200, 0, 100, 300 )
 
-[sub_resource type="AtlasTexture" id=11]
+[sub_resource type="AtlasTexture" id=4]
 flags = 4
 atlas = ExtResource( 1 )
 region = Rect2( 300, 0, 100, 300 )
 
-[sub_resource type="AtlasTexture" id=12]
+[sub_resource type="AtlasTexture" id=5]
 flags = 4
 atlas = ExtResource( 1 )
 region = Rect2( 400, 0, 100, 300 )
 
-[sub_resource type="SpriteFrames" id=13]
+[sub_resource type="SpriteFrames" id=6]
 animations = [ {
-"frames": [ SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ) ],
 "loop": true,
 "name": "explosion",
 "speed": 5.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=14]
+[sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 13, 148 )
 
 [node name="BombExplosion" type="Area2D"]
@@ -45,9 +45,9 @@ script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 0, -150 )
-frames = SubResource( 13 )
+frames = SubResource( 6 )
 animation = "explosion"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -148 )
-shape = SubResource( 14 )
+shape = SubResource( 7 )

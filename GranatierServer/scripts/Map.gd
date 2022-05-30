@@ -71,6 +71,8 @@ func set_cell_from_char(x,y,val):
 		add_child(spawn)
 	set_cell(x,y,tile_set.find_tile_by_name(MAP_CHAR_TO_NAME[val]))
 
+func destroy_cell(x,y):
+	set_cell(x,y,tile_set.find_tile_by_name("arena_ground"))
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

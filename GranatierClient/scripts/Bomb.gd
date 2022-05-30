@@ -26,7 +26,7 @@ func _ready():
 	self.get_node("BombAnim/AnimationPlayer").play("Bomb")
 
 func _physics_process(delta):
-	var collision_info = move_and_collide(delta*slide_dir*200)
+	var collision_info = move_and_collide(delta*slide_dir*20)
 	if collision_info:
 		slide_dir=Vector2(0,0)
 		self.position = get_center_coords_from_cell_in_world_coords()

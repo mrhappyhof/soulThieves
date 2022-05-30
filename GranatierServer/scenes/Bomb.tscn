@@ -2,22 +2,22 @@
 
 [ext_resource path="res://scripts/Bomb.gd" type="Script" id=4]
 
-[sub_resource type="CircleShape2D" id=14]
+[sub_resource type="CircleShape2D" id=1]
 radius = 450.0
 
-[sub_resource type="CircleShape2D" id=15]
+[sub_resource type="CircleShape2D" id=2]
 radius = 90.1388
 
 [node name="Bomb" type="KinematicBody2D"]
 scale = Vector2( 0.2, 0.2 )
 script = ExtResource( 4 )
 
-[node name="ExplosionTimer" type="Timer" parent="."]
+[node name="TimerAnim" type="Timer" parent="."]
 one_shot = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2( 0.2, 0.2 )
-shape = SubResource( 14 )
+shape = SubResource( 1 )
 disabled = true
 
 [node name="PlayerIntersection" type="Area2D" parent="."]
@@ -25,14 +25,12 @@ collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerIntersection"]
 modulate = Color( 0.0431373, 0.0431373, 0.0431373, 1 )
-shape = SubResource( 15 )
+shape = SubResource( 2 )
 
-[node name="ColorRect" type="ColorRect" parent="."]
-margin_left = -65.0
-margin_top = -65.0
-margin_right = 60.0
-margin_bottom = 65.0
-color = Color( 0, 0, 0, 1 )
+[node name="ExplotionTimer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
 
-[connection signal="timeout" from="ExplosionTimer" to="." method="_on_ExplosionTimer_timeout"]
+[connection signal="timeout" from="TimerAnim" to="." method="_on_TimerAnim_timeout"]
 [connection signal="body_exited" from="PlayerIntersection" to="." method="_on_PlayerIntersection_body_exited"]
+[connection signal="timeout" from="ExplotionTimer" to="." method="_on_ExplotionTimer_timeout"]
