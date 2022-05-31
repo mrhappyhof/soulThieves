@@ -7,8 +7,9 @@ var bomb_explosion_scene
 
 ## Member variables
 var cell_pos = Vector2() # Bomb tilemap coordinates
-var bomb_range = 2# Range of the bomb explosion
+var bomb_range = 1# Range of the bomb explosion
 var explode_directions = [Vector2.UP,Vector2.DOWN,Vector2.RIGHT,Vector2.LEFT]
+var explode_rotations = [0,PI,PI/2,1.5*PI]
 var cell_size
 var exploding = false # Is the bomb exploding?
 var chained_bombs = [] # Bombs triggered by the chain reaction
@@ -77,7 +78,16 @@ func explode():
 					break
 				"arena_wall":
 					tilemap.destroy_cell(current_coords.x,current_coords.y)
+					var bomb_explosion = bomb_explosion_scene.instance()
+					add_child(bomb_explosion)
+					bomb_explosion.global_position = get_center_coords_from_cell_in_world_coords()
+					bomb_explosion.rotation = explode_rotations[y]
 					break
+				_:
+					var bomb_explosion = bomb_explosion_scene.instance()
+					add_child(bomb_explosion)
+					bomb_explosion.global_position = get_center_coords_from_cell_in_world_coords()
+					bomb_explosion.rotation = explode_rotations[y]
 	get_node("TimerAnim").start()
 	#create explosion
 				#var bomb_explosion = bomb_explosion_scene.instance()

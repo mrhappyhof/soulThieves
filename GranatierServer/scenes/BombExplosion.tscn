@@ -6,7 +6,6 @@
 extents = Vector2( 13, 148 )
 
 [node name="BombExplosion" type="Area2D"]
-scale = Vector2( 0.2, 0.2 )
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
