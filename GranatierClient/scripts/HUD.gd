@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 var Powerup = preload("res://scripts/Powerup.gd")
+var LocalPlayer = preload("res://scenes/LocalPlayer.tscn")
 
 export var time = 300
 
@@ -42,17 +43,20 @@ func hud_display_player():
 		
 		$PlayerList.add_item("Player " + str(player_number), frame)
 
-		# Add four empty items, in order to reach an item count of 20 (20 items / 5 columns = 4 rows)
+		# Add four empty items, in order to reach an item count of 15 (15 items / 5 columns = 3 rows)
 		$PlayerList.add_item("")
 		$PlayerList.add_item("")
 		$PlayerList.add_item("")
 		$PlayerList.add_item("")
 		
-		# Add powerups to PlayerList and disable them
-		for n in Powerup.powerups().size():
-			$PlayerList.add_icon_item(load(Powerup.powerups()[n]["image"] + ".tres"))
-			hud_disable_powerup(player_number, n)
-		
+		# Add powerups to PlayerList for the local player only and disable them
+		if child is LocalPlayer:
+			for n in Powerup.hud_powerups().size():
+				$PlayerList.add_icon_item(load(Powerup.hud_powerups()[n]["image"] + ".tres"))
+				hud_disable_powerup(player_number, n)
+			
+			$PlayerList.add_item("")
+			
 		player_number += 1
 
 	# Disable Tooltip for all items
@@ -60,9 +64,9 @@ func hud_display_player():
 		$PlayerList.set_item_tooltip_enabled(index, false)
 
 func hud_enable_powerup(player_number, powerup_index):
-	var powerup = (((player_number - 1) * 20) + 5) + powerup_index
+	var powerup = (((player_number - 1) * 15) + 5) + powerup_index
 	$PlayerList.set_item_icon_modulate(powerup, Color(1, 1, 1, 1))
 	
 func hud_disable_powerup(player_number, powerup_index):
-	var powerup = (((player_number - 1) * 20) + 5) + powerup_index
+	var powerup = (((player_number - 1) * 15) + 5) + powerup_index
 	$PlayerList.set_item_icon_modulate(powerup, Color(1, 1, 1, 0.4))
