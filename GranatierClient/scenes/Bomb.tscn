@@ -92,6 +92,7 @@ modulate = Color( 0.0431373, 0.0431373, 0.0431373, 1 )
 shape = SubResource( 9 )
 
 [node name="ExplotionTimer" type="Timer" parent="."]
+process_mode = 0
 wait_time = 3.0
 autostart = true
 
