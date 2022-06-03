@@ -50,14 +50,14 @@ func hud_display_player():
 		$PlayerList.add_item("")
 		
 		# Add powerups to PlayerList for the local player only and disable them
-		if child is LocalPlayer:
-			for n in Powerup.hud_powerups().size():
-				$PlayerList.add_icon_item(load(Powerup.hud_powerups()[n]["image"] + ".tres"))
-				hud_disable_powerup(player_number, n)
+	#	if child is LocalPlayer:
+	#		for n in Powerup.hud_powerups().size():
+	#			$PlayerList.add_icon_item(load(Powerup.hud_powerups()[n]["image"] + ".tres"))
+	#			hud_disable_powerup(player_number, n)
+		
+	#		$PlayerList.add_item("")
 			
-			$PlayerList.add_item("")
-			
-		player_number += 1
+	#	player_number += 1
 
 	# Disable Tooltip for all items
 	for index in $PlayerList.get_item_count():

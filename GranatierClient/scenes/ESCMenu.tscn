@@ -1,0 +1,104 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://resources/fonts/gomarice_no_continue.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://scripts/ESCMenu.gd" type="Script" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+size = 80
+outline_size = 3
+outline_color = Color( 0.333333, 0.329412, 0.164706, 1 )
+font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxEmpty" id=2]
+
+[sub_resource type="StyleBoxEmpty" id=3]
+
+[sub_resource type="StyleBoxEmpty" id=4]
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0, 0, 0, 1 )
+draw_center = false
+
+[node name="ESCMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+
+[node name="Background" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.639216 )
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+margin_left = 810.0
+margin_top = 333.0
+margin_right = 1110.0
+margin_bottom = 747.0
+custom_constants/separation = 30
+
+[node name="ResumeBtn" type="Button" parent="CenterContainer/VBoxContainer"]
+margin_right = 300.0
+margin_bottom = 81.0
+grow_horizontal = 2
+focus_mode = 0
+custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
+custom_fonts/font = SubResource( 1 )
+custom_styles/hover = SubResource( 2 )
+custom_styles/pressed = SubResource( 3 )
+custom_styles/focus = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
+enabled_focus_mode = 0
+text = "Resume"
+
+[node name="SettingsBtn" type="Button" parent="CenterContainer/VBoxContainer"]
+margin_top = 111.0
+margin_right = 300.0
+margin_bottom = 192.0
+grow_horizontal = 2
+focus_mode = 0
+custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
+custom_fonts/font = SubResource( 1 )
+custom_styles/hover = SubResource( 2 )
+custom_styles/pressed = SubResource( 3 )
+custom_styles/focus = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
+enabled_focus_mode = 0
+text = "Settings"
+
+[node name="LeaveBtn" type="Button" parent="CenterContainer/VBoxContainer"]
+margin_top = 222.0
+margin_right = 300.0
+margin_bottom = 303.0
+grow_horizontal = 2
+focus_mode = 0
+custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
+custom_fonts/font = SubResource( 1 )
+custom_styles/hover = SubResource( 2 )
+custom_styles/pressed = SubResource( 3 )
+custom_styles/focus = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
+enabled_focus_mode = 0
+text = "Leave"
+
+[node name="QuitBtn" type="Button" parent="CenterContainer/VBoxContainer"]
+margin_top = 333.0
+margin_right = 300.0
+margin_bottom = 414.0
+grow_horizontal = 2
+focus_mode = 0
+custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
+custom_fonts/font = SubResource( 1 )
+custom_styles/hover = SubResource( 2 )
+custom_styles/pressed = SubResource( 3 )
+custom_styles/focus = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
+enabled_focus_mode = 0
+text = "Quit"
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/ResumeBtn" to="." method="_on_ResumeBtn_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/LeaveBtn" to="." method="_on_LeaveBtn_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/QuitBtn" to="." method="_on_QuitBtn_pressed"]
