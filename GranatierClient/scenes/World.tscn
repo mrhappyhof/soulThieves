@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scripts/World.gd" type="Script" id=1]
 [ext_resource path="res://resources/images/tileset.res" type="TileSet" id=2]
 [ext_resource path="res://scripts/Map.gd" type="Script" id=3]
 [ext_resource path="res://scenes/DefeatVictory.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/HUD.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/ESCMenu.tscn" type="PackedScene" id=6]
 
 [node name="World" type="Node"]
 script = ExtResource( 1 )
@@ -27,6 +28,8 @@ script = ExtResource( 3 )
 
 [node name="DefeatVictory" parent="." instance=ExtResource( 4 )]
 visible = false
+
+[node name="ESCMenu" parent="." instance=ExtResource( 6 )]
 
 [connection signal="new_player" from="." to="HUD" method="hud_display_player"]
 [connection signal="lose" from="HUD" to="DefeatVictory" method="show_defeat"]

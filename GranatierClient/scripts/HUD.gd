@@ -2,6 +2,8 @@ extends CanvasLayer
 
 var Powerup = preload("res://scripts/Powerup.gd")
 var LocalPlayer = preload("res://scenes/LocalPlayer.tscn")
+var player_num = 0
+var enabled_powerups = []
 
 export var time = 300
 
@@ -27,6 +29,10 @@ func countdown():
 		$TimerLabel.text = "%02d:%02d" % [minutes, seconds]
 		time -= 1
 		
+		if time % 2 == 0:
+			hud_enable_powerup(0)
+		else:
+			hud_disable_powerup(0)
 	elif time == -1:
 		emit_signal("lose")
 		#queue_free()
@@ -42,31 +48,39 @@ func hud_display_player():
 		var frame = sprite.get_sprite_frames().get_frame(sprite.get_animation(), sprite.get_frame())
 		
 		$PlayerList.add_item("Player " + str(player_number), frame)
-
-		# Add four empty items, in order to reach an item count of 15 (15 items / 5 columns = 3 rows)
+		
+		# Add five empty items, in order to reach an item count of 15 (15 items / 5 columns = 3 rows)
+		$PlayerList.add_item("")
 		$PlayerList.add_item("")
 		$PlayerList.add_item("")
 		$PlayerList.add_item("")
 		$PlayerList.add_item("")
 		
-		# Add powerups to PlayerList for the local player only and disable them
-		"""if child is LocalPlayer:
-			for n in Powerup.hud_powerups().size():
-				$PlayerList.add_icon_item(load(Powerup.hud_powerups()[n]["image"] + ".tres"))
-				hud_disable_powerup(player_number, n)
+		# Add powerups to PlayerList for the local player only and disable them		
+		if child.get_filename() == LocalPlayer.get_path():
+			player_num = player_number
 			
-			$PlayerList.add_item("")
-			"""
+			add_powerups()
+		
 		player_number += 1
 
 	# Disable Tooltip for all items
 	for index in $PlayerList.get_item_count():
 		$PlayerList.set_item_tooltip_enabled(index, false)
+		
+func add_powerups():
+	for n in Powerup.hud_powerups().size():
+		$PlayerList.add_icon_item(load(Powerup.hud_powerups()[n]["image"] + ".tres"))
+		
+		if enabled_powerups.has(n):
+			hud_enable_powerup(n)
+		else:
+			hud_disable_powerup(n)
 
-func hud_enable_powerup(player_number, powerup_index):
-	var powerup = (((player_number - 1) * 15) + 5) + powerup_index
+func hud_enable_powerup(powerup_index):
+	var powerup = (player_num * 6) + powerup_index
 	$PlayerList.set_item_icon_modulate(powerup, Color(1, 1, 1, 1))
 	
-func hud_disable_powerup(player_number, powerup_index):
-	var powerup = (((player_number - 1) * 15) + 5) + powerup_index
+func hud_disable_powerup(powerup_index):
+	var powerup = (player_num * 6) + powerup_index
 	$PlayerList.set_item_icon_modulate(powerup, Color(1, 1, 1, 0.4))

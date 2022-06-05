@@ -30,7 +30,6 @@ func ConnectToServer(address, port):
 	network.connect("connection_failed", self,"_OnConnectionFailed")
 	network.connect("connection_succeeded", self, "_OnConnectionSucceeded")
 
-
 func _OnConnectionFailed():
 	print("Failed to connect")
 	
