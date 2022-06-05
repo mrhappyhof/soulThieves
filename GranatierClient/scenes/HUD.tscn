@@ -73,7 +73,6 @@ focus_mode = 0
 custom_colors/guide_color = Color( 0, 0, 0, 0 )
 custom_colors/font_color_selected = Color( 1, 0.964706, 0.333333, 1 )
 custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
-custom_constants/icon_margin = 15
 custom_fonts/font = SubResource( 2 )
 custom_styles/cursor = SubResource( 6 )
 custom_styles/selected_focus = SubResource( 3 )
@@ -82,5 +81,6 @@ custom_styles/cursor_unfocused = SubResource( 7 )
 custom_styles/selected = SubResource( 4 )
 auto_height = true
 max_columns = 5
+fixed_icon_size = Vector2( 90, 90 )
 
 [connection signal="timeout" from="Timer" to="." method="countdown"]
