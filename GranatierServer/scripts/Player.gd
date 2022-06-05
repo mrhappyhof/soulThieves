@@ -2,22 +2,6 @@ extends KinematicBody2D
 const base_speed = 100
 var speed = base_speed
 
-enum Powerup{
-	BAD_HYPERACTIVE,
-	BAD_MIRROR,
-	BAD_RESTRAIN,
-	BAD_SCATTY,
-	BAD_SLOW,
-	BOMB,
-	KICK,
-	POWER,
-	SHIELD,
-	SPEED,
-	THROW,
-	NEUTRAL_TELEPORT,
-	NEUTRAL_PANDORA,
-}
-
 var can_kick = false
 var can_throw = false
 var has_shield = false
@@ -42,62 +26,62 @@ func move(motion):
 #Decides which Powerup was picked up and changes the attributes of the player
 func pick_up_powerup(type):
 	match type:
-		Powerup.BAD_HYPERACTIVE:
+		Powerup.Types.BAD_HYPERACTIVE:
 			if not has_bad_powerup:
 				speed *= 4
 				has_bad_powerup = true
 				$Timer.start(5)
 				print("BAD_HYPERACTIVE, HAS_BAD_POWERUP: " + str(has_bad_powerup))
-		Powerup.BAD_MIRROR: 
+		Powerup.Types.BAD_MIRROR: 
 			if not has_bad_powerup:
 				has_mirror = true
 				has_bad_powerup = true
 				$Timer.start(5)
 				print("BAD_MIRROR, HAS_BAD_POWERUP: " + str(has_bad_powerup))
-		Powerup.BAD_RESTRAIN:
+		Powerup.Types.BAD_RESTRAIN:
 			if not has_bad_powerup:
 				is_restrained = true
 				has_bad_powerup = true
 				$Timer.start(5)
 				print("BAD_RESTRAIN, HAS_BAD_POWERUP: " + str(has_bad_powerup))
-		Powerup.BAD_SCATTY: 
+		Powerup.Types.BAD_SCATTY: 
 			if not has_bad_powerup:
 				is_scatty = true
 				has_bad_powerup = true
 				$Timer.start(5)
 				print("BAD_SCATTY, HAS_BAD_POWERUP: " + str(has_bad_powerup))
-		Powerup.BAD_SLOW:
+		Powerup.Types.BAD_SLOW:
 			if not has_bad_powerup:
 				speed = 20
 				has_bad_powerup = true
 				$Timer.start(5)
 				print("BAD_SLOW, HAS_BAD_POWERUP: " + str(has_bad_powerup))
-		Powerup.BOMB: 
+		Powerup.Types.BOMB: 
 			layable_bombs += 1
 			print("BOMB, LAYABLE_BOMS: " + str(layable_bombs))
-		Powerup.KICK: 
+		Powerup.Types.KICK: 
 			can_kick = true
 			print("KICK, CAN_KICK " + str(can_kick))
-		Powerup.POWER: 
+		Powerup.Types.POWER: 
 			bomb_blast_range += 1
 			print("POWER, BOMB_BLAST_RANGE: " + str(bomb_blast_range))
-		Powerup.SHIELD: 
+		Powerup.Types.SHIELD: 
 			if not has_shield:
 				has_shield = true
 				print("SHIELD, HAS_SHIELD " + str(has_shield))
-		Powerup.SPEED: 
+		Powerup.Types.SPEED: 
 			speed += 20
 			print("SPEED")
-		Powerup.THROW: 
+		Powerup.Types.THROW: 
 			can_throw = true
 			print("THROW, CAN_THROW " + str(can_throw))
-		Powerup.NEUTRAL_TELEPORT: 
+		Powerup.Types.NEUTRAL_TELEPORT: 
 			has_teleport = true
 			print("NEUTRAL_TELEPORT, HAS_TELEPORT " + str(has_teleport))
-		Powerup.NEUTRAL_PANDORA:
+		Powerup.Types.NEUTRAL_PANDORA:
 			var randomizer = RandomNumberGenerator.new()
 			randomizer.randomize()
-			var randomNumber = randomizer.randi_range(0, Powerup.size() - 3) #-3 because the last two are neutral
+			var randomNumber = randomizer.randi_range(0, Powerup.Types.size() - 3) #-3 because the last two are neutral
 			print("NEUTRAL_PANDORA, RANDOMNUMBER: " + str(randomNumber))
 			pick_up_powerup(randomNumber)
 

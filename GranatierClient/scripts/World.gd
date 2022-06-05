@@ -1,6 +1,7 @@
 extends Node
 var localPlayerNode = preload("res://scenes/LocalPlayer.tscn")
 var onlinePlayerNode = preload("res://scenes/OnlinePlayer.tscn")
+var powerupNode = preload("res://scenes/Powerup.tscn")
 var port = 1909
 
 signal new_player()

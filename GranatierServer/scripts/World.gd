@@ -12,6 +12,9 @@ func _ready():
 	if(map != null):
 		$TileMap.parse_xml_map(map)
 	session_name = get_path().get_name(get_path().get_name_count() - 2)
+	var test_powerup = Powerup.instance()
+	test_powerup.position = Vector2(100,100)
+	$Powerups.add_child(test_powerup)
 	#$TileMap.place_in_center()
 
 func _physics_process(_delta):
@@ -36,15 +39,26 @@ func get_world_state():
 			}
 			var bomb_path = bomb.get_path()
 			bombs[bomb_path.get_name(bomb_path.get_name_count() - 1)] = bomb_data
-		print("bombs: " + str(bombs.size()))
-		var map = {}
+			
+		var powerups = {}
+		for powerup in $Powerups.get_children():
+			var powerup_data = {
+				"type": powerup.type,
+				"position": powerup.position
+			}
+			var powerup_path = powerup.get_path()
+			powerups[powerup_path.get_name(powerup_path.get_name_count() - 1)] = powerup_data
+			
+		var map_data = {}
 		for v in $TileMap.get_used_cells():
 			var tile_id = $TileMap.get_cellv(v)
-			map[v] = $TileMap.tile_set.tile_get_name(tile_id)
+			map_data[v] = $TileMap.tile_set.tile_get_name(tile_id)
+			
 		world_state = {
 			"players": players.duplicate(),
 			"bombs": bombs,
-			"map": map,
+			"powerups": powerups,
+			"map": map_data,
 			"time": OS.get_system_time_msecs()
 		}
 	return world_state

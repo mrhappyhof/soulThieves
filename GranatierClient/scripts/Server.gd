@@ -1,5 +1,6 @@
 extends Node
 var bomb_scene = preload("res://scenes/Bomb.tscn")
+var powerup_scene = preload("res://scenes/Powerup.tscn")
 
 var network = NetworkedMultiplayerENet.new()
 #var address = "localhost"
@@ -47,10 +48,6 @@ func join_session(name):
 func request_session_list():
 	rpc_id(1, "request_session_list")
 
-remote func recieve_session_list(list):
-	var reciever = get_node("/root/JoinLobby")
-	reciever.update_list(list)
-
 func move_player(motion):
 	var timestamp = OS.get_system_time_msecs()
 	var world_state = world.get_world_state()
@@ -64,6 +61,10 @@ func reconcile_player(player_pos, timestamp):
 	var player = world.get_node("Players/" + str(get_tree().get_network_unique_id()))
 	if (past_states.size() > 0 and past_states.keys().back() <= timestamp) or past_states.size() == 0:
 			player.position = player_pos
+
+remote func recieve_session_list(list):
+	var reciever = get_node("/root/JoinLobby")
+	reciever.update_list(list)
 
 remote func update_world_state(world_state):
 	var local_id = get_tree().get_network_unique_id() #get id of local player
@@ -103,6 +104,18 @@ remote func update_world_state(world_state):
 			bomb.bomb_range = world_state.bombs[bomb_name].range
 			bomb.name = bomb_name
 			world.get_node("Bombs").add_child(bomb, true)
+	for powerup_id in world_state.powerups.keys():
+		if world.get_node("Powerups").has_node(powerup_id):
+			var powerup = world.get_node("Powerups/" + powerup_id)
+			powerup.position = world_state.powerups[powerup_id].position
+			powerup.type = world_state.powerups[powerup_id].type
+		else:
+			world.get_node("Powerups")
+			var powerup = powerup_scene.instance()
+			powerup.position = world_state.powerups[powerup_id].position
+			powerup.type = world_state.powerups[powerup_id].type
+			powerup.name = powerup_id
+			world.get_node("Powerups").add_child(powerup, true)
 
 remote func spawn_player(position, player_id, player_no, timestamp):
 	#print("spawn player at " + str(position))
