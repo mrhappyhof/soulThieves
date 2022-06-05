@@ -1,8 +1,8 @@
 extends CanvasLayer
 
-var Powerup = preload("res://scripts/Powerup.gd")
 var LocalPlayer = preload("res://scenes/LocalPlayer.tscn")
 var player_num = 0
+var powerups_to_show = [Powerup.Types.SHIELD, Powerup.Types.THROW, Powerup.Types.KICK, Powerup.Types.BAD_RESTRAIN]
 var enabled_powerups = []
 
 export var time = 300
@@ -69,13 +69,15 @@ func hud_display_player():
 		$PlayerList.set_item_tooltip_enabled(index, false)
 		
 func add_powerups():
-	for n in Powerup.hud_powerups().size():
-		$PlayerList.add_icon_item(load(Powerup.hud_powerups()[n]["image"] + ".tres"))
+	for n in powerups_to_show.size():
+		$PlayerList.add_icon_item(load(Powerup.IMG_PATH + Powerup.Types.keys()[powerups_to_show[n]].to_lower() + ".tres"))
 		
-		if enabled_powerups.has(n):
-			hud_enable_powerup(n)
-		else:
-			hud_disable_powerup(n)
+		# seemed useless, uncomment if necessary
+#		if enabled_powerups.has(n):
+#			hud_enable_powerup(n)
+#		else:
+			
+		hud_disable_powerup(n)
 
 func hud_enable_powerup(powerup_index):
 	var powerup = (player_num * 6) + powerup_index
