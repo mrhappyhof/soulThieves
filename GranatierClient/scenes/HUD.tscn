@@ -80,7 +80,7 @@ custom_styles/bg_focus = SubResource( 5 )
 custom_styles/cursor_unfocused = SubResource( 7 )
 custom_styles/selected = SubResource( 4 )
 auto_height = true
-max_columns = 5
+max_columns = 4
 fixed_icon_size = Vector2( 90, 90 )
 
 [connection signal="timeout" from="Timer" to="." method="countdown"]

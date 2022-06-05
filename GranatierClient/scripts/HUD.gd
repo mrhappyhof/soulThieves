@@ -28,11 +28,12 @@ func countdown():
 	
 		$TimerLabel.text = "%02d:%02d" % [minutes, seconds]
 		time -= 1
-		
+		"""
 		if time % 2 == 0:
 			hud_enable_powerup(0)
 		else:
 			hud_disable_powerup(0)
+		"""
 	elif time == -1:
 		emit_signal("lose")
 		#queue_free()
@@ -49,9 +50,7 @@ func hud_display_player():
 		
 		$PlayerList.add_item("Player " + str(player_number), frame)
 		
-		# Add five empty items, in order to reach an item count of 15 (15 items / 5 columns = 3 rows)
-		$PlayerList.add_item("")
-		$PlayerList.add_item("")
+		# Add three empty items, in order to reach an item count of 8 (8 items / 4 columns = 2 rows)
 		$PlayerList.add_item("")
 		$PlayerList.add_item("")
 		$PlayerList.add_item("")
@@ -72,17 +71,16 @@ func add_powerups():
 	for n in powerups_to_show.size():
 		$PlayerList.add_icon_item(load(Powerup.IMG_PATH + Powerup.Types.keys()[powerups_to_show[n]].to_lower() + ".tres"))
 		
-		# seemed useless, uncomment if necessary
-#		if enabled_powerups.has(n):
-#			hud_enable_powerup(n)
-#		else:
-			
-		hud_disable_powerup(n)
+		if enabled_powerups.has(n):
+			hud_enable_powerup(n)
+		else:
+			hud_disable_powerup(n)
 
 func hud_enable_powerup(powerup_index):
-	var powerup = (player_num * 6) + powerup_index
+	var powerup = (player_num * 4) + powerup_index
 	$PlayerList.set_item_icon_modulate(powerup, Color(1, 1, 1, 1))
+	enabled_powerups.append(powerup_index)
 	
 func hud_disable_powerup(powerup_index):
-	var powerup = (player_num * 6) + powerup_index
+	var powerup = (player_num * 4) + powerup_index
 	$PlayerList.set_item_icon_modulate(powerup, Color(1, 1, 1, 0.4))

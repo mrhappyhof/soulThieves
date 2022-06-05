@@ -4,7 +4,8 @@ var onlinePlayerNode = preload("res://scenes/OnlinePlayer.tscn")
 var powerupNode = preload("res://scenes/Powerup.tscn")
 var port = 1909
 
-signal new_player()
+signal new_player_hud()
+signal new_player_score()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -28,7 +29,8 @@ func spawn_player(position, player_id, player_no):
 	player.name = str(player_id)
 	
 	# Emit signal for HUD
-	emit_signal("new_player")
+	emit_signal("new_player_hud")
+	emit_signal("new_player_score")
 	
 	return player
 
