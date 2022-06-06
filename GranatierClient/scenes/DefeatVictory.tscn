@@ -60,7 +60,7 @@ text = "Victory"
 align = 1
 valign = 1
 
-[node name="Return" type="Button" parent="."]
+[node name="Continue" type="Button" parent="."]
 margin_left = 617.0
 margin_top = 932.0
 margin_right = 1328.0
@@ -74,6 +74,6 @@ custom_styles/pressed = SubResource( 4 )
 custom_styles/focus = SubResource( 5 )
 custom_styles/normal = SubResource( 6 )
 enabled_focus_mode = 0
-text = "Return to Main Menu"
+text = "Continue"
 
-[connection signal="pressed" from="Return" to="." method="_on_Return_pressed"]
+[connection signal="pressed" from="Continue" to="." method="_on_Continue_pressed"]

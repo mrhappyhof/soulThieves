@@ -37,4 +37,7 @@ visible = false
 
 [connection signal="new_player_hud" from="." to="HUD" method="hud_display_player"]
 [connection signal="new_player_score" from="." to="Score" method="create_player_scoreboard"]
-[connection signal="lose" from="HUD" to="DefeatVictory" method="show_defeat"]
+[connection signal="outOfTime" from="HUD" to="Score" method="show_score"]
+[connection signal="scoreboard" from="DefeatVictory" to="Score" method="show_end_score"]
+[connection signal="defeat" from="Score" to="DefeatVictory" method="show_defeat"]
+[connection signal="victory" from="Score" to="DefeatVictory" method="show_victory"]

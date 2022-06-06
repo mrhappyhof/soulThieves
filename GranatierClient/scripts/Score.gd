@@ -9,6 +9,10 @@ var starFrameEmpty = starSprite.get_sprite_frames().get_frame(starSprite.get_ani
 var starFrameFull = starSprite.get_sprite_frames().get_frame(starSprite.get_animation(), 1)
 
 var endOfGame = false
+var winner = 0
+
+signal victory()
+signal defeat()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -18,13 +22,19 @@ func _ready():
 	pass
 
 func show_score():
-	if endOfGame == true:
-		$Return.visible = true
-	else:
-		# if the local player is the host of the game:
+	# if endOfGame == true:
+		# if winner equals the number of the local player:
+			# send signal victory
+		# else:
+			# send signal defeat
+	# elif the local player is the host of the game:
 		# $NextRound.visible = true
-		pass
-		
+		# self.visible = true
+	# else:
+	self.visible = true
+
+func show_end_score():
+	$Return.visible = true
 	self.visible = true
 
 # Create the scoreboard
@@ -52,8 +62,11 @@ func add_star(player_number):
 	for n in 5:
 		if $ScoreList.get_item_at_position(index + n) == starFrameEmpty:
 			$ScoreList.set_item_icon(index + n, starFrameFull)
+			show_score()
 		elif n == 5:
+			winner = player_number
 			endOfGame = true
+			show_score()
 
 # Checks if the scene at the given path exists and loads it
 func load_scene(var path):

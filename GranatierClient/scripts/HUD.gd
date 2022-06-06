@@ -7,7 +7,7 @@ var enabled_powerups = []
 
 export var time = 300
 
-signal lose()
+signal outOfTime()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -35,8 +35,7 @@ func countdown():
 			hud_disable_powerup(0)
 		"""
 	elif time == -1:
-		emit_signal("lose")
-		#queue_free()
+		emit_signal("outOfTime")
 
 # Display players in the HUD
 func hud_display_player():
