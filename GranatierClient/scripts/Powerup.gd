@@ -34,4 +34,5 @@ func _on_Powerup_body_entered(body):
 		queue_free()
 
 func destroy():
+	queue_free()
 	print("destroying")

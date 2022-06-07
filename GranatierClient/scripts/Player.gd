@@ -14,6 +14,8 @@ var has_mirror = false
 var has_teleport = false
 var has_bad_powerup = false
 
+var is_dead = false
+
 var powerups = []
 
 
@@ -21,4 +23,6 @@ func set_animation(player_no):
 	$AnimatedSprite.animation = "player" + str(player_no)
 
 func destroy():
+	is_dead = true
+	$AnimatedSprite.animation = $AnimatedSprite.animation + "_dead"
 	print("Im dieing")

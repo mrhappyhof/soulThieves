@@ -13,15 +13,18 @@ var has_mirror = false
 var has_teleport = false
 var has_bad_powerup = false
 
+var is_dead = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
 
 func move(motion):
 # warning-ignore:return_value_discarded
-	if has_mirror:
-		motion = motion * -1
-	move_and_slide(motion * speed, Vector2.UP);
+	if not is_dead:
+		if has_mirror:
+			motion = motion * -1
+		move_and_slide(motion * speed, Vector2.UP);
 
 #Decides which Powerup was picked up and changes the attributes of the player
 func pick_up_powerup(type):
@@ -96,5 +99,6 @@ func _on_bad_powerup_timer_timeout():
 	print("HAS_BAD_POWERUP: " + str(has_bad_powerup))
 
 func destroy():
+	is_dead = true
 	print("Im dieing")
 #TODO: If player was hit by the bomb and has_shield, has_shield = false
