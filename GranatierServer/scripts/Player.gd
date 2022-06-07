@@ -94,5 +94,7 @@ func _on_bad_powerup_timer_timeout():
 	has_bad_powerup = false
 	speed = base_speed
 	print("HAS_BAD_POWERUP: " + str(has_bad_powerup))
-	
+
+func destroy():
+	print("Im dieing")
 #TODO: If player was hit by the bomb and has_shield, has_shield = false

@@ -62,6 +62,9 @@ radius = 90.1388
 
 [node name="Bomb" type="KinematicBody2D"]
 scale = Vector2( 0.2, 0.2 )
+z_index = 1
+collision_layer = 2
+collision_mask = 3
 script = ExtResource( 4 )
 
 [node name="TimerAnim" type="Timer" parent="."]
@@ -75,6 +78,7 @@ anims/Bomb = SubResource( 1 )
 
 [node name="AnimatedExplosion" type="AnimatedSprite" parent="."]
 visible = false
+z_index = 1
 frames = SubResource( 7 )
 animation = "explosion"
 frame = 1

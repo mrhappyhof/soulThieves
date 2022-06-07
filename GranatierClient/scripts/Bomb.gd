@@ -127,11 +127,6 @@ func explode():
 	get_node("TimerAnim").start()
 	get_node("AnimatedExplosion").show()
 	get_node("AnimatedExplosion").play()
-	#create explosion
-				#var bomb_explosion = bomb_explosion_scene.instance()
-				#bomb_explosion.position = to_global(tilemap.map_to_world(current_coords)+tilemap.cell_size/2)
-				#add_child(bomb_explosion)
-
 
 func _on_PlayerIntersection_body_exited(_body):
 	$CollisionShape2D.set_deferred("disabled", false)

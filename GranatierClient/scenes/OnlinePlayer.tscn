@@ -334,7 +334,7 @@ animations = [ {
 [sub_resource type="CircleShape2D" id=62]
 radius = 17.5
 
-[node name="Player" type="KinematicBody2D"]
+[node name="Player" type="KinematicBody2D" groups=["Players"]]
 position = Vector2( -1, 1 )
 collision_mask = 2
 script = ExtResource( 1 )

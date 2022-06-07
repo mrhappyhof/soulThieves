@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 41, 39 )
 
-[node name="Powerup" type="Area2D"]
+[node name="Powerup" type="Area2D" groups=["Powerups"]]
 scale = Vector2( 0.4, 0.4 )
 script = ExtResource( 1 )
 
@@ -15,3 +15,5 @@ shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 2 )
+
+[connection signal="body_entered" from="." to="." method="_on_Powerup_body_entered"]

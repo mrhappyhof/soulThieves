@@ -1,6 +1,5 @@
 extends CanvasLayer
 
-var LocalPlayer = preload("res://scenes/LocalPlayer.tscn")
 var player_num = 0
 var powerups_to_show = [Powerup.Types.SHIELD, Powerup.Types.THROW, Powerup.Types.KICK, Powerup.Types.BAD_RESTRAIN]
 var enabled_powerups = []
@@ -55,7 +54,7 @@ func hud_display_player():
 		$PlayerList.add_item("")
 		
 		# Add powerups to PlayerList for the local player only and disable them		
-		if child.get_filename() == LocalPlayer.get_path():
+		if child.is_in_group("LocalPlayers"):
 			player_num = player_number
 			
 			add_powerups()

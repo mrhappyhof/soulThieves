@@ -5,7 +5,7 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 41, 39 )
 
-[node name="Powerup" type="Area2D"]
+[node name="Powerup" type="Area2D" groups=["Powerups"]]
 scale = Vector2( 0.5, 0.5 )
 script = ExtResource( 1 )
 

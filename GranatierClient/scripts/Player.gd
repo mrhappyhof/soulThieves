@@ -19,3 +19,6 @@ var powerups = []
 
 func set_animation(player_no):
 	$AnimatedSprite.animation = "player" + str(player_no)
+
+func destroy():
+	print("Im dieing")

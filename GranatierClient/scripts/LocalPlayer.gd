@@ -46,4 +46,3 @@ func _physics_process(_delta):
 	else:
 		$AnimatedSprite.stop()
 		$AnimatedSprite.frame = 0
-		

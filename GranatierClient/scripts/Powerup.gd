@@ -21,10 +21,17 @@ const IMG_PATH = "res://resources/images/powerups.sprites/bonus_"
 
 var type
 var texture
-
+#var rng = RandomNumberGenerator.new()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():		
 	assert(type != null, "Error: type must be set before adding the powerup to the scene tree!")
 	texture = load(IMG_PATH + Types.keys()[type].to_lower() + ".tres")
 	$Sprite.texture = texture
+
+func _on_Powerup_body_entered(body):
+	if body.is_in_group("Players"):
+		queue_free()
+
+func destroy():
+	print("destroying")

@@ -29,6 +29,10 @@ func _ready():
 #Signal that is called, when the Player picks up a Powerup
 func _on_Powerup_body_entered(body):
 	print(body.name)
-	if body is KinematicBody2D:
+	if body.is_in_group("Players"):
 		body.pick_up_powerup(type)
 		queue_free()
+
+
+func destroy():
+	print("destroying")

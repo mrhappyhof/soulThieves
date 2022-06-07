@@ -4,6 +4,9 @@ var rows
 var columns
 var spawn_count
 
+var powerup_scene
+var rng = RandomNumberGenerator.new()
+
 const MAP_CHAR_TO_NAME = {
 	'=':'arena_greenwall',
 	' ':'',
@@ -20,7 +23,7 @@ const MAP_CHAR_TO_NAME = {
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	powerup_scene = load("res://scenes/Powerup.tscn")
 
 func place_in_center():
 	position.x = (get_viewport_rect().size.x / 2) - (40*float(columns)/2)
@@ -72,7 +75,15 @@ func set_cell_from_char(x,y,val):
 	set_cell(x,y,tile_set.find_tile_by_name(MAP_CHAR_TO_NAME[val]))
 
 func destroy_cell(x,y):
+	rng.randomize()
 	set_cell(x,y,tile_set.find_tile_by_name("arena_ground"))
+	if rng.randf_range(0.0,1.0)>0.0:
+		print("spawn powerup")
+		var center_point_from_cell = self.map_to_world(Vector2(x,y))+Vector2(20,20)+self.position
+		var powerup = powerup_scene.instance()
+		#powerup.set_type()
+		get_node("../Powerups").add_child(powerup)
+		powerup.global_position = center_point_from_cell
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
