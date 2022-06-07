@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://resources/fonts/gomarice_no_continue.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://scripts/ESCMenu.gd" type="Script" id=2]
+[ext_resource path="res://scenes/SettingsMenu.tscn" type="PackedScene" id=3]
 
 [sub_resource type="DynamicFont" id=1]
 size = 80
@@ -28,6 +29,9 @@ script = ExtResource( 2 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 0.639216 )
+
+[node name="SettingsMenu" parent="." instance=ExtResource( 3 )]
+visible = false
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchor_right = 1.0
@@ -100,5 +104,6 @@ enabled_focus_mode = 0
 text = "Quit"
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/ResumeBtn" to="." method="_on_ResumeBtn_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/SettingsBtn" to="." method="_on_SettingsBtn_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/LeaveBtn" to="." method="_on_LeaveBtn_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/QuitBtn" to="." method="_on_QuitBtn_pressed"]

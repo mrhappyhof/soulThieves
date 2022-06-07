@@ -1,0 +1,73 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://resources/fonts/gomarice_no_continue.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://scripts/SettingsMenu.gd" type="Script" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+size = 120
+outline_size = 5
+outline_color = Color( 0.333333, 0.329412, 0.164706, 1 )
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 80
+outline_size = 3
+outline_color = Color( 0.333333, 0.329412, 0.164706, 1 )
+font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxEmpty" id=3]
+
+[sub_resource type="StyleBoxEmpty" id=4]
+
+[sub_resource type="StyleBoxEmpty" id=5]
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0, 0, 0, 1 )
+draw_center = false
+
+[node name="SettingsMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+
+[node name="Background" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.639216 )
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+margin_left = 731.0
+margin_top = 139.0
+margin_right = 1188.0
+margin_bottom = 941.0
+custom_constants/separation = 600
+
+[node name="Settings" type="Label" parent="CenterContainer/VBoxContainer"]
+margin_right = 457.0
+margin_bottom = 121.0
+grow_horizontal = 2
+custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
+custom_fonts/font = SubResource( 1 )
+text = "Settings"
+align = 1
+
+[node name="BackBtn" type="Button" parent="CenterContainer/VBoxContainer"]
+margin_top = 721.0
+margin_right = 457.0
+margin_bottom = 802.0
+grow_horizontal = 2
+focus_mode = 0
+custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
+custom_fonts/font = SubResource( 2 )
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/focus = SubResource( 5 )
+custom_styles/normal = SubResource( 6 )
+enabled_focus_mode = 0
+text = "Back"
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/BackBtn" to="." method="_on_BackBtn_pressed"]

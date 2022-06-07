@@ -89,6 +89,7 @@ remote func join_world(name, timestamp):
 	
 remote func join_session(name, timestamp):
 	var player_id = get_tree().get_rpc_sender_id()
+	print("JOIN ID: " + str(player_id))
 	sessions[name].push_back(player_id)
 	player_session_map[player_id] = name
 	join_world(name, timestamp)

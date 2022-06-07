@@ -5,6 +5,8 @@ var is_paused = false
 
 func _ready():
 	visible = false
+	var test = get_node("SettingsMenu")
+	test.connect("visibility_changed", self, "on_Settings_visibility_changed")
 	
 # Checks if the scene at the given path exists and loads it
 func load_scene(var path):
@@ -31,4 +33,13 @@ func _on_QuitBtn_pressed():
 	get_tree().quit()
 
 func _on_LeaveBtn_pressed():
-	load_scene(mainMenuScene)
+	pass
+	#load_scene(mainMenuScene)
+
+func _on_SettingsBtn_pressed():
+	$CenterContainer.visible = false
+	$SettingsMenu.visible = true
+	
+func on_Settings_visibility_changed():
+	if not $SettingsMenu.visible:
+		$CenterContainer.visible = true
