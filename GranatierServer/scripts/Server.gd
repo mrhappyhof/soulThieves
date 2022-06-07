@@ -27,13 +27,9 @@ func _Peer_Connected(player_id):
 
 func _Peer_Disconnected(player_id):
 	print("User " + str(player_id) + " Disconnected")
-	var session = player_session_map[player_id]
-	get_node(session + "/World").despawn_player(player_id)
-	sessions[session].erase(player_id)
-	player_session_map.erase(player_id)
 	
-	for id in sessions[session]:
-		rpc_id(id, "despawn_player", player_id)
+	
+	
 
 func send_world_state(world_state, session_name):
 	for id in sessions[session_name]:
@@ -86,16 +82,32 @@ remote func join_world(name, timestamp):
 	world.players[str(player_id)]["N"] = player_no
 	for id in sessions[name]:
 		rpc_id(id, "spawn_player", position, player_id, player_no, timestamp)
+
+func leave_world(player_id):
+	var session = player_session_map[player_id]
+	var world = get_node(session + "/World")
+	placed_bomb_count.erase(player_id)
+	get_node(session + "/World").despawn_player(player_id)
+	world.players.erase(str(player_id))
+	
+	for id in sessions[session]:
+		rpc_id(id, "despawn_player", player_id)
 	
 remote func join_session(name, timestamp):
 	var player_id = get_tree().get_rpc_sender_id()
-	print("JOIN ID: " + str(player_id))
 	sessions[name].push_back(player_id)
 	player_session_map[player_id] = name
 	join_world(name, timestamp)
-	#var list = get_session_list()
-	#for id in sessions[name]:
-		#rpc_id(id, "recieve_session_list", list)
+
+remote func leave_session():
+	var player_id = get_tree().get_rpc_sender_id()
+	leave_world(player_id)
+	sessions[player_session_map[player_id]].erase(player_id)
+	if(sessions[player_session_map[player_id]].size() == 0):
+		sessions.erase(player_session_map[player_id])
+		get_node(player_session_map[player_id]).queue_free()
+	player_session_map.erase(player_id)
+	
 
 remote func place_bomb():
 	var player_id = get_tree().get_rpc_sender_id()

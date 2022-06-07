@@ -60,12 +60,18 @@ func reconcile_player(player_pos, timestamp):
 	var player = world.get_node("Players/" + str(get_tree().get_network_unique_id()))
 	if (past_states.size() > 0 and past_states.keys().back() <= timestamp) or past_states.size() == 0:
 			player.position = player_pos
+			
+
+func leave_session():
+	rpc_id(1, "leave_session")
 
 remote func recieve_session_list(list):
 	var reciever = get_node("/root/JoinLobby")
 	reciever.update_list(list)
 
 remote func update_world_state(world_state):
+	if not has_node("/root/World"):
+		return
 	var local_id = get_tree().get_network_unique_id() #get id of local player
 	
 	for time in past_states.keys(): #iterate timestamps of all past states1
@@ -124,6 +130,7 @@ remote func spawn_player(position, player_id, player_no, timestamp):
 	past_states[timestamp]["action"] = PlayerAction.SPAWN
 
 remote func despawn_player(player_id):
-	get_node("/root/World").despawn_player(player_id)
+	if has_node("/root/World"):
+		get_node("/root/World").despawn_player(player_id)
 	
 

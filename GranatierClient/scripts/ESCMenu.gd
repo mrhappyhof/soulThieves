@@ -33,8 +33,8 @@ func _on_QuitBtn_pressed():
 	get_tree().quit()
 
 func _on_LeaveBtn_pressed():
-	pass
-	#load_scene(mainMenuScene)
+	Server.leave_session()
+	load_scene(mainMenuScene)
 
 func _on_SettingsBtn_pressed():
 	$CenterContainer.visible = false
