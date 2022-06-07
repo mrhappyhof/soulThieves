@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 export var gameSelectionScene = "res://scenes/GameSelection.tscn"
+export var mainMenuScene = "res://scenes/MainMenu.tscn"
 export (NodePath) var itemList_path
 onready var itemList = get_node(itemList_path)
 var icon = ResourceLoader.load("res://resources/images/bomb.svg")
@@ -41,7 +42,7 @@ func load_scene(var path):
 				print("Error: cant create scene")
 
 func _on_BackBtn_pressed():
-	load_scene(gameSelectionScene)
+	load_scene(mainMenuScene)
 
 #Sorts itemList by Name ascending
 #func _on_SortByNameBtn_pressed():
