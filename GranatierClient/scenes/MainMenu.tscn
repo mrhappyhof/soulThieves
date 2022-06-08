@@ -40,7 +40,7 @@ anchor_bottom = 1.0
 margin_left = -857.0
 margin_top = -540.0
 margin_right = -871.0
-margin_bottom = -540.0
+margin_bottom = -571.0
 custom_constants/separation = 150
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="Background/VBoxContainer"]
