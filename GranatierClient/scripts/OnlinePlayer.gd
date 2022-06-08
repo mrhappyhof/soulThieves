@@ -16,7 +16,14 @@ func _physics_process(_delta):
 				rotation = motion.angle_to(Vector2.RIGHT)
 			else:
 				rotation = -motion.angle_to(Vector2.RIGHT)
-			move_and_slide(motion * speed);
+			var amplifier = 1
+			if stats.hyperactive:
+				amplifier = 4
+			elif stats.slow:
+				amplifier = 0.5
+			elif stats.has_mirror:
+				amplifier = -1
+			move_and_slide(motion * stats.speed * amplifier)
 		if position.distance_squared_to(nextPositions[0].position) < 1:
 			position = nextPositions[0].position
 			nextPositions.pop_front()

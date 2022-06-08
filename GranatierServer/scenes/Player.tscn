@@ -21,5 +21,6 @@ margin_bottom = 12.0
 color = Color( 1, 0, 0, 0.423529 )
 
 [node name="Timer" type="Timer" parent="."]
+one_shot = true
 
 [connection signal="timeout" from="Timer" to="." method="_on_bad_powerup_timer_timeout"]

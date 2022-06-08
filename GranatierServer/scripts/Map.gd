@@ -82,7 +82,9 @@ func destroy_cell(x,y):
 		var center_point_from_cell = self.map_to_world(Vector2(x,y))+Vector2(20,20)+self.position
 		var powerup = powerup_scene.instance()
 		#powerup.set_type()
-		get_node("../Powerups").add_child(powerup)
+		var powerups = get_node("../Powerups")
+		powerup.name = "pu_" + str(powerups.get_child_count())
+		powerups.add_child(powerup, true)
 		powerup.global_position = center_point_from_cell
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

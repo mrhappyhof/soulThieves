@@ -102,7 +102,6 @@ func throw(destination):
 func explode():
 	var tilemap = get_parent().get_parent().get_node("TileMap")
 	var coords = get_map_coords()
-	print("exploding")
 	$BombAnim.hide()
 	if get_celltype_from_coords() == "arena_wall":
 		tilemap.destroy_cell(coords.x,coords.y)

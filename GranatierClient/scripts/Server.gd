@@ -84,10 +84,11 @@ remote func update_world_state(world_state):
 	for player_id in world_state.players.keys():
 		var player
 		if world.get_node("Players").has_node(str(player_id)):
+			player = world.get_node("Players/" + str(player_id))
 			if int(player_id) != local_id:
-				player = world.get_node("Players/" + str(player_id))
 				player.add_position(world_state.players[player_id]["P"], world_state.time)
 				#player.position = world_state.players[player_id]["P"]
+			player.stats = world_state.players[player_id].stats
 		else:
 			player = world.spawn_player(world_state.players[player_id]["P"], player_id, world_state.players[player_id]["N"])
 	if(initial or not past_states.has(world_state.players[str(local_id)].T) or past_states[world_state.players[str(local_id)].T].map != world_state.map):
@@ -110,7 +111,7 @@ remote func update_world_state(world_state):
 			bomb.name = bomb_name
 			world.get_node("Bombs").add_child(bomb, true)
 	for powerup_id in world_state.powerups.keys():
-		if world.get_node("Powerups").has_node(powerup_id):
+		if world.has_node("Powerups/" + powerup_id):
 			var powerup = world.get_node("Powerups/" + powerup_id)
 			powerup.position = world_state.powerups[powerup_id].position
 			powerup.type = world_state.powerups[powerup_id].type

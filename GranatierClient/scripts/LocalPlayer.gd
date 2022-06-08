@@ -12,7 +12,7 @@ func _ready():
 	pass
 
 func _physics_process(_delta):
-	if is_dead:
+	if stats.is_dead:
 		return
 	if Input.is_action_just_pressed("move_right"):
 		last_pressed = "move_right"
@@ -31,7 +31,7 @@ func _physics_process(_delta):
 		motion = Vector2.UP
 		rotation = 1.5*PI
 	elif Input.is_action_just_pressed("place_bomb"):
-		if layable_bombs > 0:
+		if stats.layable_bombs > 0:
 			var bomb = bomb_scene.instance()
 			var tilemap = get_node("../../TileMap")
 			bomb.position = tilemap.map_to_world(tilemap.world_to_map(position - tilemap.position)) + tilemap.position + Vector2(20,20)
@@ -43,7 +43,14 @@ func _physics_process(_delta):
 		motion = Vector2.ZERO
 
 	if motion.length() > 0:
-		var _v = move_and_slide(motion * speed)
+		var amplifier = 1
+		if stats.hyperactive:
+			amplifier = 4
+		elif stats.slow:
+			amplifier = 0.5
+		elif stats.has_mirror:
+			amplifier = -1
+		var _v = move_and_slide(motion * stats.speed * amplifier)
 		Server.move_player(motion)
 		$AnimatedSprite.play()
 	else:
