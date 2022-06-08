@@ -100,6 +100,7 @@ func throw(destination):
 		get_node("CollisionShape2D").set_deferred("disabled", true)
 
 func explode():
+	$AudioStreamPlayer.play()
 	var tilemap = get_parent().get_parent().get_node("TileMap")
 	var coords = get_map_coords()
 	print("exploding")

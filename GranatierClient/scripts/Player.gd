@@ -24,5 +24,6 @@ func set_animation(player_no):
 
 func destroy():
 	is_dead = true
+	$DieSound.play()
 	$AnimatedSprite.animation = $AnimatedSprite.animation + "_dead"
 	print("Im dieing")

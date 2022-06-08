@@ -32,6 +32,7 @@ func _physics_process(_delta):
 		rotation = 1.5*PI
 	elif Input.is_action_just_pressed("place_bomb"):
 		if layable_bombs > 0:
+			$PutBombSound.play()
 			var bomb = bomb_scene.instance()
 			var tilemap = get_node("../../TileMap")
 			bomb.position = tilemap.map_to_world(tilemap.world_to_map(position - tilemap.position)) + tilemap.position + Vector2(20,20)

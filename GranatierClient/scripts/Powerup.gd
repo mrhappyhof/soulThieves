@@ -31,6 +31,7 @@ func _ready():
 
 func _on_Powerup_body_entered(body):
 	if body.is_in_group("Players"):
+		$AudioStreamPlayer.play()
 		queue_free()
 
 func destroy():
