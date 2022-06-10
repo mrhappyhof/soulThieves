@@ -9,8 +9,8 @@ var worldScene = "res://scenes/World.tscn"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	Server.ConnectToServer("localhost", 1909)
-	#pass # Replace with function body.
+	#Server.ConnectToServer("localhost", 1909)
+	pass # Replace with function body.
 
 # Checks if the scene at the given path exists and loads it
 func load_scene(var path):

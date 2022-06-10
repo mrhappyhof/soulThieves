@@ -35,7 +35,7 @@ func spawn_player(position, player_id, player_no):
 	return player
 
 func despawn_player(player_id):
-	var player = get_node(str(player_id))
+	var player = get_node("Players/" + str(player_id))
 	remove_child(player)
 
 func get_world_state():

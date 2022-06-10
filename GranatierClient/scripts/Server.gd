@@ -3,9 +3,9 @@ var bomb_scene = preload("res://scenes/Bomb.tscn")
 var powerup_scene = preload("res://scenes/Powerup.tscn")
 
 var network = NetworkedMultiplayerENet.new()
-#var address = "localhost"
+var address = "localhost"
 #var address = "game.url.de"
-#var port = 1909
+var port = 1909
 var world
 var initial = true
 
@@ -20,10 +20,10 @@ enum PlayerAction{
 }
 
 func _ready():
-	#ConnectToServer()
+	ConnectToServer()
 	#rpc_id(1, "SpawnPlayer")
 	pass
-func ConnectToServer(address, port):
+func ConnectToServer(): #address, port
 	network.create_client(address, port)
 	get_tree().set_network_peer(network)
 	

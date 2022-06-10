@@ -4,8 +4,7 @@ var rows = 13
 var columns = 17
 var spawn_count
 
-var powerup_scene
-var rng = RandomNumberGenerator.new()
+var powerup_scene = preload("res://scenes/Powerup.tscn")
 
 const MAP_CHAR_TO_NAME = {
 	'=':'arena_greenwall',
@@ -24,7 +23,6 @@ const MAP_CHAR_TO_NAME = {
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	set_z_index(0)
-	powerup_scene = load("res://scenes/Powerup.tscn")
 
 func place_in_center():
 	position.x = (get_viewport_rect().size.x / 2) - (40*float(columns)/2)

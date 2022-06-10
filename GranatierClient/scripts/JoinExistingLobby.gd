@@ -2,8 +2,8 @@ extends CanvasLayer
 
 export var gameSelectionScene = "res://scenes/GameSelection.tscn"
 export var mainMenuScene = "res://scenes/MainMenu.tscn"
-export (NodePath) var itemList_path
-onready var itemList = get_node(itemList_path)
+#export (NodePath) var itemList_path
+#onready var itemList = get_node(itemList_path)
 var icon = ResourceLoader.load("res://resources/images/bomb.svg")
 
 var row = preload("res://scenes/row.tscn")

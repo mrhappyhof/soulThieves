@@ -16,6 +16,7 @@ var stats = {
 	"is_dead": false
 }
 
+var motion = Vector2.ZERO
 #var speed = 100
 #var can_kick = false
 #var can_throw = false
@@ -36,9 +37,8 @@ var has_bad_powerup = false
 func _ready():
 	pass # Replace with function body.
 
-func move(motion):
-# warning-ignore:return_value_discarded
-	if not stats.is_dead:
+func _physics_process(_delta):
+	if not stats.is_dead and motion != Vector2.ZERO:
 		var amplifier = 1
 		if stats.has_mirror:
 			amplifier = -1
@@ -47,6 +47,8 @@ func move(motion):
 		elif stats.slow:
 			amplifier = 0.5
 		move_and_slide(motion * stats.speed * amplifier);
+func move(v):
+	motion = v
 
 #Decides which Powerup was picked up and changes the attributes of the player
 func pick_up_powerup(type):
@@ -117,6 +119,7 @@ func _on_bad_powerup_timer_timeout():
 	stats.is_restrained = false
 	stats.is_scatty = false
 	stats.hyperactive = false
+	stats.slow = false
 	has_bad_powerup = false
 	
 	print("HAS_BAD_POWERUP: " + str(has_bad_powerup))
