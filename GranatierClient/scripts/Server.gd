@@ -48,10 +48,13 @@ func request_session_list():
 	rpc_id(1, "request_session_list")
 
 func move_player(motion):
-	var timestamp = OS.get_system_time_msecs()
-	var world_state = world.get_world_state()
-	past_states[timestamp] = world_state
-	rpc_unreliable_id(1, "move_player", motion, timestamp)
+	if motion != Vector2.ZERO:
+		var timestamp = OS.get_system_time_msecs()
+		var world_state = world.get_world_state()
+		past_states[timestamp] = world_state
+		rpc_unreliable_id(1, "move_player", motion, timestamp)
+	else:
+		rpc_unreliable_id(1, "stop_player")
 
 func place_bomb():
 	rpc_id(1, "place_bomb")
@@ -60,7 +63,6 @@ func reconcile_player(player_pos, timestamp):
 	var player = world.get_node("Players/" + str(get_tree().get_network_unique_id()))
 	if (past_states.size() > 0 and past_states.keys().back() <= timestamp) or past_states.size() == 0:
 			player.position = player_pos
-			
 
 func leave_session():
 	rpc_id(1, "leave_session")

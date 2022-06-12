@@ -70,6 +70,13 @@ remote func move_player(motion, timestamp):
 	world.players[str(player_id)]["T"] = timestamp
 	world.players[str(player_id)]["P"] = player.position
 	
+remote func stop_player():
+	var player_id = get_tree().get_rpc_sender_id()
+	var world = get_node(player_session_map[player_id] + "/World")
+	var player = world.get_node("Players/" + str(player_id))
+	
+	player.move(Vector2.ZERO)
+
 remote func join_world(name, timestamp):
 	var world = get_node(name + "/World")
 	var player_id = get_tree().get_rpc_sender_id()

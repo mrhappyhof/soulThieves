@@ -47,6 +47,7 @@ func _physics_process(_delta):
 		elif stats.slow:
 			amplifier = 0.5
 		move_and_slide(motion * stats.speed * amplifier);
+		motion = Vector2.ZERO
 func move(v):
 	motion = v
 

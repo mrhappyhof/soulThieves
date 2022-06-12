@@ -9,6 +9,7 @@ var session_name
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	set_process_priority(10)
 	if(map != null):
 		$TileMap.parse_xml_map(map)
 	session_name = get_path().get_name(get_path().get_name_count() - 2)

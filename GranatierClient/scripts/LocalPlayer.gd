@@ -52,8 +52,9 @@ func _physics_process(_delta):
 		elif stats.has_mirror:
 			amplifier = -1
 		var _v = move_and_slide(motion * stats.speed * amplifier)
+		Server.move_player(motion)
 		$AnimatedSprite.play()
 	else:
 		$AnimatedSprite.stop()
 		$AnimatedSprite.frame = 0
-	Server.move_player(motion)
+	

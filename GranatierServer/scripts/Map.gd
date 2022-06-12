@@ -59,7 +59,6 @@ func parse_xml_map(map_name):
 	
 func set_cell_from_char(x,y,val):
 	if(val == 'x'):
-		var rng = RandomNumberGenerator.new()
 		rng.randomize()
 		if(rng.randf_range(0,1)>0.5):
 			val='_'
