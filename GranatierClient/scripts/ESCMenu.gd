@@ -2,11 +2,12 @@ extends Control
 
 var mainMenuScene = "res://scenes/MainMenu.tscn"
 var is_paused = false
+var settings = load("res://scenes/SettingsMenu.tscn")
 
 func _ready():
 	visible = false
 	var settingsMenu = get_node("SettingsMenu")
-	settingsMenu.connect("visibility_changed", self, "on_Settings_visibility_changed")
+	#settingsMenu.connect("visibility_changed", self, "on_Settings_visibility_changed")
 	
 # Checks if the scene at the given path exists and loads it
 func load_scene(var path):
@@ -38,9 +39,15 @@ func _on_LeaveBtn_pressed():
 
 func _on_SettingsBtn_pressed():
 	$CenterContainer.visible = false
-	$SettingsMenu.visible = true
+	var settingsInstance = settings.instance()
+	$Background.add_child(settingsInstance)
+	settingsInstance.visible = true
+	#settingsInstance.anchor_left = -0.5
+	#settingsInstance.anchor_right = 0.5
+	#settingsInstance.anchor_top = -0.5
+	#settingsInstance.anchor_bottom = 0.5
+	settingsInstance.connect("tree_exited", self, "_on_SettingsMenu_tree_exited")
 	
-func on_Settings_visibility_changed():
+func _on_SettingsMenu_tree_exited():
 	#Player.set_movement(!Player.can_move)
-	if not $SettingsMenu.visible:
-		$CenterContainer.visible = true
+	$CenterContainer.visible = true

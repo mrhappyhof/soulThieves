@@ -49,7 +49,7 @@ margin_top = 100.0
 margin_right = -500.0
 margin_bottom = -100.0
 rect_pivot_offset = Vector2( -722, 158 )
-custom_constants/separation = 87
+custom_constants/separation = 30
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
 margin_right = 920.0
@@ -73,9 +73,9 @@ text = "Settings"
 align = 1
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
-margin_top = 212.0
+margin_top = 155.0
 margin_right = 920.0
-margin_bottom = 712.0
+margin_bottom = 658.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -190,7 +190,7 @@ margin_bottom = 500.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Place Bomb" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer2/HBoxContainer6"]
+[node name="Lay Bomb" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer2/HBoxContainer6"]
 margin_right = 920.0
 margin_bottom = 80.0
 grow_horizontal = 2
@@ -198,19 +198,36 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
 custom_fonts/font = SubResource( 7 )
-text = "Place Bomb"
+text = "Lay Bomb"
 align = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
-margin_top = 799.0
+margin_top = 688.0
 margin_right = 920.0
 margin_bottom = 880.0
 custom_constants/separation = 30
 
-[node name="BackBtn" type="Button" parent="VBoxContainer/VBoxContainer"]
-margin_left = 380.0
+[node name="SaveBtn" type="Button" parent="VBoxContainer/VBoxContainer"]
+margin_left = 381.0
 margin_right = 539.0
 margin_bottom = 81.0
+grow_horizontal = 2
+focus_mode = 0
+size_flags_horizontal = 4
+custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
+custom_fonts/font = SubResource( 2 )
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/focus = SubResource( 5 )
+custom_styles/normal = SubResource( 6 )
+enabled_focus_mode = 0
+text = "Save"
+
+[node name="BackBtn" type="Button" parent="VBoxContainer/VBoxContainer"]
+margin_left = 380.0
+margin_top = 111.0
+margin_right = 539.0
+margin_bottom = 192.0
 grow_horizontal = 2
 focus_mode = 0
 size_flags_horizontal = 4
@@ -225,4 +242,5 @@ text = "Back"
 
 [connection signal="tree_exiting" from="." to="." method="_on_SettingsMenu_tree_exiting"]
 [connection signal="value_changed" from="VBoxContainer/ScrollContainer/VBoxContainer2/HBoxContainer/HSlider" to="." method="_on_HSlider_value_changed"]
+[connection signal="pressed" from="VBoxContainer/VBoxContainer/SaveBtn" to="." method="_on_SaveBtn_pressed"]
 [connection signal="pressed" from="VBoxContainer/VBoxContainer/BackBtn" to="." method="_on_BackBtn_pressed"]
