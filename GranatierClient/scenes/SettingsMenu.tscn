@@ -1,10 +1,16 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://resources/fonts/gomarice_no_continue.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://scripts/SettingsMenu.gd" type="Script" id=2]
 
 [sub_resource type="DynamicFont" id=1]
 size = 120
+outline_size = 5
+outline_color = Color( 0.333333, 0.329412, 0.164706, 1 )
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 79
 outline_size = 5
 outline_color = Color( 0.333333, 0.329412, 0.164706, 1 )
 font_data = ExtResource( 1 )
@@ -35,32 +41,179 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 0.639216 )
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = 500.0
+margin_top = 100.0
+margin_right = -500.0
+margin_bottom = -100.0
+rect_pivot_offset = Vector2( -722, 158 )
+custom_constants/separation = 87
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
-margin_left = 731.0
-margin_top = 139.0
-margin_right = 1188.0
-margin_bottom = 941.0
-custom_constants/separation = 600
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+margin_right = 920.0
+margin_bottom = 125.0
 
-[node name="Settings" type="Label" parent="CenterContainer/VBoxContainer"]
-margin_right = 457.0
-margin_bottom = 121.0
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer"]
+margin_right = 920.0
+margin_bottom = 125.0
+
+[node name="Control" type="Control" parent="VBoxContainer/MarginContainer/VBoxContainer"]
+margin_right = 920.0
+
+[node name="Settings" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer"]
+margin_top = 4.0
+margin_right = 920.0
+margin_bottom = 125.0
 grow_horizontal = 2
 custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
 custom_fonts/font = SubResource( 1 )
 text = "Settings"
 align = 1
 
-[node name="BackBtn" type="Button" parent="CenterContainer/VBoxContainer"]
-margin_top = 721.0
-margin_right = 457.0
-margin_bottom = 802.0
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+margin_top = 212.0
+margin_right = 920.0
+margin_bottom = 712.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/ScrollContainer"]
+margin_right = 920.0
+margin_bottom = 500.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer2"]
+margin_right = 920.0
+margin_bottom = 80.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Sound" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer2/HBoxContainer"]
+margin_right = 458.0
+margin_bottom = 80.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
+custom_fonts/font = SubResource( 7 )
+text = "Sound"
+align = 1
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer/ScrollContainer/VBoxContainer2/HBoxContainer"]
+margin_left = 462.0
+margin_right = 920.0
+margin_bottom = 80.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+min_value = -40.0
+max_value = 0.0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer2"]
+margin_top = 84.0
+margin_right = 920.0
+margin_bottom = 164.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Up" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer2/HBoxContainer2"]
+margin_right = 920.0
+margin_bottom = 80.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
+custom_fonts/font = SubResource( 7 )
+text = "Up"
+align = 1
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer2"]
+margin_top = 168.0
+margin_right = 920.0
+margin_bottom = 248.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Down" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer2/HBoxContainer3"]
+margin_right = 920.0
+margin_bottom = 80.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
+custom_fonts/font = SubResource( 7 )
+text = "Down"
+align = 1
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer2"]
+margin_top = 252.0
+margin_right = 920.0
+margin_bottom = 332.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Left" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer2/HBoxContainer4"]
+margin_right = 920.0
+margin_bottom = 80.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
+custom_fonts/font = SubResource( 7 )
+text = "Left"
+align = 1
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer2"]
+margin_top = 336.0
+margin_right = 920.0
+margin_bottom = 416.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Right" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer2/HBoxContainer5"]
+margin_right = 920.0
+margin_bottom = 80.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
+custom_fonts/font = SubResource( 7 )
+text = "Right"
+align = 1
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer2"]
+margin_top = 420.0
+margin_right = 920.0
+margin_bottom = 500.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Place Bomb" type="Label" parent="VBoxContainer/ScrollContainer/VBoxContainer2/HBoxContainer6"]
+margin_right = 920.0
+margin_bottom = 80.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
+custom_fonts/font = SubResource( 7 )
+text = "Place Bomb"
+align = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+margin_top = 799.0
+margin_right = 920.0
+margin_bottom = 880.0
+custom_constants/separation = 30
+
+[node name="BackBtn" type="Button" parent="VBoxContainer/VBoxContainer"]
+margin_left = 380.0
+margin_right = 539.0
+margin_bottom = 81.0
 grow_horizontal = 2
 focus_mode = 0
+size_flags_horizontal = 4
 custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
 custom_fonts/font = SubResource( 2 )
 custom_styles/hover = SubResource( 3 )
@@ -70,4 +223,6 @@ custom_styles/normal = SubResource( 6 )
 enabled_focus_mode = 0
 text = "Back"
 
-[connection signal="pressed" from="CenterContainer/VBoxContainer/BackBtn" to="." method="_on_BackBtn_pressed"]
+[connection signal="tree_exiting" from="." to="." method="_on_SettingsMenu_tree_exiting"]
+[connection signal="value_changed" from="VBoxContainer/ScrollContainer/VBoxContainer2/HBoxContainer/HSlider" to="." method="_on_HSlider_value_changed"]
+[connection signal="pressed" from="VBoxContainer/VBoxContainer/BackBtn" to="." method="_on_BackBtn_pressed"]

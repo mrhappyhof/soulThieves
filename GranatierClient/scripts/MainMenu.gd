@@ -3,7 +3,7 @@ extends Node2D
 # Paths to the different scenes. Can be added through the scene inspector
 export var createSessionScene = "res://scenes/MapSelection.tscn"
 export var joinSessionScene = "res://scenes/JoinExistingLobby.tscn"
-export var settingsScene = "res://scenes/Settings.tscn"
+export var settingsScene = "res://scenes/SettingsMenu.tscn"
 export var gameSelectionScene = "res://scenes/GameSelection.tscn"
 var worldScene = "res://scenes/World.tscn"
 
