@@ -17,6 +17,9 @@ enum Types {
 	NEUTRAL_PANDORA,
 }
 
+signal pickup_powerup(type)
+
+
 const IMG_PATH = "res://resources/images/powerups.sprites/bonus_"
 
 var type
@@ -28,13 +31,12 @@ func _ready():
 	assert(type != null, "Error: type must be set before adding the powerup to the scene tree!")
 	texture = load(IMG_PATH + Types.keys()[type].to_lower() + ".tres")
 	$Sprite.texture = texture
+	connect("pickup_powerup", get_node("../../HUD"), "hud_enable_powerup")
 
 func _on_Powerup_body_entered(body):
 	if body.is_in_group("Players"):
+		emit_signal("pickup_powerup", type)
 		$AudioStreamPlayer.play()
+		hide()
 		yield($AudioStreamPlayer, "finished") 
 		queue_free()
-
-func destroy():
-	queue_free()
-	print("destroying")

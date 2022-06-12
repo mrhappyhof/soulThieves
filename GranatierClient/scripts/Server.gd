@@ -112,12 +112,13 @@ remote func update_world_state(world_state):
 			bomb.bomb_range = world_state.bombs[bomb_name].range
 			bomb.name = bomb_name
 			world.get_node("Bombs").add_child(bomb, true)
+	for powerup in world.get_node("Powerups").get_children():
+			if world_state.powerups.has(powerup.get_name()):
+				world_state.powerups.erase(powerup.get_name())
+			else:
+				powerup.queue_free()
 	for powerup_id in world_state.powerups.keys():
-		if world.has_node("Powerups/" + powerup_id):
-			var powerup = world.get_node("Powerups/" + powerup_id)
-			powerup.position = world_state.powerups[powerup_id].position
-			powerup.type = world_state.powerups[powerup_id].type
-		else:
+		if not world.has_node("Powerups/" + powerup_id):
 			world.get_node("Powerups")
 			var powerup = powerup_scene.instance()
 			powerup.position = world_state.powerups[powerup_id].position

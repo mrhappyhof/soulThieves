@@ -17,5 +17,10 @@ func _ready():
 
 
 func _on_BombExplosion_body_entered(body):
-	if body.is_in_group("Players") or body.is_in_group("Powerups"):
+	if body.is_in_group("Players"):
 		body.destroy()
+
+
+func _on_BombExplosion_area_entered(area):
+	if area.is_in_group("Powerups"):
+		area.destroy()

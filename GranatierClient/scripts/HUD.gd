@@ -2,7 +2,7 @@ extends CanvasLayer
 
 var player_num = 0
 var powerups_to_show = [Powerup.Types.SHIELD, Powerup.Types.THROW, Powerup.Types.KICK, Powerup.Types.BAD_RESTRAIN]
-var enabled_powerups = []
+#var enabled_powerups = []
 
 export var time = 300
 
@@ -68,17 +68,21 @@ func hud_display_player():
 func add_powerups():
 	for n in powerups_to_show.size():
 		$PlayerList.add_icon_item(load(Powerup.IMG_PATH + Powerup.Types.keys()[powerups_to_show[n]].to_lower() + ".tres"))
-		
-		if enabled_powerups.has(n):
-			hud_enable_powerup(n)
-		else:
-			hud_disable_powerup(n)
+		hud_disable_powerup(powerups_to_show[n])
+#		if enabled_powerups.has(n):
+#			hud_enable_powerup(n)
+#		else:
+#			hud_disable_powerup(n)
 
-func hud_enable_powerup(powerup_index):
-	var powerup = (player_num * 4) + powerup_index
-	$PlayerList.set_item_icon_modulate(powerup, Color(1, 1, 1, 1))
-	enabled_powerups.append(powerup_index)
+func hud_enable_powerup(type):
+	var powerup_index = powerups_to_show.find(type)
+	if powerup_index != -1:
+		var powerup = (player_num * 4) + powerup_index
+		$PlayerList.set_item_icon_modulate(powerup, Color(1, 1, 1, 1))
+	#enabled_powerups.append(powerup_index)
 	
-func hud_disable_powerup(powerup_index):
-	var powerup = (player_num * 4) + powerup_index
-	$PlayerList.set_item_icon_modulate(powerup, Color(1, 1, 1, 0.4))
+func hud_disable_powerup(type):
+	var powerup_index = powerups_to_show.find(type)
+	if powerup_index != -1:
+		var powerup = (player_num * 4) + powerup_index
+		$PlayerList.set_item_icon_modulate(powerup, Color(1, 1, 1, 0.4))

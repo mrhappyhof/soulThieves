@@ -9,6 +9,7 @@ extents = Vector2( 41, 39 )
 
 [node name="Powerup" type="Area2D" groups=["Powerups"]]
 scale = Vector2( 0.4, 0.4 )
+monitorable = false
 script = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

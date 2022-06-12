@@ -25,6 +25,7 @@ func _ready():
 	var randomNumber = RandomNumberGenerator.new()
 	randomNumber.randomize()
 	type = randomNumber.randi_range(0, Types.size() - 1)
+	
 
 #Signal that is called, when the Player picks up a Powerup
 func _on_Powerup_body_entered(body):
@@ -37,3 +38,7 @@ func _on_Powerup_body_entered(body):
 func destroy():
 	queue_free()
 	print("destroying")
+
+
+func _on_SpawnProtectionTimer_timeout():
+	set_monitorable(true)
