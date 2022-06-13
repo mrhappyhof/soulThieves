@@ -13,9 +13,10 @@ var stats = {
 	"has_teleport": false,
 	"hyperactive": false,
 	"slow": false,
-	"is_dead": false
+	"is_dead": false,
 }
 
+#var can_move = true
 var powerups = []
 
 func _ready():
@@ -26,5 +27,7 @@ func set_animation(player_no):
 
 func destroy():
 	stats.is_dead = true
+	#print(stats.can_move)
 	$DieSound.play()
 	$AnimatedSprite.animation = $AnimatedSprite.animation + "_dead"
+	

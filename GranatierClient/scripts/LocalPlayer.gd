@@ -9,6 +9,7 @@ var motion = Vector2.ZERO
 var last_pressed
 
 func _physics_process(_delta):
+	#if stats.is_dead or can_move:
 	if stats.is_dead:
 		return
 	if Input.is_action_just_pressed("move_right"):
