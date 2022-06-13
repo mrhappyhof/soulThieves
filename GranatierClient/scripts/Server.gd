@@ -8,6 +8,7 @@ var address = "localhost"
 var port = 1909
 var world
 var initial = true
+var is_owner = false
 
 var past_states = {}
 
@@ -37,6 +38,7 @@ func _OnConnectionSucceeded():
 	print("Succesfully connected")
 
 func create_session(name, map):
+	is_owner = true
 	rpc_id(1, "create_world", name, map)
 	join_session(name)
 
@@ -67,11 +69,21 @@ func reconcile_player(player_pos, timestamp):
 func leave_session():
 	rpc_id(1, "leave_session")
 
+func send_ready():
+	rpc_id(1, "player_ready")
+	
+func send_not_ready():
+	rpc_id(1, "player_not_ready")
+
+remote func start_game():
+	world.start_game()
+
 remote func recieve_session_list(list):
 	var reciever = get_node("/root/JoinLobby")
 	reciever.update_list(list)
 
 remote func update_world_state(world_state):
+	print("update: " + str(OS.get_time()))
 	if not has_node("/root/World"):
 		return
 	var local_id = get_tree().get_network_unique_id() #get id of local player
@@ -99,6 +111,7 @@ remote func update_world_state(world_state):
 		for coords in world_state.map.keys():
 			tilemap.set_cellv(coords, tilemap.tile_set.find_tile_by_name(world_state.map[coords]))
 		tilemap.place_in_center()
+		#initial = false
 	for bomb_name in world_state.bombs.keys():
 		if world.get_node("Bombs").has_node(bomb_name):
 			var bomb = world.get_node("Bombs/" + bomb_name)
@@ -135,6 +148,17 @@ remote func spawn_player(position, player_id, player_no, timestamp):
 
 remote func despawn_player(player_id):
 	if has_node("/root/World"):
-		get_node("/root/World").despawn_player(player_id)
-	
+		world.despawn_player(player_id)
 
+func load_scene(var path):
+	if ResourceLoader.exists(path):
+		var ok = get_tree().change_scene(path)
+		match ok:
+			ERR_CANT_OPEN:
+				print("Error: cant open " + path)
+			ERR_CANT_CREATE:
+				print("Error: cant create scene")
+
+remote func session_full():
+	print("session full") #TODO: popup dialog
+	load_scene("res://scenes/JoinExistingLobby.tscn")

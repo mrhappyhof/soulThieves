@@ -18,10 +18,10 @@ func spawn_player(position, player_id, player_no):
 	var player
 	if local_id == int(player_id):
 		player = localPlayerNode.instance()
-		player.position = position
 	else:
 		player = onlinePlayerNode.instance()
-		player.position = position
+		
+	player.position = position
 	$Players.add_child(player, true)
 	
 	#change player animation based on player_no
@@ -36,7 +36,8 @@ func spawn_player(position, player_id, player_no):
 
 func despawn_player(player_id):
 	var player = get_node("Players/" + str(player_id))
-	remove_child(player)
+	#remove_child(player)
+	player.queue_free()
 
 func get_world_state():
 	var player = $Players.get_node(str(get_tree().get_network_unique_id()))
@@ -55,3 +56,9 @@ func get_world_state():
 		"map": map
 	}
 	return world_state
+
+func start_game():
+	$HUD.get_node("ReadyButton").hide()
+	$HUD.get_node("ReadyButton").set_pressed(false)
+	for player in $Players.get_children():
+		player.set_physics_process(true)

@@ -8,9 +8,6 @@ var motion = Vector2.ZERO
 
 var last_pressed
 
-func _ready():
-	pass
-
 func _physics_process(_delta):
 	if stats.is_dead:
 		return

@@ -12,7 +12,8 @@ signal outOfTime()
 func _ready():
 	$PlayerList.set_icon_scale(0.5) # Changed from 0.2 to 0.5
 	$PlayerList.allow_reselect = false
-	pass # Replace with function body.
+	if Server.is_owner:
+		$ReadyButton.set_text("Start Game")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -86,3 +87,10 @@ func hud_disable_powerup(type):
 	if powerup_index != -1:
 		var powerup = (player_num * 4) + powerup_index
 		$PlayerList.set_item_icon_modulate(powerup, Color(1, 1, 1, 0.4))
+
+
+func _on_ReadyButton_toggled(button_pressed):
+	if button_pressed:
+		Server.send_ready()
+	else:
+		Server.send_not_ready()

@@ -1,11 +1,16 @@
 extends Node
 var playerNode = preload("res://scenes/Player.tscn")
 var Powerup = preload("res://scenes/Powerup.tscn")
-var last_spawn = -1;
+var spawn_points = {}
 var players = {}
+
+var players_ready = 0
+var session_owner
 
 var map
 var session_name
+
+var session_closed = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -13,6 +18,11 @@ func _ready():
 	if(map != null):
 		$TileMap.parse_xml_map(map)
 	session_name = get_path().get_name(get_path().get_name_count() - 2)
+	
+	var spawn = 0
+	while $TileMap.has_node("SpawnPoint" + str(spawn)):
+		spawn_points["SpawnPoint" + str(spawn)] = false
+		spawn += 1
 #	var test_powerup = Powerup.instance()
 #	test_powerup.position = Vector2(100,100)
 #	$Powerups.add_child(test_powerup)
@@ -69,23 +79,33 @@ func get_world_state():
 
 func spawn_player(player_id):
 	var player = playerNode.instance()
-	var spawn = last_spawn + 1
-	player.position = $TileMap.get_node("SpawnPoint" + str(spawn)).position
+	var free_spwans = find_all(spawn_points, false)
+	var rnd = randi() % free_spwans.size()
+	player.position = $TileMap.get_node(free_spwans[rnd]).position
+	player.used_spawn = free_spwans[rnd]
+	spawn_points[free_spwans[rnd]] = true
 	#Used to test Powerups
 	#var powerup = Powerup.instance()
 	#powerup.position = player.position + Vector2.DOWN*40
 	#add_child(powerup)
 	
-	last_spawn = spawn
 	player.name = str(player_id)
 	$Players.add_child(player, true)
 	return player.position
 
+func find_all(dict, val):
+	var found = []
+	for k in dict.keys():
+		if dict[k] == val:
+			found.push_back(k)
+	return found
+
 func despawn_player(player_id):
 	var player = $Players.get_node(str(player_id))
-	$Players.remove_child(player)
+	spawn_points[player.used_spawn] = false
+	player.queue_free()
 	players[str(player_id)]["D"] = true
 
-func spawn_powerup():
-	#TODO
-	pass
+func start_game():
+	for player in $Players.get_children():
+		player.set_physics_process(true)

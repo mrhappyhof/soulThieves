@@ -53,5 +53,5 @@ func _on_MapList_item_selected(index):
 # Emit signal with the session and the map name, then load the world scene
 func _on_CreateSession_pressed():
 	emit_signal("session", $SessionName.text, selectedItem)
-	Server.create_session($SessionName.text, selectedItem)
+	Server.create_session($SessionName.text, selectedItem)#
 	load_scene(world)

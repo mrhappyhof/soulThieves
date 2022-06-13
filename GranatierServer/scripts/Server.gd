@@ -5,7 +5,7 @@ var world_scene = preload("res://scenes/World.tscn")
 var network = NetworkedMultiplayerENet.new()
 var port = 1909
 var max_players = 10
-var speed = 100
+var free_player_numbers = [0,1,2,3,4]
 
 var placed_bomb_count = {}
 var sessions = {}
@@ -40,10 +40,31 @@ func get_session_list():
 	
 	for s in sessions.keys():
 		var world = get_node(s + "/World")
-		var max_players = world.get_node("TileMap").spawn_count
-		var current_players = sessions[s].size()
-		list.push_back({"name": s, "map": world.map ,"players": str(current_players) + "/" + str(max_players)})
+		if not world.session_closed:
+			var max_players = world.get_node("TileMap").spawn_count
+			var current_players = sessions[s].size()
+			list.push_back({"name": s, "map": world.map ,"players": str(current_players) + "/" + str(max_players)})
 	return list
+
+remote func player_ready():
+	var player_id = get_tree().get_rpc_sender_id()
+	var session_name = player_session_map[player_id]
+	var world = get_node(session_name + "/World")
+	var session = sessions[session_name]
+	var player_count = session.size()
+	
+	world.players_ready += 1
+	
+	if world.players_ready == player_count:
+		world.start_game()
+		for id in sessions[session_name]:
+			rpc_id(id, "start_game")
+	elif player_id == world.session_owner:
+		world.session_closed = true
+#	else:
+#		for id in sessions[name]:
+#			rpc_id(id, "update_ready_counter", world.players_ready)
+	
 
 remote func request_session_list():
 	var list = get_session_list()
@@ -55,6 +76,7 @@ remote func create_world(name, map):
 	viewport.set_size(Vector2(1920, 1080))
 	var world = world_scene.instance()
 	world.map = map
+	world.session_owner = get_tree().get_rpc_sender_id()
 	#world.name = name
 	viewport.name = name
 	viewport.add_child(world)
@@ -77,11 +99,11 @@ remote func stop_player():
 	
 	player.move(Vector2.ZERO)
 
-remote func join_world(name, timestamp):
+func join_world(name, timestamp):
 	var world = get_node(name + "/World")
 	var player_id = get_tree().get_rpc_sender_id()
 	var position = world.spawn_player(player_id)
-	var player_no = world.players.size()
+	var player_no = free_player_numbers.pop_front()
 	placed_bomb_count[player_id] = 0
 	world.players[str(player_id)] = {}
 	world.players[str(player_id)]["T"] = timestamp
@@ -95,6 +117,7 @@ func leave_world(player_id):
 	var world = get_node(session + "/World")
 	placed_bomb_count.erase(player_id)
 	get_node(session + "/World").despawn_player(player_id)
+	free_player_numbers.push_back(world.players[str(player_id)]["N"])
 	world.players.erase(str(player_id))
 	
 	for id in sessions[session]:
@@ -102,9 +125,13 @@ func leave_world(player_id):
 	
 remote func join_session(name, timestamp):
 	var player_id = get_tree().get_rpc_sender_id()
-	sessions[name].push_back(player_id)
-	player_session_map[player_id] = name
-	join_world(name, timestamp)
+	var world = get_node(name + "/World")
+	if world.spawn_points.values().has(false) and not world.session_closed:
+		sessions[name].push_back(player_id)
+		player_session_map[player_id] = name
+		join_world(name, timestamp)
+	else:
+		rpc_id(player_id, "session_full")
 
 remote func leave_session():
 	var player_id = get_tree().get_rpc_sender_id()

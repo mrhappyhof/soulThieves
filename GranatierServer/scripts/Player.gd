@@ -16,6 +16,8 @@ var stats = {
 	"is_dead": false
 }
 
+var used_spawn
+
 var motion = Vector2.ZERO
 #var speed = 100
 #var can_kick = false
@@ -33,9 +35,8 @@ var has_bad_powerup = false
 #
 #var is_dead = false
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	set_physics_process(false)
 
 func _physics_process(_delta):
 	if not stats.is_dead and motion != Vector2.ZERO:

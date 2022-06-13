@@ -18,6 +18,8 @@ var stats = {
 
 var powerups = []
 
+func _ready():
+	set_physics_process(false)
 
 func set_animation(player_no):
 	$AnimatedSprite.animation = "player" + str(player_no)
