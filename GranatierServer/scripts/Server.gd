@@ -147,10 +147,13 @@ remote func place_bomb():
 	var player_id = get_tree().get_rpc_sender_id()
 	var world = get_node(player_session_map[player_id] + "/World")
 	var player = world.get_node("Players/" + str(player_id))
-	var tilemap = world.get_node("TileMap")
-	var bomb = bomb_scene.instance()
-	bomb.name = str(player_id) + "-" + str(placed_bomb_count[player_id])
-	print("placed bomb: " + bomb.name)
-	placed_bomb_count[player_id] += 1
-	bomb.position = tilemap.map_to_world(tilemap.world_to_map(player.position - tilemap.position)) + tilemap.position + Vector2(20,20)
-	world.get_node("Bombs").add_child(bomb, true)
+	if player.stats.layable_bombs > 0:
+		var tilemap = world.get_node("TileMap")
+		var bomb = bomb_scene.instance()
+		bomb.name = str(player_id) + "-" + str(placed_bomb_count[player_id])
+		print("placed bomb: " + bomb.name)
+		placed_bomb_count[player_id] += 1
+		bomb.position = tilemap.map_to_world(tilemap.world_to_map(player.position - tilemap.position)) + tilemap.position + Vector2(20,20)
+		world.get_node("Bombs").add_child(bomb, true)
+		player.stats.layable_bombs -= 1
+		bomb.player = player

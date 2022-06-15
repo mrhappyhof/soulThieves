@@ -7,7 +7,7 @@ var bomb_explosion_scene
 
 ## Member variables
 var cell_pos = Vector2() # Bomb tilemap coordinates
-var bomb_range = 2# Range of the bomb explosion
+var bomb_range = 1# Range of the bomb explosion
 var explode_directions = [Vector2.UP,Vector2.DOWN,Vector2.RIGHT,Vector2.LEFT]
 var explode_rotations = [0,PI,PI/2,1.5*PI]
 var cell_size
@@ -45,6 +45,7 @@ func _process(delta):
 				self.position = get_center_coords_from_cell_in_world_coords()
 
 func _on_TimerAnim_timeout():
+	player.stats.layable_bombs += 1
 	get_parent().remove_child(self)
 
 

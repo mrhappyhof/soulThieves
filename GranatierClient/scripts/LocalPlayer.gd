@@ -37,6 +37,8 @@ func _physics_process(_delta):
 			bomb.name = str(get_tree().get_network_unique_id()) + "-" + str(placed_bomb_count)
 			placed_bomb_count += 1
 			get_node("../../Bombs").add_child(bomb, true)
+			stats.layable_bombs -= 1
+			bomb.player = self
 			Server.place_bomb()
 	elif not last_pressed == null and Input.is_action_just_released(last_pressed):
 		motion = Vector2.ZERO
