@@ -69,7 +69,6 @@ func _process(_delta):
 				throw(Vector2(dest_x,dest_y))
 
 func _on_TimerAnim_timeout():
-	player.stats.layable_bombs += 1
 	get_parent().remove_child(self)
 
 

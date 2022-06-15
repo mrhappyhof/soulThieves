@@ -75,6 +75,9 @@ func send_ready():
 func send_not_ready():
 	rpc_id(1, "player_not_ready")
 
+func join_world():
+	rpc_id(1, "join_world", null, OS.get_system_time_msecs())
+
 remote func start_game():
 	world.start_game()
 
@@ -83,7 +86,9 @@ remote func recieve_session_list(list):
 	reciever.update_list(list)
 
 remote func update_world_state(world_state):
-	print("update: " + str(OS.get_time()))
+	if world_state == null:
+		print("world state is null")
+		return
 	if not has_node("/root/World"):
 		return
 	var local_id = get_tree().get_network_unique_id() #get id of local player
@@ -138,6 +143,7 @@ remote func update_world_state(world_state):
 			powerup.type = world_state.powerups[powerup_id].type
 			powerup.name = powerup_id
 			world.get_node("Powerups").add_child(powerup, true)
+	world.get_node("HUD").countdown(world_state.countdown)
 
 remote func spawn_player(position, player_id, player_no, timestamp):
 	#print("spawn player at " + str(position))
@@ -162,3 +168,21 @@ func load_scene(var path):
 remote func session_full():
 	print("session full") #TODO: popup dialog
 	load_scene("res://scenes/JoinExistingLobby.tscn")
+
+remote func round_over(stars):
+	print(stars)
+	for player in world.get_node("Players").get_children():
+		player.queue_free()
+	var score = world.get_node("Score")
+	score.set_stars(stars)
+	score.show()
+	score.get_node("NextRound").show()
+	
+remote func game_over(stars):
+	round_over(stars)
+	var score = world.get_node("Score")
+	score.get_node("NextRound").hide()
+	score.get_node("Return").show()
+	
+
+

@@ -1,11 +1,16 @@
 extends Node
 var playerNode = preload("res://scenes/Player.tscn")
 var Powerup = preload("res://scenes/Powerup.tscn")
+var bomb_scene = preload("res://scenes/Bomb.tscn")
 var spawn_points = {}
 var players = {}
+var players_alive = []
 
 var players_ready = 0
 var session_owner
+var free_player_numbers = [0,1,2,3,4]
+
+var game_started = false
 
 var map
 var session_name
@@ -29,7 +34,10 @@ func _ready():
 	#$TileMap.place_in_center()
 
 func _physics_process(_delta):
+	if players.size() > 0:
 		get_parent().get_parent().send_world_state(get_world_state(), session_name)
+		if game_started and players_alive.size() <= 1:
+			get_parent().get_parent().round_over(session_name)
 
 func get_world_state():
 	var world_state
@@ -73,7 +81,8 @@ func get_world_state():
 			"bombs": bombs,
 			"powerups": powerups,
 			"map": map_data,
-			"time": OS.get_system_time_msecs()
+			"time": OS.get_system_time_msecs(),
+			"countdown": $Timer.get_time_left()
 		}
 	return world_state
 
@@ -84,6 +93,7 @@ func spawn_player(player_id):
 	player.position = $TileMap.get_node(free_spwans[rnd]).position
 	player.used_spawn = free_spwans[rnd]
 	spawn_points[free_spwans[rnd]] = true
+	players_alive.push_back(player_id)
 	#Used to test Powerups
 	#var powerup = Powerup.instance()
 	#powerup.position = player.position + Vector2.DOWN*40
@@ -101,11 +111,31 @@ func find_all(dict, val):
 	return found
 
 func despawn_player(player_id):
-	var player = $Players.get_node(str(player_id))
-	spawn_points[player.used_spawn] = false
-	player.queue_free()
-	players[str(player_id)]["D"] = true
+	if $Players.has_node(str(player_id)):
+		var player = $Players.get_node(str(player_id))
+		spawn_points[player.used_spawn] = false
+		player.queue_free()
+		players[str(player_id)]["D"] = true
 
 func start_game():
+	game_started = true
 	for player in $Players.get_children():
 		player.set_physics_process(true)
+	$Timer.start()
+
+
+func _on_Timer_timeout():
+	$SuddenDeathTimer.start()
+
+var suddenDeathBombs = 0
+
+func _on_SuddenDeathTimer_timeout():
+	var bomb = bomb_scene.instance()
+	bomb.name = "-1" + "-" + str(suddenDeathBombs)
+	suddenDeathBombs += 1
+	var ground_cells = $TileMap.get_used_cells_by_id($TileMap.get_tileset().find_tile_by_name("arena_ground"))
+	var cell_ind = randi() % ground_cells.size()
+	
+	bomb.position = $TileMap.map_to_world(ground_cells[cell_ind]) + Vector2(20,20) + $TileMap.position
+	bomb.bomb_range = randi() % 5
+	$Bombs.add_child(bomb, true)

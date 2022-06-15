@@ -4,16 +4,12 @@ var player_num = 0
 var powerups_to_show = [Powerup.Types.SHIELD, Powerup.Types.THROW, Powerup.Types.KICK, Powerup.Types.BAD_RESTRAIN]
 #var enabled_powerups = []
 
-export var time = 300
-
-signal outOfTime()
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$PlayerList.set_icon_scale(0.5) # Changed from 0.2 to 0.5
 	$PlayerList.allow_reselect = false
 	if Server.is_owner:
-		$ReadyButton.set_text("Start Game")
+		$ReadyButton.set_text("Start")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -21,21 +17,16 @@ func _ready():
 	#pass
 
 # Timer function
-func countdown():
-	if time >= 0:
+func countdown(time):
+	if time > 0:
 		var minutes = time / 60
 		var seconds = fmod(time, 60)
 	
 		$TimerLabel.text = "%02d:%02d" % [minutes, seconds]
-		time -= 1
-		"""
-		if time % 2 == 0:
-			hud_enable_powerup(0)
-		else:
-			hud_disable_powerup(0)
-		"""
-	elif time == -1:
-		emit_signal("outOfTime")
+	elif get_parent().waiting_for_players:
+		$TimerLabel.text = "Warte auf andere Spieler..."
+	else:
+		$TimerLabel.text = "Sudden Death"
 
 # Display players in the HUD
 func hud_display_player():

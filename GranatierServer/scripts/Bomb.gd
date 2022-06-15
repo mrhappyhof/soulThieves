@@ -24,6 +24,8 @@ var slide_dir = Vector2(0,0) # Direction in which to slide upon kick
 func _ready():
 	bomb_explosion_scene = load("res://scenes/BombExplosion.tscn")
 	cell_size = get_node("../../TileMap").get_cell_size()
+	if player != null:
+		player.stats.layable_bombs -= 1
 
 func _physics_process(delta):
 	var field_free = !test_move(Transform2D(Vector2(self.scale.x,0),Vector2(-0,self.scale.y),get_center_coords_from_cell_in_world_coords()),slide_dir*(cell_size))
@@ -45,7 +47,8 @@ func _process(delta):
 				self.position = get_center_coords_from_cell_in_world_coords()
 
 func _on_TimerAnim_timeout():
-	player.stats.layable_bombs += 1
+	if player != null:
+		player.stats.layable_bombs += 1
 	get_parent().remove_child(self)
 
 
@@ -68,7 +71,6 @@ func move(dir):
 func explode():
 	var tilemap = get_parent().get_parent().get_node("TileMap")
 	var coords = get_map_coords()
-	print("exploding")
 	if get_celltype_from_coords() == "arena_wall":
 		tilemap.destroy_cell(coords.x,coords.y)
 	for y in range(4):

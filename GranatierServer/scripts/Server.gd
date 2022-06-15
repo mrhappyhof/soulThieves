@@ -5,11 +5,12 @@ var world_scene = preload("res://scenes/World.tscn")
 var network = NetworkedMultiplayerENet.new()
 var port = 1909
 var max_players = 10
-var free_player_numbers = [0,1,2,3,4]
 
 var placed_bomb_count = {}
 var sessions = {}
 var player_session_map = {}
+
+var stars = {}
 
 func _ready():
 	StartServer()
@@ -27,9 +28,6 @@ func _Peer_Connected(player_id):
 
 func _Peer_Disconnected(player_id):
 	print("User " + str(player_id) + " Disconnected")
-	
-	
-	
 
 func send_world_state(world_state, session_name):
 	for id in sessions[session_name]:
@@ -46,6 +44,33 @@ func get_session_list():
 			list.push_back({"name": s, "map": world.map ,"players": str(current_players) + "/" + str(max_players)})
 	return list
 
+func round_over(session_name):
+	var world = get_node(session_name + "/World")
+	if not stars.has(session_name):
+		stars[session_name] = {}
+		for player_id in sessions[session_name]:
+			stars[session_name][player_id] = 0
+	
+	if world.players_alive.size() > 0:
+		stars[session_name][world.players_alive[0]] += 1
+	
+	if world.players_alive.size() == 0 or stars[session_name][world.players_alive[0]] < 5:
+		for id in sessions[session_name]:
+			rpc_id(id, "round_over", stars[session_name])
+			var newWorld = world_scene.instance()
+			newWorld.map = world.map
+			newWorld.session_owner = world.session_owner
+			world.queue_free()
+			get_node(session_name).remove_child(world)
+			get_node(session_name).add_child(newWorld, true)
+	else:
+		for id in sessions[session_name]:
+			rpc_id(id, "game_over", stars[session_name])
+			player_session_map.erase(id)
+			placed_bomb_count.erase(id)
+		sessions.erase(session_name)
+		get_node(session_name).queue_free()
+
 remote func player_ready():
 	var player_id = get_tree().get_rpc_sender_id()
 	var session_name = player_session_map[player_id]
@@ -59,7 +84,7 @@ remote func player_ready():
 		world.start_game()
 		for id in sessions[session_name]:
 			rpc_id(id, "start_game")
-	elif player_id == world.session_owner:
+	if player_id == world.session_owner:
 		world.session_closed = true
 #	else:
 #		for id in sessions[name]:
@@ -99,11 +124,15 @@ remote func stop_player():
 	
 	player.move(Vector2.ZERO)
 
-func join_world(name, timestamp):
-	var world = get_node(name + "/World")
+remote func join_world(name, timestamp):
 	var player_id = get_tree().get_rpc_sender_id()
+	if name == null and player_session_map.has(player_id):
+		name = player_session_map[player_id]
+	var world = get_node(name + "/World")
+	
 	var position = world.spawn_player(player_id)
-	var player_no = free_player_numbers.pop_front()
+	var player_no = world.free_player_numbers.pop_front()
+	
 	placed_bomb_count[player_id] = 0
 	world.players[str(player_id)] = {}
 	world.players[str(player_id)]["T"] = timestamp
@@ -117,8 +146,9 @@ func leave_world(player_id):
 	var world = get_node(session + "/World")
 	placed_bomb_count.erase(player_id)
 	get_node(session + "/World").despawn_player(player_id)
-	free_player_numbers.push_back(world.players[str(player_id)]["N"])
-	world.players.erase(str(player_id))
+	if world.players.size() > 0:
+		world.free_player_numbers.push_back(world.players[str(player_id)]["N"])
+		world.players.erase(str(player_id))
 	
 	for id in sessions[session]:
 		rpc_id(id, "despawn_player", player_id)
@@ -151,9 +181,8 @@ remote func place_bomb():
 		var tilemap = world.get_node("TileMap")
 		var bomb = bomb_scene.instance()
 		bomb.name = str(player_id) + "-" + str(placed_bomb_count[player_id])
-		print("placed bomb: " + bomb.name)
 		placed_bomb_count[player_id] += 1
 		bomb.position = tilemap.map_to_world(tilemap.world_to_map(player.position - tilemap.position)) + tilemap.position + Vector2(20,20)
-		world.get_node("Bombs").add_child(bomb, true)
-		player.stats.layable_bombs -= 1
+		bomb.bomb_range = player.stats.bomb_blast_range
 		bomb.player = player
+		world.get_node("Bombs").add_child(bomb, true)

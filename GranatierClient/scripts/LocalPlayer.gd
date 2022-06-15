@@ -35,9 +35,11 @@ func _physics_process(_delta):
 			var tilemap = get_node("../../TileMap")
 			bomb.position = tilemap.map_to_world(tilemap.world_to_map(position - tilemap.position)) + tilemap.position + Vector2(20,20)
 			bomb.name = str(get_tree().get_network_unique_id()) + "-" + str(placed_bomb_count)
+			bomb.bomb_range = stats.bomb_blast_range
 			placed_bomb_count += 1
 			get_node("../../Bombs").add_child(bomb, true)
-			stats.layable_bombs -= 1
+			#stats.layable_bombs -= 1
+			print("layable:" + str(stats.layable_bombs))
 			bomb.player = self
 			Server.place_bomb()
 	elif not last_pressed == null and Input.is_action_just_released(last_pressed):

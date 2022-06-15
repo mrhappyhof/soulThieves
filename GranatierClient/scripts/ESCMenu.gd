@@ -6,7 +6,6 @@ var settings = load("res://scenes/SettingsMenu.tscn")
 
 func _ready():
 	visible = false
-	var settingsMenu = get_node("SettingsMenu")
 	#settingsMenu.connect("visibility_changed", self, "on_Settings_visibility_changed")
 	
 # Checks if the scene at the given path exists and loads it

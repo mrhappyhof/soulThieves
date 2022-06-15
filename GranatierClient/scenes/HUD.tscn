@@ -62,19 +62,17 @@ custom_fonts/font = SubResource( 1 )
 text = "Granatier Online"
 align = 1
 
-[node name="Timer" type="Timer" parent="."]
-autostart = true
-
 [node name="TimerLabel" type="Label" parent="."]
-margin_left = 1774.0
-margin_top = 27.0
-margin_right = 1883.0
-margin_bottom = 77.0
-grow_horizontal = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1776.0
+margin_top = 25.0
+margin_right = -30.0
+margin_bottom = -1005.0
+grow_horizontal = 0
 custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
 custom_fonts/font = SubResource( 1 )
 text = "05:00"
-align = 1
 
 [node name="PlayerList" type="ItemList" parent="."]
 modulate = Color( 1, 1, 1, 0.776471 )
@@ -118,5 +116,4 @@ toggle_mode = true
 enabled_focus_mode = 0
 text = "Ready"
 
-[connection signal="timeout" from="Timer" to="." method="countdown"]
 [connection signal="toggled" from="ReadyButton" to="." method="_on_ReadyButton_toggled"]

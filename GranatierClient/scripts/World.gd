@@ -4,8 +4,9 @@ var onlinePlayerNode = preload("res://scenes/OnlinePlayer.tscn")
 var powerupNode = preload("res://scenes/Powerup.tscn")
 var port = 1909
 
-signal new_player_hud()
-signal new_player_score()
+var waiting_for_players = true
+
+signal new_player()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -28,9 +29,8 @@ func spawn_player(position, player_id, player_no):
 	player.set_animation(player_no)
 	player.name = str(player_id)
 	
-	# Emit signal for HUD
-	emit_signal("new_player_hud")
-	emit_signal("new_player_score")
+	# Emit signal new player
+	emit_signal("new_player")
 	
 	return player
 
@@ -58,6 +58,7 @@ func get_world_state():
 	return world_state
 
 func start_game():
+	waiting_for_players = false
 	$HUD.get_node("ReadyButton").hide()
 	$HUD.get_node("ReadyButton").set_pressed(false)
 	for player in $Players.get_children():

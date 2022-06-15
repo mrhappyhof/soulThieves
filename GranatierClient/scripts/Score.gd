@@ -8,11 +8,7 @@ var starSprite = star.get_node("AnimatedSprite")
 var starFrameEmpty = starSprite.get_sprite_frames().get_frame(starSprite.get_animation(), 0)
 var starFrameFull = starSprite.get_sprite_frames().get_frame(starSprite.get_animation(), 1)
 
-var endOfGame = false
-var winner = 0
-
-signal victory()
-signal defeat()
+var player_number_map = {}
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -21,17 +17,17 @@ func _ready():
 	$Return.visible = false
 	pass
 
-func show_score():
-	# if endOfGame == true:
-		# if winner equals the number of the local player:
-			# send signal victory
-		# else:
-			# send signal defeat
-	# elif the local player is the host of the game:
-		# $NextRound.visible = true
-		# self.visible = true
-	# else:
-	self.visible = true
+#func show_score():
+#	# if endOfGame == true:
+#		# if winner equals the number of the local player:
+#			# send signal victory
+#		# else:
+#			# send signal defeat
+#	# elif the local player is the host of the game:
+#		# $NextRound.visible = true
+#		# self.visible = true
+#	# else:
+#	self.visible = true
 
 func show_end_score():
 	$Return.visible = true
@@ -40,7 +36,7 @@ func show_end_score():
 # Create the scoreboard
 func create_player_scoreboard():
 	$ScoreList.clear()
-	var player_number = 1
+	var player_number = 0
 	
 	# Get all players from node "Players" and place them in the ScoreList
 	for child in get_node("../Players").get_children():
@@ -48,6 +44,7 @@ func create_player_scoreboard():
 		var playerFrame = playerSprite.get_sprite_frames().get_frame(playerSprite.get_animation(), playerSprite.get_frame())
 		
 		$ScoreList.add_item("Player " + str(player_number), playerFrame)
+		player_number_map[child.name] = player_number
 		
 		# Add 5 empty stars
 		for n in 5:
@@ -55,19 +52,21 @@ func create_player_scoreboard():
 			
 		player_number += 1
 
-# Add point/star to a player with given number
-func add_star(player_number):
-	var index = (player_number * 6) + 1
-	
-	for n in 5:
-		if $ScoreList.get_item_at_position(index + n) == starFrameEmpty:
-			$ScoreList.set_item_icon(index + n, starFrameFull)
-			show_score()
-		elif n == 5:
-			winner = player_number
-			endOfGame = true
-			show_score()
+## Add point/star to a player with given number
+#func add_star(player_number):
+#	var index = (player_number * 6) + 1
+#
+#	for n in 5:
+#		if $ScoreList.get_item_icon(index + n) == starFrameEmpty:
+#			$ScoreList.set_item_icon(index + n, starFrameFull)
+#			break
 
+func set_stars(stars):
+	for player_id in stars.keys():
+		for i in stars[int(player_id)]:
+			var index = (player_number_map[str(player_id)] * 6) + 1
+			$ScoreList.set_item_icon(index + i, starFrameFull)
+	
 # Checks if the scene at the given path exists and loads it
 func load_scene(var path):
 	if ResourceLoader.exists(path):
@@ -84,4 +83,6 @@ func _on_Return_pressed():
 
 # Start the next round
 func _on_NextRound_pressed():
-	pass # Replace with function body.
+	hide()
+	Server.join_world()
+	get_parent().get_node("HUD/ReadyButton").show()

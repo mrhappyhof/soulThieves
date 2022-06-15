@@ -77,7 +77,6 @@ func destroy_cell(x,y):
 	rng.randomize()
 	set_cell(x,y,tile_set.find_tile_by_name("arena_ground"))
 	if rng.randf_range(0.0,1.0)>0.0:
-		print("spawn powerup")
 		var center_point_from_cell = self.map_to_world(Vector2(x,y))+Vector2(20,20)+self.position
 		var powerup = powerup_scene.instance()
 		#powerup.set_type()
