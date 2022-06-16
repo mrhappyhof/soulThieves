@@ -27,6 +27,8 @@ func _Peer_Connected(player_id):
 	print("User " + str(player_id) + " Connected")
 
 func _Peer_Disconnected(player_id):
+	if player_session_map.has(player_id):
+		leave_session(player_id)
 	print("User " + str(player_id) + " Disconnected")
 
 func send_world_state(world_state, session_name):
@@ -60,8 +62,8 @@ func round_over(session_name):
 			var newWorld = world_scene.instance()
 			newWorld.map = world.map
 			newWorld.session_owner = world.session_owner
-			world.queue_free()
 			get_node(session_name).remove_child(world)
+			world.queue_free()
 			get_node(session_name).add_child(newWorld, true)
 	else:
 		for id in sessions[session_name]:
@@ -111,11 +113,12 @@ remote func create_world(name, map):
 remote func move_player(motion, timestamp):
 	var player_id = get_tree().get_rpc_sender_id()
 	var world = get_node(player_session_map[player_id] + "/World")
-	var player = world.get_node("Players/" + str(player_id))
-	
-	player.move(motion)
-	world.players[str(player_id)]["T"] = timestamp
-	world.players[str(player_id)]["P"] = player.position
+	if world.get_node("Players").has_node(str(player_id)):
+		var player = world.get_node("Players/" + str(player_id))
+		
+		player.move(motion)
+		world.players[str(player_id)]["T"] = timestamp
+		world.players[str(player_id)]["P"] = player.position
 	
 remote func stop_player():
 	var player_id = get_tree().get_rpc_sender_id()
@@ -163,8 +166,12 @@ remote func join_session(name, timestamp):
 	else:
 		rpc_id(player_id, "session_full")
 
-remote func leave_session():
-	var player_id = get_tree().get_rpc_sender_id()
+remote func leave_session(id = null):
+	var player_id
+	if id == null:
+		player_id = get_tree().get_rpc_sender_id()
+	else:
+		player_id = id
 	leave_world(player_id)
 	sessions[player_session_map[player_id]].erase(player_id)
 	if(sessions[player_session_map[player_id]].size() == 0):
@@ -176,13 +183,14 @@ remote func leave_session():
 remote func place_bomb():
 	var player_id = get_tree().get_rpc_sender_id()
 	var world = get_node(player_session_map[player_id] + "/World")
-	var player = world.get_node("Players/" + str(player_id))
-	if player.stats.layable_bombs > 0:
-		var tilemap = world.get_node("TileMap")
-		var bomb = bomb_scene.instance()
-		bomb.name = str(player_id) + "-" + str(placed_bomb_count[player_id])
-		placed_bomb_count[player_id] += 1
-		bomb.position = tilemap.map_to_world(tilemap.world_to_map(player.position - tilemap.position)) + tilemap.position + Vector2(20,20)
-		bomb.bomb_range = player.stats.bomb_blast_range
-		bomb.player = player
-		world.get_node("Bombs").add_child(bomb, true)
+	if world.get_node("Players").has_node(str(player_id)):
+		var player = world.get_node("Players/" + str(player_id))
+		if player.stats.layable_bombs > 0:
+			var tilemap = world.get_node("TileMap")
+			var bomb = bomb_scene.instance()
+			bomb.name = str(player_id) + "-" + str(placed_bomb_count[player_id])
+			placed_bomb_count[player_id] += 1
+			bomb.position = tilemap.map_to_world(tilemap.world_to_map(player.position - tilemap.position)) + tilemap.position + Vector2(20,20)
+			bomb.bomb_range = player.stats.bomb_blast_range
+			bomb.player = player
+			world.get_node("Bombs").add_child(bomb, true)

@@ -114,6 +114,7 @@ func despawn_player(player_id):
 	if $Players.has_node(str(player_id)):
 		var player = $Players.get_node(str(player_id))
 		spawn_points[player.used_spawn] = false
+		players_alive.erase(player_id)
 		player.queue_free()
 		players[str(player_id)]["D"] = true
 

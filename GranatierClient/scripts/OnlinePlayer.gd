@@ -3,7 +3,10 @@ extends "res://scripts/Player.gd"
 var nextPositions = []
 
 func add_position(pos, time):
-	nextPositions.push_back({"position": pos, "time": time})
+	if nextPositions.size() == 0 or nextPositions[nextPositions.size() - 1].position != pos:
+		nextPositions.push_back({"position": pos, "time": time})
+	else:
+		nextPositions[nextPositions.size() - 1] = {"position": pos, "time": time}
 
 func _physics_process(_delta):
 	if nextPositions.size() > 0 and nextPositions[0].time <= OS.get_system_time_msecs() - 50:

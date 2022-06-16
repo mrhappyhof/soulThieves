@@ -86,3 +86,4 @@ func _on_NextRound_pressed():
 	hide()
 	Server.join_world()
 	get_parent().get_node("HUD/ReadyButton").show()
+	get_parent().waiting_for_players = true

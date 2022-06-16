@@ -87,19 +87,19 @@ remote func recieve_session_list(list):
 
 remote func update_world_state(world_state):
 	if world_state == null:
-		print("world state is null")
 		return
 	if not has_node("/root/World"):
 		return
 	var local_id = get_tree().get_network_unique_id() #get id of local player
 	
-	for time in past_states.keys(): #iterate timestamps of all past states1
-		if time < world_state.players[str(local_id)].T: #delete states older than update
-			past_states.erase(time)
-	
-	reconcile_player(world_state.players[str(local_id)].P, world_state.players[str(local_id)].T)
-	#delete reconciled state:
-	past_states.erase(world_state.players[str(local_id)].T)
+	if world_state.players.has(str(local_id)):
+		for time in past_states.keys(): #iterate timestamps of all past states1
+			if time < world_state.players[str(local_id)].T: #delete states older than update
+				past_states.erase(time)
+		
+		reconcile_player(world_state.players[str(local_id)].P, world_state.players[str(local_id)].T)
+		#delete reconciled state:
+		past_states.erase(world_state.players[str(local_id)].T)
 	for player_id in world_state.players.keys():
 		var player
 		if world.get_node("Players").has_node(str(player_id)):

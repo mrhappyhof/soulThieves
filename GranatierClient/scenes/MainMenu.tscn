@@ -69,7 +69,7 @@ align = 1
 [node name="VBoxContainer" type="VBoxContainer" parent="Background/VBoxContainer"]
 margin_top = 341.0
 margin_right = 1714.0
-margin_bottom = 846.0
+margin_bottom = 740.0
 custom_constants/separation = 25
 
 [node name="CreateSession" type="Button" parent="Background/VBoxContainer/VBoxContainer"]
@@ -101,7 +101,7 @@ custom_styles/normal = SubResource( 5 )
 enabled_focus_mode = 0
 text = "Join Session"
 
-[node name="Multiplayer" type="Button" parent="Background/VBoxContainer/VBoxContainer"]
+[node name="Settings" type="Button" parent="Background/VBoxContainer/VBoxContainer"]
 margin_top = 212.0
 margin_right = 1714.0
 margin_bottom = 293.0
@@ -114,27 +114,12 @@ custom_styles/pressed = SubResource( 3 )
 custom_styles/focus = SubResource( 4 )
 custom_styles/normal = SubResource( 5 )
 enabled_focus_mode = 0
-text = "Multiplayer"
-
-[node name="Settings" type="Button" parent="Background/VBoxContainer/VBoxContainer"]
-margin_top = 318.0
-margin_right = 1714.0
-margin_bottom = 399.0
-grow_horizontal = 2
-focus_mode = 0
-custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
-custom_fonts/font = SubResource( 6 )
-custom_styles/hover = SubResource( 2 )
-custom_styles/pressed = SubResource( 3 )
-custom_styles/focus = SubResource( 4 )
-custom_styles/normal = SubResource( 5 )
-enabled_focus_mode = 0
 text = "Settings"
 
 [node name="QuitGame" type="Button" parent="Background/VBoxContainer/VBoxContainer"]
-margin_top = 424.0
+margin_top = 318.0
 margin_right = 1714.0
-margin_bottom = 505.0
+margin_bottom = 399.0
 grow_horizontal = 2
 focus_mode = 0
 custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
@@ -148,6 +133,5 @@ text = "Quit Game"
 
 [connection signal="pressed" from="Background/VBoxContainer/VBoxContainer/CreateSession" to="." method="_on_CreateSession_pressed"]
 [connection signal="pressed" from="Background/VBoxContainer/VBoxContainer/JoinSession" to="." method="_on_JoinSession_pressed"]
-[connection signal="pressed" from="Background/VBoxContainer/VBoxContainer/Multiplayer" to="." method="_on_Multiplayer_pressed"]
 [connection signal="pressed" from="Background/VBoxContainer/VBoxContainer/Settings" to="." method="_on_Settings_pressed"]
 [connection signal="pressed" from="Background/VBoxContainer/VBoxContainer/QuitGame" to="." method="_on_QuitGame_pressed"]
