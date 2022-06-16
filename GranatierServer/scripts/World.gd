@@ -122,7 +122,7 @@ func start_game():
 	game_started = true
 	for player in $Players.get_children():
 		player.set_physics_process(true)
-	$Timer.start()
+	$Timer.start(300)
 
 
 func _on_Timer_timeout():
