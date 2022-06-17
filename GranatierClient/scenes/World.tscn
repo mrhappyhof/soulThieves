@@ -35,6 +35,6 @@ visible = false
 [node name="ESCMenu" parent="." instance=ExtResource( 6 )]
 visible = false
 
-[connection signal="new_player" from="." to="Score" method="create_player_scoreboard"]
 [connection signal="new_player" from="." to="HUD" method="hud_display_player"]
+[connection signal="new_player" from="." to="Score" method="create_player_scoreboard"]
 [connection signal="scoreboard" from="DefeatVictory" to="Score" method="show_end_score"]
