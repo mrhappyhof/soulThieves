@@ -53,7 +53,6 @@ func get_world_state():
 			var bomb_data = {
 				"range": bomb.bomb_range,
 				"position": bomb.position,
-				"time": OS.get_system_time_msecs(),
 				"left": bomb.get_node("ExplotionTimer").get_time_left()
 			}
 			var bomb_path = bomb.get_path()

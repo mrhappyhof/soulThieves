@@ -10,6 +10,8 @@ var world
 var initial = true
 var is_owner = false
 
+var time_diff = 0
+
 var past_states = {}
 
 enum PlayerAction{
@@ -36,6 +38,9 @@ func _OnConnectionFailed():
 	
 func _OnConnectionSucceeded():
 	print("Succesfully connected")
+
+func get_time():
+	return OS.get_system_time_msecs() + time_diff
 
 func create_session(name, map):
 	is_owner = true
@@ -78,8 +83,9 @@ func send_not_ready():
 func join_world():
 	rpc_id(1, "join_world", null, OS.get_system_time_msecs())
 
-remote func ping(ping):
+remote func ping(ping, diff):
 	world.get_node("HUD/PingLabel").set_text(str(ping) + "ms")
+	time_diff = diff
 
 remote func start_game():
 	world.start_game()
@@ -95,7 +101,7 @@ remote func update_world_state(world_state):
 		return
 	var local_id = get_tree().get_network_unique_id() #get id of local player
 	
-	rpc_id(1, "ping", world_state.time)
+	rpc_id(1, "ping", world_state.time, OS.get_system_time_msecs())
 	
 	if world_state.players.has(str(local_id)):
 		for time in past_states.keys(): #iterate timestamps of all past states1
@@ -127,7 +133,7 @@ remote func update_world_state(world_state):
 			var bomb = world.get_node("Bombs/" + bomb_name)
 			bomb.bomb_range = world_state.bombs[bomb_name].range
 			bomb.position = world_state.bombs[bomb_name].position
-			var time_left =  world_state.bombs[bomb_name].left - ((OS.get_system_time_msecs() - world_state.bombs[bomb_name].time) / 1000)
+			var time_left =  world_state.bombs[bomb_name].left - ((get_time() - world_state.time) / 1000)
 			bomb.get_node("ExplotionTimer").start(time_left)
 		else:
 			var bomb = bomb_scene.instance()

@@ -73,9 +73,12 @@ func round_over(session_name):
 		sessions.erase(session_name)
 		get_node(session_name).queue_free()
 
-remote func ping(time):
+remote func ping(time, clientTime):
 	var player_id = get_tree().get_rpc_sender_id()
-	rpc_id(player_id, "ping", (OS.get_system_time_msecs()-time)/2)
+	var ping = (OS.get_system_time_msecs()-time)/2
+	var clientPing = OS.get_system_time_msecs()-clientTime
+	var diff = clientPing - ping
+	rpc_id(player_id, "ping", ping, diff)
 
 remote func player_ready():
 	var player_id = get_tree().get_rpc_sender_id()
