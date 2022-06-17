@@ -26,8 +26,10 @@ func set_animation(player_no):
 	$AnimatedSprite.animation = "player" + str(player_no)
 
 func destroy():
-	stats.is_dead = true
-	#print(stats.can_move)
-	$DieSound.play()
-	$AnimatedSprite.animation = $AnimatedSprite.animation + "_dead"
-	
+	if !stats.has_shield:
+		stats.is_dead = true
+		#print(stats.can_move)
+		$DieSound.play()
+		$AnimatedSprite.animation = $AnimatedSprite.animation + "_dead"
+	else:
+		stats.has_shield = false 

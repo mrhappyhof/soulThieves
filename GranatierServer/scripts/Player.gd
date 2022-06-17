@@ -128,7 +128,10 @@ func _on_bad_powerup_timer_timeout():
 	print("HAS_BAD_POWERUP: " + str(has_bad_powerup))
 
 func destroy():
-	stats.is_dead = true
-	print("Im dieing")
-	get_parent().get_parent().players_alive.erase(int(name))
+	if !stats.has_shield:
+		stats.is_dead = true
+		print("Im dieing")
+		get_parent().get_parent().players_alive.erase(int(name))
+	else:
+		stats.has_shield = false 
 #TODO: If player was hit by the bomb and has_shield, has_shield = false

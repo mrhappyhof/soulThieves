@@ -29,7 +29,7 @@ func _physics_process(_delta):
 		motion = Vector2.UP
 		rotation = 1.5*PI
 	elif Input.is_action_just_pressed("place_bomb"):
-		if stats.layable_bombs > 0:
+		if stats.layable_bombs > 0 and !stats.is_restrained:
 			$PutBombSound.play()
 			var bomb = bomb_scene.instance()
 			var tilemap = get_node("../../TileMap")
