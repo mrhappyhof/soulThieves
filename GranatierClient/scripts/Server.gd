@@ -95,6 +95,8 @@ remote func update_world_state(world_state):
 		return
 	var local_id = get_tree().get_network_unique_id() #get id of local player
 	
+	rpc_id(1, "ping", world_state.time)
+	
 	if world_state.players.has(str(local_id)):
 		for time in past_states.keys(): #iterate timestamps of all past states1
 			if time < world_state.players[str(local_id)].T: #delete states older than update
