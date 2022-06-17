@@ -16,6 +16,8 @@ var stats = {
 	"is_dead": false,
 }
 
+
+
 #var can_move = true
 var powerups = []
 
@@ -24,6 +26,9 @@ func _ready():
 
 func set_animation(player_no):
 	$AnimatedSprite.animation = "player" + str(player_no)
+
+func update_stats(stats, timestamp):
+	pass
 
 func destroy():
 	if !stats.has_shield:

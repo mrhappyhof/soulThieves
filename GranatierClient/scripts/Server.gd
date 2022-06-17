@@ -84,8 +84,9 @@ func join_world():
 	rpc_id(1, "join_world", null, OS.get_system_time_msecs())
 
 remote func ping(ping, diff):
-	world.get_node("HUD/PingLabel").set_text(str(ping) + "ms")
-	time_diff = diff
+	if has_node("/root/World"):
+		world.get_node("HUD/PingLabel").set_text(str(ping) + "ms")
+		time_diff = diff
 
 remote func start_game():
 	world.start_game()
@@ -118,7 +119,8 @@ remote func update_world_state(world_state):
 			if int(player_id) != local_id:
 				player.add_position(world_state.players[player_id]["P"], world_state.time)
 				#player.position = world_state.players[player_id]["P"]
-			player.stats = world_state.players[player_id].stats
+			#player.stats = world_state.players[player_id].stats
+			player.update_stats(world_state.players[player_id].stats, world_state.time)
 		else:
 			player = world.spawn_player(world_state.players[player_id]["P"], player_id, world_state.players[player_id]["N"])
 	if(initial or not past_states.has(world_state.players[str(local_id)].T) or past_states[world_state.players[str(local_id)].T].map != world_state.map):
