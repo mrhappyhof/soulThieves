@@ -9,7 +9,7 @@ func add_position(pos, time):
 		nextPositions[nextPositions.size() - 1] = {"position": pos, "time": time}
 
 func _physics_process(_delta):
-	if nextPositions.size() > 0 and nextPositions[0].time <= OS.get_system_time_msecs() - 50:
+	if nextPositions.size() > 0 and nextPositions[0].time <= OS.get_system_time_msecs():
 		$AnimatedSprite.play()
 		#print(str(position) + " -> " + str(nextPositions[0].position))
 		var motion = nextPositions[0].position - position

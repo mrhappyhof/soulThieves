@@ -92,6 +92,8 @@ remote func update_world_state(world_state):
 		return
 	var local_id = get_tree().get_network_unique_id() #get id of local player
 	
+	world.get_node("HUD/PingLabel").set_text(str(OS.get_system_time_msecs() - world_state.time) + "ms")
+	
 	if world_state.players.has(str(local_id)):
 		for time in past_states.keys(): #iterate timestamps of all past states1
 			if time < world_state.players[str(local_id)].T: #delete states older than update

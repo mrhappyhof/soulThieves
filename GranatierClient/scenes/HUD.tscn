@@ -74,6 +74,16 @@ custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
 custom_fonts/font = SubResource( 1 )
 text = "05:00"
 
+[node name="PingLabel" type="Label" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 45.0
+margin_top = 19.0
+margin_right = -1761.0
+margin_bottom = -1011.0
+custom_colors/font_color = Color( 1, 0.964706, 0.333333, 1 )
+custom_fonts/font = SubResource( 1 )
+
 [node name="PlayerList" type="ItemList" parent="."]
 modulate = Color( 1, 1, 1, 0.776471 )
 anchor_top = 0.5
