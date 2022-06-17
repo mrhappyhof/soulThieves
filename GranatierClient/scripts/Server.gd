@@ -78,6 +78,9 @@ func send_not_ready():
 func join_world():
 	rpc_id(1, "join_world", null, OS.get_system_time_msecs())
 
+remote func ping(ping):
+	world.get_node("HUD/PingLabel").set_text(str(ping) + "ms")
+
 remote func start_game():
 	world.start_game()
 
@@ -91,8 +94,6 @@ remote func update_world_state(world_state):
 	if not has_node("/root/World"):
 		return
 	var local_id = get_tree().get_network_unique_id() #get id of local player
-	
-	world.get_node("HUD/PingLabel").set_text(str(OS.get_system_time_msecs() - world_state.time) + "ms")
 	
 	if world_state.players.has(str(local_id)):
 		for time in past_states.keys(): #iterate timestamps of all past states1

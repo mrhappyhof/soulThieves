@@ -73,6 +73,10 @@ func round_over(session_name):
 		sessions.erase(session_name)
 		get_node(session_name).queue_free()
 
+remote func ping(time):
+	var player_id = get_tree().get_rpc_sender_id()
+	rpc_id(player_id, "ping", (OS.get_system_time_msecs()-time)/2)
+
 remote func player_ready():
 	var player_id = get_tree().get_rpc_sender_id()
 	var session_name = player_session_map[player_id]
