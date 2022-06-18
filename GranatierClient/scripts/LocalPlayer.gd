@@ -70,3 +70,10 @@ func _physics_process(_delta):
 		$AnimatedSprite.stop()
 		$AnimatedSprite.frame = 0
 	
+
+func start_bad_powerup_timer():
+	$BadPowerupTimer.start()
+
+func _on_BadPowerupTimer_timeout():
+	var hud  = get_node("../../HUD")
+	hud.hud_disable_powerup(Powerup.Types.BAD_HYPERACTIVE) # spielt keine Rolle welches Powerup deaktiviert wird da nur ein "Bad Powerup" aktiv sein kann 

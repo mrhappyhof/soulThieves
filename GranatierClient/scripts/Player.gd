@@ -37,4 +37,6 @@ func destroy():
 		$DieSound.play()
 		$AnimatedSprite.animation = $AnimatedSprite.animation + "_dead"
 	else:
+		var hud = get_node("../../HUD")
+		hud.hud_disable_powerup(Powerup.Types.SHIELD)
 		stats.has_shield = false 
