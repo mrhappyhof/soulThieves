@@ -60,31 +60,32 @@ func pick_up_powerup(type):
 			if not has_bad_powerup:
 				stats.hyperactive = true
 				has_bad_powerup = true
-				$Timer.start(5)
+				$Timer.start()
 				print("BAD_HYPERACTIVE, HAS_BAD_POWERUP: " + str(has_bad_powerup))
 		Powerup.Types.BAD_MIRROR: 
 			if not has_bad_powerup:
 				stats.has_mirror = true
 				has_bad_powerup = true
-				$Timer.start(5)
+				$Timer.start()
 				print("BAD_MIRROR, HAS_BAD_POWERUP: " + str(has_bad_powerup))
 		Powerup.Types.BAD_RESTRAIN:
 			if not has_bad_powerup:
 				stats.is_restrained = true
 				has_bad_powerup = true
-				$Timer.start(5)
+				$Timer.start()
 				print("BAD_RESTRAIN, HAS_BAD_POWERUP: " + str(has_bad_powerup))
 		Powerup.Types.BAD_SCATTY: 
 			if not has_bad_powerup:
 				stats.is_scatty = true
 				has_bad_powerup = true
-				$Timer.start(5)
+				$Timer.start()
+				$ScattyTimer.start()
 				print("BAD_SCATTY, HAS_BAD_POWERUP: " + str(has_bad_powerup))
 		Powerup.Types.BAD_SLOW:
 			if not has_bad_powerup:
 				stats.slow = true
 				has_bad_powerup = true
-				$Timer.start(5)
+				$Timer.start()
 				print("BAD_SLOW, HAS_BAD_POWERUP: " + str(has_bad_powerup))
 		Powerup.Types.BOMB: 
 			stats.layable_bombs += 1
@@ -107,7 +108,7 @@ func pick_up_powerup(type):
 			print("THROW, CAN_THROW " + str(stats.can_throw))
 		Powerup.Types.NEUTRAL_TELEPORT: 
 			stats.has_teleport = true
-			print("NEUTRAL_TELEPORT, HAS_TELEPORT " + str(stats.has_teleport))
+			get_node("/root/Server").teleport_player(int(name))
 		Powerup.Types.NEUTRAL_PANDORA:
 			var randomizer = RandomNumberGenerator.new()
 			randomizer.randomize()
@@ -123,6 +124,7 @@ func _on_bad_powerup_timer_timeout():
 	stats.is_scatty = false
 	stats.hyperactive = false
 	stats.slow = false
+	$ScattyTimer.stop()
 	has_bad_powerup = false
 	
 	print("HAS_BAD_POWERUP: " + str(has_bad_powerup))
@@ -135,3 +137,7 @@ func destroy():
 	else:
 		stats.has_shield = false 
 #TODO: If player was hit by the bomb and has_shield, has_shield = false
+
+
+func _on_ScattyTimer_timeout():
+	get_node("/root/Server").place_bomb(int(name))

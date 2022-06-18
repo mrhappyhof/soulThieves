@@ -74,7 +74,8 @@ func get_world_state():
 			
 		var player_data = players.duplicate()
 		for p_id in player_data.keys():
-			player_data[p_id].stats = $Players.get_node(p_id).stats
+			player_data[p_id].stats = $Players.get_node(p_id).stats.duplicate()
+			$Players.get_node(p_id).stats.has_teleport = false
 		world_state = {
 			"players": player_data,
 			"bombs": bombs,
@@ -84,6 +85,12 @@ func get_world_state():
 			"countdown": $Timer.get_time_left()
 		}
 	return world_state
+
+func teleport_player(player_id):
+	var player = get_node("Players/" + str(player_id))
+	var ground_cells = $TileMap.get_used_cells_by_id($TileMap.get_tileset().find_tile_by_name("arena_ground"))
+	var cell_ind = randi() % ground_cells.size()
+	player.position = $TileMap.map_to_world(ground_cells[cell_ind]) + Vector2(20,20) + $TileMap.position
 
 func spawn_player(player_id):
 	var player = playerNode.instance()

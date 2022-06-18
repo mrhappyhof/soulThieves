@@ -66,9 +66,9 @@ func move_player(motion):
 func place_bomb():
 	rpc_id(1, "place_bomb")
 
-func reconcile_player(player_pos, timestamp):
+func reconcile_player(player_pos, timestamp, teleport):
 	var player = world.get_node("Players/" + str(get_tree().get_network_unique_id()))
-	if (past_states.size() > 0 and past_states.keys().back() <= timestamp) or past_states.size() == 0:
+	if (past_states.size() > 0 and past_states.keys().back() <= timestamp) or past_states.size() == 0 or teleport:
 			player.position = player_pos
 
 func leave_session():
@@ -105,11 +105,11 @@ remote func update_world_state(world_state):
 	rpc_id(1, "ping", world_state.time, OS.get_system_time_msecs())
 	
 	if world_state.players.has(str(local_id)):
-		for time in past_states.keys(): #iterate timestamps of all past states1
+		for time in past_states.keys(): #iterate timestamps of all past states
 			if time < world_state.players[str(local_id)].T: #delete states older than update
 				past_states.erase(time)
 		
-		reconcile_player(world_state.players[str(local_id)].P, world_state.players[str(local_id)].T)
+		reconcile_player(world_state.players[str(local_id)].P, world_state.players[str(local_id)].T, world_state.players[str(local_id)].stats.has_teleport)
 		#delete reconciled state:
 		past_states.erase(world_state.players[str(local_id)].T)
 	for player_id in world_state.players.keys():
@@ -117,7 +117,10 @@ remote func update_world_state(world_state):
 		if world.get_node("Players").has_node(str(player_id)):
 			player = world.get_node("Players/" + str(player_id))
 			if int(player_id) != local_id:
-				player.add_position(world_state.players[player_id]["P"], world_state.time)
+				if world_state.players[player_id].stats.has_teleport:
+					player.teleport(world_state.players[player_id]["P"])
+				else:
+					player.add_position(world_state.players[player_id]["P"], world_state.time)
 				#player.position = world_state.players[player_id]["P"]
 			#player.stats = world_state.players[player_id].stats
 			player.update_stats(world_state.players[player_id].stats, world_state.time)

@@ -73,6 +73,10 @@ func round_over(session_name):
 		sessions.erase(session_name)
 		get_node(session_name).queue_free()
 
+func teleport_player(player_id):
+	var world = get_node(str(player_session_map[player_id] + "/World"))
+	world.teleport_player(player_id)
+
 remote func ping(time, clientTime):
 	var player_id = get_tree().get_rpc_sender_id()
 	var ping = (OS.get_system_time_msecs()-time)/2
@@ -187,8 +191,7 @@ remote func leave_session(id = null):
 	player_session_map.erase(player_id)
 	
 
-remote func place_bomb():
-	var player_id = get_tree().get_rpc_sender_id()
+remote func place_bomb(player_id = get_tree().get_rpc_sender_id()):
 	var world = get_node(player_session_map[player_id] + "/World")
 	if world.get_node("Players").has_node(str(player_id)):
 		var player = world.get_node("Players/" + str(player_id))

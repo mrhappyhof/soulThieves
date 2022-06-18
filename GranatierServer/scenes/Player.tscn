@@ -21,6 +21,10 @@ margin_bottom = 12.0
 color = Color( 1, 0, 0, 0.423529 )
 
 [node name="Timer" type="Timer" parent="."]
+wait_time = 10.0
 one_shot = true
 
+[node name="ScattyTimer" type="Timer" parent="."]
+
 [connection signal="timeout" from="Timer" to="." method="_on_bad_powerup_timer_timeout"]
+[connection signal="timeout" from="ScattyTimer" to="." method="_on_ScattyTimer_timeout"]
