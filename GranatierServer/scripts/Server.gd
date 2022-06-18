@@ -29,6 +29,7 @@ func _Peer_Connected(player_id):
 func _Peer_Disconnected(player_id):
 	if player_session_map.has(player_id):
 		leave_session(player_id)
+		print("User " + str(player_id) + " left sesson")
 	print("User " + str(player_id) + " Disconnected")
 
 func send_world_state(world_state, session_name):
@@ -50,7 +51,8 @@ func round_over(session_name):
 	var world = get_node(session_name + "/World")
 	if not stars.has(session_name):
 		stars[session_name] = {}
-		for player_id in sessions[session_name]:
+	for player_id in sessions[session_name]:
+		if not stars[session_name].has(player_id):
 			stars[session_name][player_id] = 0
 	
 	if world.players_alive.size() > 0:
@@ -59,12 +61,12 @@ func round_over(session_name):
 	if world.players_alive.size() == 0 or stars[session_name][world.players_alive[0]] < 5:
 		for id in sessions[session_name]:
 			rpc_id(id, "round_over", stars[session_name])
-			var newWorld = world_scene.instance()
-			newWorld.map = world.map
-			newWorld.session_owner = world.session_owner
-			get_node(session_name).remove_child(world)
-			world.queue_free()
-			get_node(session_name).add_child(newWorld, true)
+		var newWorld = world_scene.instance()
+		newWorld.map = world.map
+		newWorld.session_owner = world.session_owner
+		get_node(session_name).remove_child(world)
+		world.queue_free()
+		get_node(session_name).add_child(newWorld, true)
 	else:
 		for id in sessions[session_name]:
 			rpc_id(id, "game_over", stars[session_name])
@@ -159,10 +161,11 @@ func leave_world(player_id):
 	var session = player_session_map[player_id]
 	var world = get_node(session + "/World")
 	placed_bomb_count.erase(player_id)
-	get_node(session + "/World").despawn_player(player_id)
-	if world.players.size() > 0:
-		world.free_player_numbers.push_back(world.players[str(player_id)]["N"])
-		world.players.erase(str(player_id))
+	if has_node(session + "/World"):
+		world.despawn_player(player_id)
+		if world.players.size() > 0:
+			world.free_player_numbers.push_back(world.players[str(player_id)]["N"])
+			world.players.erase(str(player_id))
 	
 	for id in sessions[session]:
 		rpc_id(id, "despawn_player", player_id)
@@ -177,16 +180,12 @@ remote func join_session(name, timestamp):
 	else:
 		rpc_id(player_id, "session_full")
 
-remote func leave_session(id = null):
-	var player_id
-	if id == null:
-		player_id = get_tree().get_rpc_sender_id()
-	else:
-		player_id = id
+remote func leave_session(player_id = get_tree().get_rpc_sender_id()):
 	leave_world(player_id)
 	sessions[player_session_map[player_id]].erase(player_id)
 	if(sessions[player_session_map[player_id]].size() == 0):
 		sessions.erase(player_session_map[player_id])
+		get_node(player_session_map[player_id] + "/World").queue_free()
 		get_node(player_session_map[player_id]).queue_free()
 	player_session_map.erase(player_id)
 	
