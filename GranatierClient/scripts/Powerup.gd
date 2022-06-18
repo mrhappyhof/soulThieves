@@ -18,6 +18,7 @@ enum Types {
 }
 
 signal pickup_powerup(type)
+signal start_bad_powerup_timer()
 
 
 const IMG_PATH = "res://resources/images/powerups.sprites/bonus_"
@@ -32,11 +33,18 @@ func _ready():
 	texture = load(IMG_PATH + Types.keys()[type].to_lower() + ".tres")
 	$Sprite.texture = texture
 	connect("pickup_powerup", get_node("../../HUD"), "hud_enable_powerup")
+	connect("start_bad_powerup_timer", get_node("../../HUD"), "start_bad_powerup_timer")
 
 func _on_Powerup_body_entered(body):
 	if body.is_in_group("Players"):
 		emit_signal("pickup_powerup", type)
+		if type == Types.BAD_HYPERACTIVE or type == Types.BAD_MIRROR or type == Types.BAD_RESTRAIN or type == Types.BAD_SCATTY or type == Types.BAD_SLOW:
+			emit_signal("start_bad_powerup_timer")
 		$AudioStreamPlayer.play()
 		hide()
 		yield($AudioStreamPlayer, "finished") 
 		queue_free()
+
+
+func _on_SpawnVisibilityTimer_timeout():
+	set_visible(true)
