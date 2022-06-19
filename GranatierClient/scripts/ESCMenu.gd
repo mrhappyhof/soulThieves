@@ -23,8 +23,9 @@ func _unhandled_input(_event):
 
 func changeStatus():
 	visible = !visible
-	var local_player = get_tree().get_nodes_in_group("LocalPlayers")[0]
-	local_player.settings_open = !local_player.settings_open
+	if get_tree().get_nodes_in_group("LocalPlayers").has(0):
+		var local_player = get_tree().get_nodes_in_group("LocalPlayers")[0]
+		local_player.settings_open = !local_player.settings_open
 
 func _on_ResumeBtn_pressed():
 	changeStatus()
