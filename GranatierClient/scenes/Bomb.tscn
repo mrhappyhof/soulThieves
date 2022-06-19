@@ -1,9 +1,10 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://resources/images/bomb.svg" type="Texture" id=1]
 [ext_resource path="res://resources/images/bombExplosion.svg" type="Texture" id=2]
 [ext_resource path="res://resources/sounds/explode.wav" type="AudioStream" id=3]
 [ext_resource path="res://scripts/Bomb.gd" type="Script" id=4]
+[ext_resource path="res://resources/sounds/putbomb.wav" type="AudioStream" id=5]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Bomb"
@@ -101,6 +102,9 @@ autostart = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
+
+[node name="PutBombSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
 
 [connection signal="timeout" from="TimerAnim" to="." method="_on_TimerAnim_timeout"]
 [connection signal="animation_finished" from="BombAnim/AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

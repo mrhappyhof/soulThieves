@@ -1,7 +1,7 @@
 extends TileMap
 
-var rows = 13
-var columns = 17
+var rows
+var columns
 var spawn_count
 
 var powerup_scene = preload("res://scenes/Powerup.tscn")

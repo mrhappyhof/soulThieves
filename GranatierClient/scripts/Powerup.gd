@@ -36,10 +36,11 @@ func _ready():
 	connect("start_bad_powerup_timer", get_node("../../HUD"), "start_bad_powerup_timer")
 
 func _on_Powerup_body_entered(body):
-	if body.is_in_group("Players"):
+	if body.is_in_group("LocalPlayers"):
 		emit_signal("pickup_powerup", type)
 		if type == Types.BAD_HYPERACTIVE or type == Types.BAD_MIRROR or type == Types.BAD_RESTRAIN or type == Types.BAD_SCATTY or type == Types.BAD_SLOW:
 			emit_signal("start_bad_powerup_timer")
+	if body.is_in_group("Players"):
 		$AudioStreamPlayer.play()
 		hide()
 		yield($AudioStreamPlayer, "finished") 

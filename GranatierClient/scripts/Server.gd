@@ -129,8 +129,10 @@ remote func update_world_state(world_state):
 	if(initial or not past_states.has(world_state.players[str(local_id)].T) or past_states[world_state.players[str(local_id)].T].map != world_state.map):
 		var tilemap = world.get_node("TileMap")
 		tilemap.clear()
-		for coords in world_state.map.keys():
-			tilemap.set_cellv(coords, tilemap.tile_set.find_tile_by_name(world_state.map[coords]))
+		tilemap.columns = world_state.map.size.x
+		tilemap.rows = world_state.map.size.y
+		for coords in world_state.map.map.keys():
+			tilemap.set_cellv(coords, tilemap.tile_set.find_tile_by_name(world_state.map.map[coords]))
 		tilemap.place_in_center()
 		#initial = false
 	for bomb_name in world_state.bombs.keys():

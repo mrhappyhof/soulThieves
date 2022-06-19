@@ -67,10 +67,10 @@ func get_world_state():
 			var powerup_path = powerup.get_path()
 			powerups[powerup_path.get_name(powerup_path.get_name_count() - 1)] = powerup_data
 			
-		var map_data = {}
+		var map_data = {"map": {}, "size": Vector2($TileMap.columns, $TileMap.rows)}
 		for v in $TileMap.get_used_cells():
 			var tile_id = $TileMap.get_cellv(v)
-			map_data[v] = $TileMap.tile_set.tile_get_name(tile_id)
+			map_data.map[v] = $TileMap.tile_set.tile_get_name(tile_id)
 			
 		var player_data = players.duplicate()
 		for p_id in player_data.keys():

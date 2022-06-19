@@ -31,12 +31,4 @@ func update_stats(stats, timestamp):
 	pass
 
 func destroy():
-	if !stats.has_shield:
-		stats.is_dead = true
-		#print(stats.can_move)
-		$DieSound.play()
-		$AnimatedSprite.animation = $AnimatedSprite.animation + "_dead"
-	else:
-		var hud = get_node("../../HUD")
-		hud.hud_disable_powerup(Powerup.Types.SHIELD)
-		stats.has_shield = false 
+	pass

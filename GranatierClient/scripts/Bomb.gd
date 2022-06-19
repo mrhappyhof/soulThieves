@@ -30,6 +30,7 @@ func _ready():
 	bomb_explosion_scene = load("res://scenes/BombExplosion.tscn")
 	self.get_node("BombAnim/AnimationPlayer").play("Bomb")
 	cell_size = get_node("../../TileMap").get_cell_size()
+	$PutBombSound.play()
 
 func _physics_process(delta):
 	if slide_dir!= Vector2.ZERO:

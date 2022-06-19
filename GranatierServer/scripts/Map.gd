@@ -46,15 +46,15 @@ func parse_xml_map(map_name):
 	var y = 0
 	while parser.read() == OK:
 		if(parser.get_node_name() == "Row"):
-			in_row_mode=!in_row_mode
+			in_row_mode = !in_row_mode
 		parser.read()
 		if(in_row_mode):	
 			row=parser.get_node_data()
 			for n in int(columns):
 				set_cell_from_char(x,y,row[n])
 				x += 1
-			x=0
-			y=y+1
+			x = 0
+			y += 1
 	
 	
 func set_cell_from_char(x,y,val):

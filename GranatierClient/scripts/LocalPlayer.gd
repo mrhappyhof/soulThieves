@@ -38,7 +38,6 @@ func _physics_process(_delta):
 		invert_rot = fmod(rotation + PI, 2 * PI)
 	elif Input.is_action_just_pressed("place_bomb"):
 		if stats.layable_bombs > 0 and !stats.is_restrained:
-			$PutBombSound.play()
 			var bomb = bomb_scene.instance()
 			var tilemap = get_node("../../TileMap")
 			bomb.position = tilemap.map_to_world(tilemap.world_to_map(position - tilemap.position)) + tilemap.position + Vector2(20,20)
@@ -77,3 +76,14 @@ func start_bad_powerup_timer():
 func _on_BadPowerupTimer_timeout():
 	var hud  = get_node("../../HUD")
 	hud.hud_disable_powerup(Powerup.Types.BAD_HYPERACTIVE) # spielt keine Rolle welches Powerup deaktiviert wird da nur ein "Bad Powerup" aktiv sein kann 
+
+func destroy():
+	if !stats.has_shield:
+		stats.is_dead = true
+		#print(stats.can_move)
+		$DieSound.play()
+		$AnimatedSprite.animation = $AnimatedSprite.animation + "_dead"
+	else:
+		var hud = get_node("../../HUD")
+		hud.hud_disable_powerup(Powerup.Types.SHIELD)
+		stats.has_shield = false 

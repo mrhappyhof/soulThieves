@@ -35,9 +35,9 @@ func spawn_player(position, player_id, player_no):
 	return player
 
 func despawn_player(player_id):
-	var player = get_node("Players/" + str(player_id))
-	#remove_child(player)
-	player.queue_free()
+	if has_node("Players/" + str(player_id)):
+		var player = get_node("Players/" + str(player_id))
+		player.queue_free()
 
 func get_world_state():
 	var player = $Players.get_node(str(get_tree().get_network_unique_id()))
