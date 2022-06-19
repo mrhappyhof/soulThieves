@@ -1,8 +1,9 @@
-[gd_scene load_steps=71 format=2]
+[gd_scene load_steps=72 format=2]
 
 [ext_resource path="res://scripts/OnlinePlayer.gd" type="Script" id=1]
 [ext_resource path="res://resources/images/player.svg" type="Texture" id=2]
 [ext_resource path="res://resources/sounds/die.wav" type="AudioStream" id=3]
+[ext_resource path="res://resources/sounds/wow.wav" type="AudioStream" id=4]
 
 [sub_resource type="AtlasTexture" id=13]
 flags = 4
@@ -401,3 +402,6 @@ disabled = true
 
 [node name="DieSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
+
+[node name="PickupSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )

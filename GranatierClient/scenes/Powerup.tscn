@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://scripts/Powerup.gd" type="Script" id=1]
 [ext_resource path="res://resources/images/powerups.sprites/bonus_bad_mirror.tres" type="Texture" id=2]
-[ext_resource path="res://resources/sounds/wow.wav" type="AudioStream" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 41, 39 )
@@ -18,9 +17,6 @@ shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 2 )
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 3 )
 
 [node name="SpawnVisibilityTimer" type="Timer" parent="."]
 autostart = true

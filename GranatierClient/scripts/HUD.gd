@@ -94,9 +94,6 @@ func hud_disable_powerup(type):
 		var powerup = (player_num * 4) + 3
 		$PlayerList.set_item_icon_modulate(powerup, Color(1, 1, 1, 0.4))
 
-func start_bad_powerup_timer():
-	$BadPowerupTimer.start()
-
 
 func _on_ReadyButton_toggled(button_pressed):
 	if button_pressed:
@@ -104,6 +101,3 @@ func _on_ReadyButton_toggled(button_pressed):
 	else:
 		Server.send_not_ready()
 
-
-func _on_BadPowerupTimer_timeout():
-	hud_disable_powerup(Powerup.Types.BAD_RESTRAIN)

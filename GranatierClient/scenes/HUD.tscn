@@ -126,8 +126,4 @@ toggle_mode = true
 enabled_focus_mode = 0
 text = "Ready"
 
-[node name="BadPowerupTimer" type="Timer" parent="."]
-wait_time = 10.0
-
 [connection signal="toggled" from="ReadyButton" to="." method="_on_ReadyButton_toggled"]
-[connection signal="timeout" from="BadPowerupTimer" to="." method="_on_BadPowerupTimer_timeout"]

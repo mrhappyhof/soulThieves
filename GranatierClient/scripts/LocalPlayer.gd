@@ -9,10 +9,38 @@ var motion = Vector2.ZERO
 var last_pressed
 var invert_rot
 
+var died = false
+
 var settings_open = false
 
 func update_stats(newStats, timestamp):
 	stats = newStats
+	var hud = get_node("../../HUD")
+	if newStats.has_shield:
+		hud.hud_enable_powerup(Powerup.Types.SHIELD)
+	else:
+		hud.hud_disable_powerup(Powerup.Types.SHIELD)
+	if newStats.can_kick:
+		hud.hud_enable_powerup(Powerup.Types.KICK)
+	else:
+		hud.hud_disable_powerup(Powerup.Types.KICK)
+	if newStats.can_throw:
+		hud.hud_enable_powerup(Powerup.Types.THROW)
+	else:
+		hud.hud_disable_powerup(Powerup.Types.THROW)
+		
+	if newStats.is_scatty:
+		hud.hud_enable_powerup(Powerup.Types.BAD_SCATTY)
+	elif newStats.is_restrained:
+		hud.hud_enable_powerup(Powerup.Types.BAD_RESTRAIN)
+	elif newStats.has_mirror:
+		hud.hud_enable_powerup(Powerup.Types.BAD_MIRROR)
+	elif newStats.hyperactive:
+		hud.hud_enable_powerup(Powerup.Types.BAD_HYPERACTIVE)
+	elif newStats.slow:
+		hud.hud_enable_powerup(Powerup.Types.BAD_SLOW)
+	else:
+		hud.hud_disable_powerup(Powerup.Types.BAD_SCATTY)
 
 func _physics_process(_delta):
 	#if stats.is_dead or can_move:
@@ -83,9 +111,9 @@ func destroy():
 	if !stats.has_shield:
 		stats.is_dead = true
 		#print(stats.can_move)
-		$DieSound.play()
-		$AnimatedSprite.animation = $AnimatedSprite.animation + "_dead"
+		if not died:
+			$DieSound.play()
+			$AnimatedSprite.animation = $AnimatedSprite.animation + "_dead"
+			died = true
 	else:
-		var hud = get_node("../../HUD")
-		hud.hud_disable_powerup(Powerup.Types.SHIELD)
 		stats.has_shield = false 
