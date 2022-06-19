@@ -9,12 +9,14 @@ var motion = Vector2.ZERO
 var last_pressed
 var invert_rot
 
+var settings_open = false
+
 func update_stats(newStats, timestamp):
 	stats = newStats
 
 func _physics_process(_delta):
 	#if stats.is_dead or can_move:
-	if stats.is_dead:
+	if stats.is_dead or settings_open:
 		return
 	if Input.is_action_just_pressed("move_right"):
 		last_pressed = "move_right"

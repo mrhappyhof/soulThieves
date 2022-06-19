@@ -1,7 +1,6 @@
 extends Control
 
 var mainMenuScene = "res://scenes/MainMenu.tscn"
-var is_paused = false
 var settings = load("res://scenes/SettingsMenu.tscn")
 
 func _ready():
@@ -23,8 +22,9 @@ func _unhandled_input(_event):
 		changeStatus()
 
 func changeStatus():
-	is_paused = !is_paused
-	visible = is_paused
+	visible = !visible
+	var local_player = get_tree().get_nodes_in_group("LocalPlayers")[0]
+	local_player.settings_open = !local_player.settings_open
 
 func _on_ResumeBtn_pressed():
 	changeStatus()
