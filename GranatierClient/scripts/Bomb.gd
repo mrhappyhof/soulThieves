@@ -65,8 +65,8 @@ func _process(_delta):
 				self.position = get_center_coords_from_cell_in_world_coords()
 				var tilemap = get_node("../../TileMap")
 				randomize()
-				var dest_x=randi()%tilemap.columns
-				var dest_y=randi()%tilemap.rows
+				var dest_x=randi()%int(tilemap.columns)
+				var dest_y=randi()%int(tilemap.rows)
 				throw(Vector2(dest_x,dest_y))
 
 func _on_TimerAnim_timeout():
