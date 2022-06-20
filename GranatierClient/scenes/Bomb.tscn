@@ -60,7 +60,7 @@ animations = [ {
 radius = 450.0
 
 [sub_resource type="CircleShape2D" id=9]
-radius = 90.1388
+radius = 95.0
 
 [node name="Bomb" type="KinematicBody2D"]
 scale = Vector2( 0.2, 0.2 )

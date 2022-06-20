@@ -6,7 +6,7 @@
 radius = 450.0
 
 [sub_resource type="CircleShape2D" id=2]
-radius = 90.1388
+radius = 110.0
 
 [node name="Bomb" type="KinematicBody2D"]
 scale = Vector2( 0.2, 0.2 )
@@ -39,5 +39,6 @@ margin_bottom = 60.0
 color = Color( 0, 0, 0, 1 )
 
 [connection signal="timeout" from="TimerAnim" to="." method="_on_TimerAnim_timeout"]
+[connection signal="body_entered" from="PlayerIntersection" to="." method="_on_PlayerIntersection_body_entered"]
 [connection signal="body_exited" from="PlayerIntersection" to="." method="_on_PlayerIntersection_body_exited"]
 [connection signal="timeout" from="ExplotionTimer" to="." method="_on_ExplotionTimer_timeout"]

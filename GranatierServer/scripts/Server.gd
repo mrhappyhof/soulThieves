@@ -162,7 +162,7 @@ func leave_world(player_id):
 	placed_bomb_count.erase(player_id)
 	if has_node(session + "/World"):
 		world.despawn_player(player_id)
-		if world.players.size() > 0:
+		if world.players.size() > 0 and world.players.has(str(player_id)):
 			world.free_player_numbers.push_back(world.players[str(player_id)]["N"])
 			world.players.erase(str(player_id))
 	
@@ -193,10 +193,8 @@ remote func place_bomb(player_id = get_tree().get_rpc_sender_id()):
 	var world = get_node(player_session_map[player_id] + "/World")
 	if world.get_node("Players").has_node(str(player_id)):
 		var player = world.get_node("Players/" + str(player_id))
-		print("restrained_reached")
 		if !player.stats.is_restrained:
 			if player.stats.layable_bombs > 0 and not player.in_bomb:
-				print("placing_bomb")
 				var tilemap = world.get_node("TileMap")
 				var bomb = bomb_scene.instance()
 				bomb.name = str(player_id) + "-" + str(placed_bomb_count[player_id])
@@ -205,9 +203,8 @@ remote func place_bomb(player_id = get_tree().get_rpc_sender_id()):
 				bomb.bomb_range = player.stats.bomb_blast_range
 				bomb.player = player
 				world.get_node("Bombs").add_child(bomb, true)
-			elif player.stats.can_throw:
-				print("throw")
+			elif player.stats.can_throw and player.in_bomb:
 				var tilemap = world.get_node("TileMap")
 				var coords = tilemap.world_to_map(player.position - tilemap.position)
-				if has_node(player_session_map[player_id] + "/World/Bombs/" + player.in_bomb.name):
+				if player.in_bomb and has_node(player_session_map[player_id] + "/World/Bombs/" + player.in_bomb.name):
 					player.in_bomb.throw(coords+player.viewing_direction*2)

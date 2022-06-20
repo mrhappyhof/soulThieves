@@ -72,7 +72,6 @@ func _physics_process(_delta):
 		rotation = 1.5*PI
 		invert_rot = fmod(rotation + PI, 2 * PI)
 	elif Input.is_action_just_pressed("place_bomb"):
-		print("place_bomb")
 #		if !stats.is_restrained:
 #			if stats.layable_bombs > 0 and not in_bomb:
 #				var bomb = bomb_scene.instance()
@@ -120,7 +119,6 @@ func _on_BadPowerupTimer_timeout():
 func destroy():
 	if !stats.has_shield:
 		stats.is_dead = true
-		#print(stats.can_move)
 		if not died:
 			$DieSound.play()
 			$AnimatedSprite.animation = $AnimatedSprite.animation + "_dead"

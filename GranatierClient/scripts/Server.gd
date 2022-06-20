@@ -169,7 +169,6 @@ remote func update_world_state(world_state):
 	world.get_node("HUD").countdown(world_state.countdown)
 
 remote func spawn_player(position, player_id, player_no, timestamp):
-	#print("spawn player at " + str(position))
 	get_node("/root/World").spawn_player(position, player_id, player_no)
 	var world_state = world.get_world_state()
 	past_states[timestamp] = world_state
@@ -193,7 +192,6 @@ remote func session_full():
 	load_scene("res://scenes/JoinExistingLobby.tscn")
 
 remote func round_over(stars):
-	print(stars)
 	for player in world.get_node("Players").get_children():
 		player.queue_free()
 	var score = world.get_node("Score")

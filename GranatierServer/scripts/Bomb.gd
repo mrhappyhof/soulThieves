@@ -30,11 +30,11 @@ func _ready():
 		player.in_bomb=self
 
 func _physics_process(delta):
-	if slide_dir!= Vector2.ZERO:
+	if slide_dir!= Vector2.ZERO and not exploding:
 		var field_free = !test_move(Transform2D(Vector2(self.scale.x,0),Vector2(-0,self.scale.y),get_center_coords_from_cell_in_world_coords()),slide_dir*(cell_size))
 		var collision_info
 		if field_free:
-			collision_info = move_and_collide(delta*slide_dir*200)
+			collision_info = move_and_collide(delta*slide_dir*300)
 		if collision_info or !field_free:
 			slide_dir=Vector2(0,0)
 			self.position = get_center_coords_from_cell_in_world_coords()
@@ -89,13 +89,14 @@ func move(dir):
 	var next_field_free
 	match dir:
 		"up":
-			slide_dir=Vector2.UP
+			slide_dir = Vector2.UP
 		"down":
-			slide_dir=Vector2.DOWN
+			slide_dir = Vector2.DOWN
 		"left":
-			slide_dir=Vector2.LEFT
+			slide_dir = Vector2.LEFT
 		"right":
-			slide_dir=Vector2.RIGHT
+			slide_dir = Vector2.RIGHT
+		_: slide_dir = dir
 			
 	next_field_free = !test_move(Transform2D(Vector2(self.scale.x,0),Vector2(-0,self.scale.y),get_center_coords_from_cell_in_world_coords()),slide_dir*(cell_size))
 	
@@ -149,10 +150,16 @@ func explode():
 
 
 func _on_PlayerIntersection_body_exited(body):
-	print(body)
 	$CollisionShape2D.set_deferred("disabled", false)
 	if body.is_in_group("Players"):
 		body.in_bomb=null
+
+func _on_PlayerIntersection_body_entered(body):
+	if body.is_in_group("Players") and body.stats.can_kick and not $CollisionShape2D.disabled:
+		if body.stats.has_mirror:
+			move(-body.viewing_direction)
+		else:
+			move(body.viewing_direction)
 
 func _on_ExplotionTimer_timeout():
 	explode()

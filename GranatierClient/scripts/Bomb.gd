@@ -32,7 +32,7 @@ func _ready():
 	$PutBombSound.play()
 
 func _physics_process(delta):
-	if slide_dir!= Vector2.ZERO:
+	if slide_dir!= Vector2.ZERO and not exploding:
 		var field_free = !test_move(Transform2D(Vector2(self.scale.x,0),Vector2(-0,self.scale.y),get_center_coords_from_cell_in_world_coords()),slide_dir*(cell_size))
 		var collision_info
 		if field_free:
