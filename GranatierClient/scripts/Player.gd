@@ -18,6 +18,7 @@ var stats = {
 
 
 
+var viewing_direction = Vector2.ZERO
 #var can_move = true
 var powerups = []
 

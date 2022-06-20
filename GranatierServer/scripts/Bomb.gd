@@ -22,11 +22,12 @@ var move = {"dest" : null, "length" : null, "dir" : null, "progress" : null}
 
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready():	
 	bomb_explosion_scene = load("res://scenes/BombExplosion.tscn")
 	cell_size = get_node("../../TileMap").get_cell_size()
 	if player != null:
 		player.stats.layable_bombs -= 1
+		player.in_bomb=self
 
 func _physics_process(delta):
 	if slide_dir!= Vector2.ZERO:
@@ -45,6 +46,7 @@ func _physics_process(delta):
 			for intersection in intersections:
 				if intersection.is_in_group("Players"):
 					players_contained=true
+					intersection.in_bomb=self
 			if not players_contained:
 				$CollisionShape2D.set_deferred("disabled", false)
 				
@@ -147,8 +149,10 @@ func explode():
 
 
 func _on_PlayerIntersection_body_exited(body):
+	print(body)
 	$CollisionShape2D.set_deferred("disabled", false)
-
+	if body.is_in_group("Players"):
+		body.in_bomb=null
 
 func _on_ExplotionTimer_timeout():
 	explode()

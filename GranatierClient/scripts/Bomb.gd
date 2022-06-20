@@ -23,6 +23,8 @@ var move = {"dest" : null, "length" : null, "dir" : null, "progress" : null}
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	if player != null:
+		player.in_bomb=self
 	#$BombAnim.set_z_index(1)
 	bomb_explosion_scene = load("res://scenes/BombExplosion.tscn")
 	self.get_node("BombAnim/AnimationPlayer").play("Bomb")
@@ -47,6 +49,8 @@ func _physics_process(delta):
 			for intersection in intersections:
 				if intersection.is_in_group("Players"):
 					players_contained=true
+					if intersection.is_in_group("LocalPlayers"):
+						intersection.in_bomb=self
 			if not players_contained:
 				$CollisionShape2D.set_deferred("disabled", false)
 				
@@ -58,7 +62,6 @@ func _physics_process(delta):
 		else:
 			if move["progress"]> move["length"]/2:
 				var portion_traveled=(move["progress"]-(move["length"]/2))/(move["length"]/2)
-				print(portion_traveled)
 				self.scale=(Vector2(0.3-0.1*portion_traveled,0.3-0.1*portion_traveled))
 			else:
 				var portion_traveled=(move["progress"])/(move["length"]/2)
@@ -153,9 +156,9 @@ func explode():
 	get_node("AnimatedExplosion").show()
 	get_node("AnimatedExplosion").play()
 
-func _on_PlayerIntersection_body_exited(_body):
+func _on_PlayerIntersection_body_exited(body):
 	$CollisionShape2D.set_deferred("disabled", false)
-
+	body.in_bomb=null
 
 func _on_ExplotionTimer_timeout():
 	explode()

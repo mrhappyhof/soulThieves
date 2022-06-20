@@ -6,6 +6,7 @@ var bomb_scene = preload("res://scenes/Bomb.tscn")
 var placed_bomb_count = 0
 var motion = Vector2.ZERO
 
+var in_bomb = null
 var last_pressed
 var invert_rot
 
@@ -49,35 +50,45 @@ func _physics_process(_delta):
 	if Input.is_action_just_pressed("move_right"):
 		last_pressed = "move_right"
 		motion = Vector2.RIGHT
+		viewing_direction = motion
 		rotation = 0
 		invert_rot = fmod(rotation + PI, 2 * PI)
 	elif Input.is_action_just_pressed("move_down"):
 		last_pressed = "move_down"
 		motion = Vector2.DOWN
+		viewing_direction = motion
 		rotation = PI/2
 		invert_rot = fmod(rotation + PI, 2 * PI)
 	elif Input.is_action_just_pressed("move_left"):
 		last_pressed = "move_left"
 		motion = Vector2.LEFT
+		viewing_direction = motion
 		rotation = PI
 		invert_rot = fmod(rotation + PI, 2 * PI)
 	elif Input.is_action_just_pressed("move_up"):
 		last_pressed = "move_up"
 		motion = Vector2.UP
+		viewing_direction = motion
 		rotation = 1.5*PI
 		invert_rot = fmod(rotation + PI, 2 * PI)
 	elif Input.is_action_just_pressed("place_bomb"):
-		if stats.layable_bombs > 0 and !stats.is_restrained:
-			var bomb = bomb_scene.instance()
-			var tilemap = get_node("../../TileMap")
-			bomb.position = tilemap.map_to_world(tilemap.world_to_map(position - tilemap.position)) + tilemap.position + Vector2(20,20)
-			bomb.name = str(get_tree().get_network_unique_id()) + "-" + str(placed_bomb_count)
-			bomb.bomb_range = stats.bomb_blast_range
-			placed_bomb_count += 1
-			get_node("../../Bombs").add_child(bomb, true)
-			stats.layable_bombs -= 1
-			bomb.player = self
-			Server.place_bomb()
+		print("place_bomb")
+#		if !stats.is_restrained:
+#			if stats.layable_bombs > 0 and not in_bomb:
+#				var bomb = bomb_scene.instance()
+#				var tilemap = get_node("../../TileMap")
+#				bomb.position = tilemap.map_to_world(tilemap.world_to_map(position - tilemap.position)) + tilemap.position + Vector2(20,20)
+#				bomb.name = str(get_tree().get_network_unique_id()) + "-" + str(placed_bomb_count)
+#				bomb.bomb_range = stats.bomb_blast_range
+#				placed_bomb_count += 1
+#				get_node("../../Bombs").add_child(bomb, true)
+#				stats.layable_bombs -= 1
+#				bomb.player = self
+#			elif stats.can_throw and in_bomb:
+#				var tilemap = get_parent().get_parent().get_node("TileMap")
+#				var coords = tilemap.world_to_map(self.position - tilemap.position)
+#				in_bomb.throw(coords+self.viewing_direction*2)
+		Server.place_bomb()
 	elif not last_pressed == null and Input.is_action_just_released(last_pressed):
 		motion = Vector2.ZERO
 	

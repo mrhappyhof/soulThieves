@@ -16,9 +16,12 @@ var stats = {
 	"is_dead": false
 }
 
+var in_bomb = null
+
 var used_spawn
 
 var motion = Vector2.ZERO
+var viewing_direction = Vector2.ZERO
 #var speed = 100
 #var can_kick = false
 #var can_throw = false
@@ -52,6 +55,8 @@ func _physics_process(_delta):
 
 func move(v):
 	motion = v
+	if v != Vector2.ZERO:
+		viewing_direction = v
 
 #Decides which Powerup was picked up and changes the attributes of the player
 func pick_up_powerup(type):
