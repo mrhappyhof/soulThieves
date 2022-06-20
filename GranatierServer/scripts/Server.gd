@@ -128,7 +128,6 @@ remote func move_player(motion, timestamp):
 	var world = get_node(player_session_map[player_id] + "/World")
 	if world.get_node("Players").has_node(str(player_id)):
 		var player = world.get_node("Players/" + str(player_id))
-		
 		player.move(motion)
 		world.players[str(player_id)]["T"] = timestamp
 		world.players[str(player_id)]["P"] = player.position

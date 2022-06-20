@@ -40,13 +40,20 @@ func _physics_process(delta):
 	elif move["dest"] != null:
 		if move["progress"]<=0:
 			self.position = move["dest"]
-			get_node("CollisionShape2D").set_deferred("disabled", false)
+			var players_contained
+			var intersections = $PlayerIntersection.get_overlapping_bodies()
+			for intersection in intersections:
+				if intersection.is_in_group("Players"):
+					players_contained=true
+			if not players_contained:
+				$CollisionShape2D.set_deferred("disabled", false)
+				
 			move["dest"]=null
 			move["length"]=null
 			move["dir"]=null
 			$ExplotionTimer.set_paused(false)
 		else:
-			var move_tmp=(move["dir"]*10)
+			var move_tmp=(move["dir"]*5)
 			self.position=self.position+move_tmp
 			move["progress"]=move["progress"]-move_tmp.length()
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -54,16 +61,17 @@ func _process(delta):
 	if not exploding:
 		var celltype = get_celltype_from_coords()
 		if moving_bomb_is_more_then_half_on_cell():
-			match celltype:
-				"arena_arrow_up","arena_arrow_down","arena_arrow_right","arena_arrow_left":
-					move(celltype.right(12))
-				"arena_bomb_mortar":
-					self.position = get_center_coords_from_cell_in_world_coords()
-					var tilemap = get_node("../../TileMap")
-					randomize()
-					var dest_x=randi()%int(tilemap.columns)
-					var dest_y=randi()%int(tilemap.rows)
-					throw(Vector2(dest_x,dest_y))
+			if not move["dest"]:
+				match celltype:
+					"arena_arrow_up","arena_arrow_down","arena_arrow_right","arena_arrow_left":
+						move(celltype.right(12))
+					"arena_bomb_mortar":
+						self.position = get_center_coords_from_cell_in_world_coords()
+						var tilemap = get_node("../../TileMap")
+						randomize()
+						var dest_x=randi()%int(tilemap.columns)
+						var dest_y=randi()%int(tilemap.rows)
+						throw(Vector2(dest_x,dest_y))
 	else:
 		slide_dir=Vector2(0,0)
 		self.position = get_center_coords_from_cell_in_world_coords()
@@ -76,6 +84,7 @@ func _on_TimerAnim_timeout():
 
 func move(dir):
 	var old_slide_dir=slide_dir
+	var next_field_free
 	match dir:
 		"up":
 			slide_dir=Vector2.UP
@@ -86,8 +95,14 @@ func move(dir):
 		"right":
 			slide_dir=Vector2.RIGHT
 			
+	next_field_free = !test_move(Transform2D(Vector2(self.scale.x,0),Vector2(-0,self.scale.y),get_center_coords_from_cell_in_world_coords()),slide_dir*(cell_size))
+	
 	if slide_dir!=old_slide_dir:
 		self.position=get_center_coords_from_cell_in_world_coords()
+		
+		
+	if not next_field_free:
+		slide_dir=Vector2.ZERO
 		
 func throw(destination):
 	if move["dest"] == null:
@@ -98,7 +113,7 @@ func throw(destination):
 		move["dir"]=self.position.direction_to(move["dest"])
 		move["progress"]=move["length"]
 		slide_dir=Vector2.ZERO
-		get_node("CollisionShape2D").set_deferred("disabled", true)
+		$CollisionShape2D.set_deferred("disabled", true)
 
 func explode():
 	exploding=true
