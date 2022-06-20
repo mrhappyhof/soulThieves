@@ -18,10 +18,7 @@ var destruct_cells = [] # Coordinates of the destructible cells in range
 var indestruct_cells = [] # Coordinates of the destructible cells in range
 
 var slide_dir = Vector2(0,0) # Direction in which to slide upon kick
-var move_dest = null
-var move_length = null
-var move_dir = null
-var move_progress = null
+var move = {"dest" : null, "length" : null, "dir" : null, "progress" : null}
 
 
 # Called when the node enters the scene tree for the first time.
@@ -41,40 +38,42 @@ func _physics_process(delta):
 		if collision_info or !field_free:
 			slide_dir=Vector2(0,0)
 			self.position = get_center_coords_from_cell_in_world_coords()
-			$ExplotionTimer.set_paused(false)
-	elif move_dest != null:
-		if move_progress<=0:
-			self.position = move_dest
+	elif move["dest"] != null:
+		if move["progress"]<=0:
+			self.position = move["dest"]
 			get_node("CollisionShape2D").set_deferred("disabled", false)
-			move_dest=null
-			move_length=null
-			move_dir=null
+			move["dest"]=null
+			move["length"]=null
+			move["dir"]=null
 			$ExplotionTimer.set_paused(false)
 		else:
-			var move=(move_dir*10)
-			self.position=self.position+move
-			move_progress=move_progress-move.length()
+			var move_tmp=(move["dir"]*10)
+			self.position=self.position+move_tmp
+			move["progress"]=move["progress"]-move_tmp.length()
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	var celltype = get_celltype_from_coords()
-	if moving_bomb_is_more_then_half_on_cell():
-		match celltype:
-			"arena_arrow_up","arena_arrow_down","arena_arrow_right","arena_arrow_left":
-				move(celltype.right(12))
-			"arena_bomb_mortar":
-				self.position = get_center_coords_from_cell_in_world_coords()
-				var tilemap = get_node("../../TileMap")
-				randomize()
-				var dest_x=randi()%int(tilemap.columns)
-				var dest_y=randi()%int(tilemap.rows)
-				throw(Vector2(dest_x,dest_y))
+	if not exploding:
+		var celltype = get_celltype_from_coords()
+		if moving_bomb_is_more_then_half_on_cell():
+			match celltype:
+				"arena_arrow_up","arena_arrow_down","arena_arrow_right","arena_arrow_left":
+					move(celltype.right(12))
+				"arena_bomb_mortar":
+					self.position = get_center_coords_from_cell_in_world_coords()
+					var tilemap = get_node("../../TileMap")
+					randomize()
+					var dest_x=randi()%int(tilemap.columns)
+					var dest_y=randi()%int(tilemap.rows)
+					throw(Vector2(dest_x,dest_y))
+	else:
+		slide_dir=Vector2(0,0)
+		self.position = get_center_coords_from_cell_in_world_coords()
 
 func _on_TimerAnim_timeout():
 	get_parent().remove_child(self)
 
 
 func move(dir):
-	$ExplotionTimer.set_paused(true)
 	var old_slide_dir=slide_dir
 	match dir:
 		"up":
@@ -90,17 +89,18 @@ func move(dir):
 		self.position=get_center_coords_from_cell_in_world_coords()
 		
 func throw(destination):
-	if move_dest == null:
+	if move["dest"] == null:
 		$ExplotionTimer.set_paused(true)
 		var tilemap = get_parent().get_parent().get_node("TileMap")
-		move_dest=tilemap.map_to_world(destination)+Vector2(20,20)+tilemap.position
-		move_length=self.position.distance_to(move_dest)
-		move_dir=self.position.direction_to(move_dest)
-		move_progress=move_length
+		move["dest"]=tilemap.map_to_world(destination)+Vector2(20,20)+tilemap.position
+		move["length"]=self.position.distance_to(move["dest"])
+		move["dir"]=self.position.direction_to(move["dest"])
+		move["progress"]=move["length"]
 		slide_dir=Vector2.ZERO
 		get_node("CollisionShape2D").set_deferred("disabled", true)
 
 func explode():
+	exploding=true
 	$AudioStreamPlayer.play()
 	var tilemap = get_parent().get_parent().get_node("TileMap")
 	var coords = get_map_coords()

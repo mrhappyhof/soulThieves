@@ -142,6 +142,8 @@ remote func update_world_state(world_state):
 			bomb.position = world_state.bombs[bomb_name].position
 			var time_left =  world_state.bombs[bomb_name].left - ((get_time() - world_state.time) / 1000)
 			bomb.get_node("ExplotionTimer").start(time_left)
+			bomb.slide_dir = world_state.bombs[bomb_name].slide_dir
+			bomb.move = world_state.bombs[bomb_name].move
 		else:
 			var bomb = bomb_scene.instance()
 			bomb.position = world_state.bombs[bomb_name].position
