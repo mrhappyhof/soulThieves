@@ -85,7 +85,9 @@ func join_world():
 
 remote func ping(ping, diff):
 	if has_node("/root/World"):
-		world.get_node("HUD/PingLabel").set_text(str(ping) + "ms")
+		var ping_label = world.get_node("HUD/PingLabel")
+		if ping_label.visible:
+			ping_label.set_text(str(ping) + "ms")
 		time_diff = diff
 
 remote func start_game():

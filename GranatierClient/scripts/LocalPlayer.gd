@@ -13,7 +13,7 @@ var died = false
 
 var settings_open = false
 
-func update_stats(newStats, timestamp):
+func update_stats(newStats, _timestamp):
 	stats = newStats
 	var hud = get_node("../../HUD")
 	if newStats.has_shield:
@@ -75,8 +75,7 @@ func _physics_process(_delta):
 			bomb.bomb_range = stats.bomb_blast_range
 			placed_bomb_count += 1
 			get_node("../../Bombs").add_child(bomb, true)
-			#stats.layable_bombs -= 1
-			print("layable:" + str(stats.layable_bombs))
+			stats.layable_bombs -= 1
 			bomb.player = self
 			Server.place_bomb()
 	elif not last_pressed == null and Input.is_action_just_released(last_pressed):

@@ -27,7 +27,7 @@ func _ready():
 func set_animation(player_no):
 	$AnimatedSprite.animation = "player" + str(player_no)
 
-func update_stats(stats, timestamp):
+func update_stats(newStats, timestamp):
 	pass
 
 func destroy():
