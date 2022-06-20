@@ -57,11 +57,12 @@ func _physics_process(delta):
 			get_node("BombAnim/AnimationPlayer").play()
 		else:
 			if move["progress"]> move["length"]/2:
-				var portion_traveled=(move["progress"]-move["length"]/2)/move["length"]/2
-				self.scale=(Vector2(0.1+0.1*portion_traveled,0.1+0.1*portion_traveled))
+				var portion_traveled=(move["progress"]-(move["length"]/2))/(move["length"]/2)
+				print(portion_traveled)
+				self.scale=(Vector2(0.3-0.1*portion_traveled,0.3-0.1*portion_traveled))
 			else:
 				var portion_traveled=(move["progress"])/(move["length"]/2)
-				self.scale=(Vector2(0.2-0.1*portion_traveled,0.2-0.1*portion_traveled))
+				self.scale=(Vector2(0.2+0.1*portion_traveled,0.2+0.1*portion_traveled))
 			var move_tmp=(move["dir"]*5)
 			self.position=self.position+move_tmp
 			move["progress"]=move["progress"]-move_tmp.length()
