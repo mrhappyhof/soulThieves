@@ -3,8 +3,8 @@ var bomb_scene = preload("res://scenes/Bomb.tscn")
 var world_scene = preload("res://scenes/World.tscn")
 
 var network = NetworkedMultiplayerENet.new()
-var port = 1909
-var max_players = 10
+var port = 50000
+var max_players = 200
 
 var placed_bomb_count = {}
 var sessions = {}
