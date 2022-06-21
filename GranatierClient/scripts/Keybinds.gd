@@ -3,7 +3,7 @@ extends Node
 var filepath = "res://keybinds.ini" #Might have to change after installing the game
 var configfile
 
-var keybinds = {}
+var keybinds = {"move_up": 87, "move_down": 83, "move_left" : 65, "move_right" : 68, "place_bomb" : 81}
 
 func _ready():
 	configfile = ConfigFile.new()
@@ -16,8 +16,9 @@ func _ready():
 			else:
 				keybinds[key] = null
 	else:
-		print("Config file not found")
-		get_tree().quit()
+		configfile.save(filepath)
+#		print("Config file not found")
+#		get_tree().quit()
 		
 	set_movement_keys()
 

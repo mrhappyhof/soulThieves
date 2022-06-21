@@ -23,8 +23,8 @@ var move = {"dest" : null, "length" : null, "dir" : null, "progress" : null}
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if player != null:
-		player.in_bomb=self
+	if player == null:
+		set_collision_mask_bit(0,true)
 	#$BombAnim.set_z_index(1)
 	bomb_explosion_scene = load("res://scenes/BombExplosion.tscn")
 	self.get_node("BombAnim/AnimationPlayer").play("Bomb")
@@ -85,6 +85,9 @@ func _process(_delta):
 						var dest_x=randi()%int(tilemap.columns)
 						var dest_y=randi()%int(tilemap.rows)
 						throw(Vector2(dest_x,dest_y))
+					"":
+						if moving_bomb_is_more_then_half_on_cell():
+							fall()
 	else:
 		slide_dir=Vector2(0,0)
 		self.position = get_center_coords_from_cell_in_world_coords()
@@ -158,6 +161,7 @@ func explode():
 
 func _on_PlayerIntersection_body_exited(body):
 	$CollisionShape2D.set_deferred("disabled", false)
+	set_collision_mask_bit(0,true)
 	body.in_bomb=null
 
 func _on_ExplotionTimer_timeout():
@@ -201,3 +205,10 @@ func moving_bomb_is_more_then_half_on_cell():
 			if center_coords.x >= position.x:
 				on_cell=true	
 	return on_cell
+
+func fall():	
+	$BombAnim.get_node("AnimationPlayer").play("fall")
+
+func _on_AnimationPlayer_animation_finished(anim_name):
+	if anim_name == "fall":
+		queue_free()

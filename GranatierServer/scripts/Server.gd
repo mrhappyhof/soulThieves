@@ -3,8 +3,8 @@ var bomb_scene = preload("res://scenes/Bomb.tscn")
 var world_scene = preload("res://scenes/World.tscn")
 
 var network = NetworkedMultiplayerENet.new()
-var port = 1909
-var max_players = 10
+var port = 50000
+var max_players = 200
 
 var placed_bomb_count = {}
 var sessions = {}
@@ -118,9 +118,14 @@ remote func create_world(name, map):
 	world.map = map
 	world.session_owner = get_tree().get_rpc_sender_id()
 	#world.name = name
-	viewport.name = name
+	var actual_name
+	if name != "":
+		actual_name = name
+	else:
+		actual_name = "World_"+str(sessions.size())
+	viewport.name = actual_name
 	viewport.add_child(world)
-	sessions[name] = []
+	sessions[actual_name] = []
 	add_child(viewport, true)
 
 remote func move_player(motion, timestamp):
@@ -171,7 +176,10 @@ func leave_world(player_id):
 	
 remote func join_session(name, timestamp):
 	var player_id = get_tree().get_rpc_sender_id()
-	var world = get_node(name + "/World")
+	var world
+	if not has_node(name + "/World"):
+		name = "World_" + str(sessions.size() - 1)
+	world = get_node(name + "/World")
 	if world.spawn_points.values().has(false) and not world.session_closed:
 		sessions[name].push_back(player_id)
 		player_session_map[player_id] = name

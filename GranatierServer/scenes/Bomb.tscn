@@ -10,6 +10,8 @@ radius = 110.0
 
 [node name="Bomb" type="KinematicBody2D"]
 scale = Vector2( 0.2, 0.2 )
+collision_layer = 2
+collision_mask = 6
 script = ExtResource( 4 )
 
 [node name="TimerAnim" type="Timer" parent="."]
@@ -18,7 +20,6 @@ one_shot = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2( 0.2, 0.2 )
 shape = SubResource( 1 )
-disabled = true
 
 [node name="PlayerIntersection" type="Area2D" parent="."]
 collision_layer = 0

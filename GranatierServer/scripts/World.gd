@@ -56,7 +56,8 @@ func get_world_state():
 				"left": bomb.get_node("ExplotionTimer").get_time_left(),
 				"slide_dir": bomb.slide_dir,
 				"move": bomb.move,
-				"exploding": bomb.exploding
+				"exploding": bomb.exploding,
+				"player": bomb.player
 			}
 			var bomb_path = bomb.get_path()
 			bombs[bomb_path.get_name(bomb_path.get_name_count() - 1)] = bomb_data

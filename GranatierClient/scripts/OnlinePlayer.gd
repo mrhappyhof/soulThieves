@@ -35,7 +35,6 @@ func _physics_process(_delta):
 	if next_positions.size() > 0 and next_positions[0].time <= Server.get_time() - 50:
 		pos_reached = false
 		$AnimatedSprite.play()
-		#print(str(position) + " -> " + str(next_positions[0].position))
 		var motion = (next_positions[0].position - position).normalized()
 		
 		if motion != Vector2.ZERO:
@@ -53,7 +52,6 @@ func _physics_process(_delta):
 			position = next_positions[0].position
 			next_positions.pop_front()
 			pos_reached = true
-			#print("pos reached")
 	else:
 		$AnimatedSprite.stop()
 		$AnimatedSprite.frame = 0
