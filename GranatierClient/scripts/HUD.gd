@@ -26,7 +26,7 @@ func countdown(time):
 	
 		$TimerLabel.text = "%02d:%02d" % [minutes, seconds]
 	elif get_parent().waiting_for_players:
-		$TimerLabel.text = "Warte auf andere Spieler..."
+		$TimerLabel.text = "Waiting for players..."
 	else:
 		$TimerLabel.text = "Sudden Death"
 

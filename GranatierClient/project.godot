@@ -21,7 +21,7 @@ _global_script_class_icons={
 [application]
 
 config/name="GranatierClient"
-run/main_scene="res://scenes/MainMenu.tscn"
+run/main_scene="res://scenes/ChooseServer.tscn"
 config/icon="res://icon.png"
 
 [autoload]

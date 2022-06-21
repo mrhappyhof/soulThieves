@@ -5,10 +5,12 @@ var powerup_scene = preload("res://scenes/Powerup.tscn")
 var network = NetworkedMultiplayerENet.new()
 var address = "localhost"
 #var address = "game.url.de"
-var port = 1909
+var port = 50000
 var world
 var initial = true
 var is_owner = false
+
+var connection_failed = false
 
 var time_diff = 0
 
@@ -23,7 +25,7 @@ enum PlayerAction{
 }
 
 func _ready():
-	ConnectToServer()
+	#ConnectToServer()
 	#rpc_id(1, "SpawnPlayer")
 	pass
 func ConnectToServer(): #address, port
@@ -34,9 +36,12 @@ func ConnectToServer(): #address, port
 	network.connect("connection_succeeded", self, "_OnConnectionSucceeded")
 
 func _OnConnectionFailed():
+	connection_failed = true
+	load_scene("res://scenes/ChooseServer.tscn")
 	print("Failed to connect")
 	
 func _OnConnectionSucceeded():
+	load_scene("res://scenes/MainMenu.tscn")
 	print("Succesfully connected")
 
 func get_time():
