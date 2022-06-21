@@ -196,6 +196,8 @@ remote func session_full():
 remote func round_over(stars):
 	for player in world.get_node("Players").get_children():
 		player.queue_free()
+	for bomb in world.get_node("Bombs").get_children():
+		bomb.queue_free()
 	var score = world.get_node("Score")
 	score.set_stars(stars)
 	score.show()
