@@ -25,7 +25,6 @@ var move = {"dest" : null, "length" : null, "dir" : null, "progress" : null}
 func _ready():
 	if player == null:
 		set_collision_mask_bit(0,true)
-	#$BombAnim.set_z_index(1)
 	bomb_explosion_scene = load("res://scenes/BombExplosion.tscn")
 	self.get_node("BombAnim/AnimationPlayer").play("Bomb")
 	cell_size = get_node("../../TileMap").get_cell_size()
@@ -131,6 +130,7 @@ func throw(destination):
 
 func explode():
 	exploding=true
+	get_node("AnimatedExplosion").show()
 	$AudioStreamPlayer.play()
 	var tilemap = get_parent().get_parent().get_node("TileMap")
 	var coords = get_map_coords()
@@ -146,17 +146,16 @@ func explode():
 				"arena_wall":
 					tilemap.destroy_cell(current_coords.x,current_coords.y)
 					var bomb_explosion = bomb_explosion_scene.instance()
-					$BombExplosion.add_child(bomb_explosion)
+					$AnimatedExplosion.add_child(bomb_explosion)
 					bomb_explosion.global_position = get_center_coords_from_cell_in_world_coords()+(explode_directions[y]*i*40)
 					bomb_explosion.rotation = explode_rotations[y]
 					break
 				_:
 					var bomb_explosion = bomb_explosion_scene.instance()
-					$BombExplosion.add_child(bomb_explosion)
+					$AnimatedExplosion.add_child(bomb_explosion)
 					bomb_explosion.global_position = get_center_coords_from_cell_in_world_coords()+(explode_directions[y]*i*40)
 					bomb_explosion.rotation = explode_rotations[y]
 	get_node("TimerAnim").start()
-	get_node("AnimatedExplosion").show()
 	get_node("AnimatedExplosion").play()
 
 func _on_PlayerIntersection_body_exited(body):
