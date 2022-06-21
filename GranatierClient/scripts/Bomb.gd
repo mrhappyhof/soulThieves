@@ -171,7 +171,9 @@ func get_map_coords():
 func get_celltype_from_coords(coords:Vector2 = get_map_coords()):
 	var tilemap = get_parent().get_parent().get_node("TileMap")
 	var cell_id = tilemap.get_cellv(coords)
-	var cell_type = tilemap.tile_set.tile_get_name(cell_id)
+	var cell_type = ""
+	if cell_id != -1:
+		cell_type = tilemap.tile_set.tile_get_name(cell_id)
 	return cell_type
 	
 func get_center_coords_from_cell_in_world_coords():

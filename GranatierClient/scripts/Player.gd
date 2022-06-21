@@ -14,9 +14,10 @@ var stats = {
 	"hyperactive": false,
 	"slow": false,
 	"is_dead": false,
+	"fallen": false
 }
 
-
+var died = false
 
 var viewing_direction = Vector2.ZERO
 #var can_move = true

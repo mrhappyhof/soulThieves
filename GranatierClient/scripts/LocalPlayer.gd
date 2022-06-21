@@ -9,8 +9,7 @@ var motion = Vector2.ZERO
 var in_bomb = null
 var last_pressed
 var invert_rot
-
-var died = false
+var on_ice = false
 
 var settings_open = false
 
@@ -45,7 +44,7 @@ func update_stats(newStats, _timestamp):
 
 func _physics_process(_delta):
 	#if stats.is_dead or can_move:
-	if stats.is_dead or settings_open:
+	if stats.is_dead or settings_open or stats.fallen:
 		return
 	if Input.is_action_just_pressed("move_right"):
 		last_pressed = "move_right"
@@ -91,6 +90,37 @@ func _physics_process(_delta):
 	elif not last_pressed == null and Input.is_action_just_released(last_pressed):
 		motion = Vector2.ZERO
 	
+	var tilemap = get_parent().get_parent().get_node("TileMap")
+	var coords = tilemap.world_to_map(self.position - tilemap.position)
+	var cell_id = tilemap.get_cellv(coords)
+	var cell_type = ""
+	if cell_id != -1:
+		cell_type = tilemap.tile_set.tile_get_name(cell_id)
+	
+	match cell_type:
+		"arena_ice":
+			pass
+		"":
+			var center_coords=get_center_coords_from_cell_in_world_coords()
+			var on_cell=false;
+			match viewing_direction:
+				Vector2(0,0):
+					on_cell=true
+				Vector2.UP:
+					if center_coords.y >= position.y:
+						on_cell=true
+				Vector2.DOWN:
+					if center_coords.y <= position.y:
+						on_cell=true
+				Vector2.RIGHT:
+					if center_coords.x <= position.x:
+						on_cell=true
+				Vector2.LEFT:
+					if center_coords.x >= position.x:
+						on_cell=true	
+			if on_cell:
+				fall()
+	
 	if motion.length() > 0:
 		var amplifier = 1
 		if stats.hyperactive:
@@ -125,3 +155,20 @@ func destroy():
 			died = true
 	else:
 		stats.has_shield = false 
+
+func fall():	
+	stats.fallen = true
+	$AnimatedSprite.get_node("FallAnimation").play("fall")
+	if not died:
+		died = true
+
+func _on_FallAnimation_animation_finished(anim_name):
+	if stats.fallen:
+		stats.is_dead = true
+		hide()
+		
+func get_center_coords_from_cell_in_world_coords():
+	var tilemap = get_parent().get_parent().get_node("TileMap")
+	var map_coords=tilemap.world_to_map(self.position - tilemap.position)
+	var coords=tilemap.map_to_world(map_coords)+Vector2(20,20)+tilemap.position
+	return coords

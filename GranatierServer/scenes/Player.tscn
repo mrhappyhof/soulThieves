@@ -5,9 +5,7 @@
 [sub_resource type="CircleShape2D" id=1]
 radius = 17.5
 
-[node name="Player" type="KinematicBody2D" groups=[
-"Players",
-]]
+[node name="Player" type="KinematicBody2D" groups=["Players"]]
 position = Vector2( -1, 1 )
 collision_mask = 2
 script = ExtResource( 1 )
@@ -28,5 +26,9 @@ one_shot = true
 
 [node name="ScattyTimer" type="Timer" parent="."]
 
+[node name="FallTimer" type="Timer" parent="."]
+wait_time = 2.4
+
 [connection signal="timeout" from="Timer" to="." method="_on_bad_powerup_timer_timeout"]
 [connection signal="timeout" from="ScattyTimer" to="." method="_on_ScattyTimer_timeout"]
+[connection signal="timeout" from="FallTimer" to="." method="_on_FallTimer_timeout"]

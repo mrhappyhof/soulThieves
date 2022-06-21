@@ -13,7 +13,8 @@ var stats = {
 	"has_teleport": false,
 	"hyperactive": false,
 	"slow": false,
-	"is_dead": false
+	"is_dead": false,
+	"fallen": false
 }
 
 var in_bomb = null
@@ -42,7 +43,7 @@ func _ready():
 	set_physics_process(false)
 
 func _physics_process(_delta):
-	if not stats.is_dead and motion != Vector2.ZERO:
+	if not stats.is_dead and motion != Vector2.ZERO and not stats.fallen:
 		var amplifier = 1
 		if stats.has_mirror:
 			amplifier = -1
@@ -52,6 +53,36 @@ func _physics_process(_delta):
 			amplifier = 0.5
 		move_and_slide(motion * stats.speed * amplifier);
 		motion = Vector2.ZERO
+		
+		if not stats.is_dead:
+			var tilemap = get_parent().get_parent().get_node("TileMap")
+			var coords = tilemap.world_to_map(self.position - tilemap.position)
+			var cell_id = tilemap.get_cellv(coords)
+			var cell_type = ""
+			if cell_id != -1:
+				cell_type = tilemap.tile_set.tile_get_name(cell_id)
+			
+			if cell_type == "":
+				var center_coords=get_center_coords_from_cell_in_world_coords()
+				var on_cell=false;
+				match viewing_direction:
+					Vector2(0,0):
+						on_cell=true
+					Vector2.UP:
+						if center_coords.y >= position.y:
+							on_cell=true
+					Vector2.DOWN:
+						if center_coords.y <= position.y:
+							on_cell=true
+					Vector2.RIGHT:
+						if center_coords.x <= position.x:
+							on_cell=true
+					Vector2.LEFT:
+						if center_coords.x >= position.x:
+							on_cell=true	
+				if on_cell:
+					stats.fallen = true
+					$FallTimer.start()
 
 func move(v):
 	motion = v
@@ -131,3 +162,15 @@ func destroy():
 
 func _on_ScattyTimer_timeout():
 	get_node("/root/Server").place_bomb(int(name))
+
+
+
+func _on_FallTimer_timeout():
+	stats.is_dead = true
+	get_parent().get_parent().players_alive.erase(int(name))
+	
+func get_center_coords_from_cell_in_world_coords():
+	var tilemap = get_parent().get_parent().get_node("TileMap")
+	var map_coords=tilemap.world_to_map(self.position - tilemap.position)
+	var coords=tilemap.map_to_world(map_coords)+Vector2(20,20)+tilemap.position
+	return coords

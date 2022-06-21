@@ -5,8 +5,6 @@ var new_stats = []
 
 var pos_reached = false
 
-var died = false
-
 func add_position(pos, time):
 	if next_positions.size() == 0 or next_positions[next_positions.size() - 1].position != pos:
 		next_positions.push_back({"position": pos, "time": time})
@@ -25,8 +23,13 @@ func _physics_process(_delta):
 		stats = new_stats.pop_front().stats
 	
 	if stats.is_dead and not died:
-		$AnimatedSprite.animation = $AnimatedSprite.animation + "_dead"
-		$DieSound.play()
+		if not stats.fallen:
+			$AnimatedSprite.animation = $AnimatedSprite.animation + "_dead"
+			$DieSound.play()
+			died = true
+			
+	if stats.fallen and not died:
+		$AnimatedSprite.get_node("FallAnimation").play("fall")
 		died = true
 	
 	if next_positions.size() > 0 and next_positions[0].time <= Server.get_time() - 50:
@@ -54,3 +57,9 @@ func _physics_process(_delta):
 	else:
 		$AnimatedSprite.stop()
 		$AnimatedSprite.frame = 0
+		
+
+
+func _on_FallAnimation_animation_finished(anim_name):
+	if stats.fallen:
+		hide()
