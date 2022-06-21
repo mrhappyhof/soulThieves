@@ -54,11 +54,11 @@ func _physics_process(_delta):
 			amplifier = 0.5
 		if stats.on_ice != Vector2.ZERO:
 			if motion == Vector2.ZERO:
-				move_and_slide(stats.on_ice * stats.speed * amplifier)
+				var _y = move_and_slide(stats.on_ice * stats.speed * amplifier)
 			else:
 				amplifier *= 2
 				
-		move_and_slide(motion * stats.speed * amplifier);
+		var _y = move_and_slide(motion * stats.speed * amplifier);
 		motion = Vector2.ZERO
 		
 		if not stats.is_dead:
