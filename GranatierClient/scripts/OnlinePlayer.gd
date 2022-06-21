@@ -48,6 +48,11 @@ func _physics_process(_delta):
 				amplifier = 4
 			elif stats.slow:
 				amplifier = 0.5
+#			if stats.on_ice != Vector2.ZERO:
+#				if motion == Vector2.ZERO:
+#					move_and_slide(stats.on_ice * stats.speed * amplifier)
+#				else:
+#					amplifier *= 2
 			var _v = move_and_slide(motion * stats.speed * amplifier)
 		if position.distance_squared_to(next_positions[0].position) < 16:
 			position = next_positions[0].position

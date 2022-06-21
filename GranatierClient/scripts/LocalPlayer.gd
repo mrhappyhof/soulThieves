@@ -88,7 +88,10 @@ func _physics_process(_delta):
 #				in_bomb.throw(coords+self.viewing_direction*2)
 		Server.place_bomb()
 	elif not last_pressed == null and Input.is_action_just_released(last_pressed):
-		motion = Vector2.ZERO
+		if not stats.on_ice:
+			motion = Vector2.ZERO
+		else:
+			motion /= 2
 	
 	var tilemap = get_parent().get_parent().get_node("TileMap")
 	var coords = tilemap.world_to_map(self.position - tilemap.position)
@@ -99,7 +102,7 @@ func _physics_process(_delta):
 	
 	match cell_type:
 		"arena_ice":
-			pass
+			stats.on_ice=viewing_direction
 		"":
 			var center_coords=get_center_coords_from_cell_in_world_coords()
 			var on_cell=false;
@@ -120,6 +123,8 @@ func _physics_process(_delta):
 						on_cell=true	
 			if on_cell:
 				fall()
+	if cell_type != "arena_ice":
+		stats.on_ice=Vector2.ZERO
 	
 	if motion.length() > 0:
 		var amplifier = 1
@@ -130,7 +135,12 @@ func _physics_process(_delta):
 		elif stats.has_mirror:
 			amplifier = -1
 			rotation = invert_rot
-			
+		if stats.on_ice != Vector2.ZERO:
+			if motion == Vector2.ZERO:
+				move_and_slide(stats.on_ice * stats.speed * amplifier)
+			else:
+				amplifier *= 2
+				
 		var _v = move_and_slide(motion * stats.speed * amplifier)
 		Server.move_player(motion)
 		$AnimatedSprite.play()

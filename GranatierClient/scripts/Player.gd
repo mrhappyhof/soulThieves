@@ -14,7 +14,8 @@ var stats = {
 	"hyperactive": false,
 	"slow": false,
 	"is_dead": false,
-	"fallen": false
+	"fallen": false,
+	"on_ice": Vector2.ZERO
 }
 
 var died = false

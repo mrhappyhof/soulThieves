@@ -14,7 +14,8 @@ var stats = {
 	"hyperactive": false,
 	"slow": false,
 	"is_dead": false,
-	"fallen": false
+	"fallen": false,
+	"on_ice": Vector2.ZERO
 }
 
 var in_bomb = null
@@ -51,6 +52,12 @@ func _physics_process(_delta):
 			amplifier = 4
 		elif stats.slow:
 			amplifier = 0.5
+		if stats.on_ice != Vector2.ZERO:
+			if motion == Vector2.ZERO:
+				move_and_slide(stats.on_ice * stats.speed * amplifier)
+			else:
+				amplifier *= 2
+				
 		move_and_slide(motion * stats.speed * amplifier);
 		motion = Vector2.ZERO
 		
@@ -62,27 +69,32 @@ func _physics_process(_delta):
 			if cell_id != -1:
 				cell_type = tilemap.tile_set.tile_get_name(cell_id)
 			
-			if cell_type == "":
-				var center_coords=get_center_coords_from_cell_in_world_coords()
-				var on_cell=false;
-				match viewing_direction:
-					Vector2(0,0):
-						on_cell=true
-					Vector2.UP:
-						if center_coords.y >= position.y:
+			match cell_type:
+				"arena_ice":
+					stats.on_ice=viewing_direction
+				"":
+					var center_coords=get_center_coords_from_cell_in_world_coords()
+					var on_cell=false;
+					match viewing_direction:
+						Vector2(0,0):
 							on_cell=true
-					Vector2.DOWN:
-						if center_coords.y <= position.y:
-							on_cell=true
-					Vector2.RIGHT:
-						if center_coords.x <= position.x:
-							on_cell=true
-					Vector2.LEFT:
-						if center_coords.x >= position.x:
-							on_cell=true	
-				if on_cell:
-					stats.fallen = true
-					$FallTimer.start()
+						Vector2.UP:
+							if center_coords.y >= position.y:
+								on_cell=true
+						Vector2.DOWN:
+							if center_coords.y <= position.y:
+								on_cell=true
+						Vector2.RIGHT:
+							if center_coords.x <= position.x:
+								on_cell=true
+						Vector2.LEFT:
+							if center_coords.x >= position.x:
+								on_cell=true	
+					if on_cell:
+						stats.fallen = true
+						$FallTimer.start()
+			if cell_type != "arena_ice":
+				stats.on_ice=Vector2.ZERO
 
 func move(v):
 	motion = v
