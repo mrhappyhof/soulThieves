@@ -25,8 +25,8 @@ func _ready():
 			$MapList.add_item(file_name)
 		file_name = dir.get_next()
 		
-	$MapList.select(0)
 	$MapList.sort_items_by_text()
+	$MapList.select(0)
 	selectedItem = $MapList.get_item_text(0)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
