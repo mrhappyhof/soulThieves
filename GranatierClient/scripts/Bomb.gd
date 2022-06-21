@@ -23,8 +23,8 @@ var move = {"dest" : null, "length" : null, "dir" : null, "progress" : null}
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if player != null:
-		player.in_bomb=self
+	if player == null:
+		set_collision_mask_bit(0,true)
 	#$BombAnim.set_z_index(1)
 	bomb_explosion_scene = load("res://scenes/BombExplosion.tscn")
 	self.get_node("BombAnim/AnimationPlayer").play("Bomb")
@@ -161,6 +161,7 @@ func explode():
 
 func _on_PlayerIntersection_body_exited(body):
 	$CollisionShape2D.set_deferred("disabled", false)
+	set_collision_mask_bit(0,true)
 	body.in_bomb=null
 
 func _on_ExplotionTimer_timeout():

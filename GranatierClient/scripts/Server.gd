@@ -147,11 +147,13 @@ remote func update_world_state(world_state):
 			bomb.slide_dir = world_state.bombs[bomb_name].slide_dir
 			bomb.move = world_state.bombs[bomb_name].move
 			bomb.exploding = world_state.bombs[bomb_name].exploding
+			bomb.player = world_state.bombs[bomb_name].player
 		else:
 			var bomb = bomb_scene.instance()
 			bomb.position = world_state.bombs[bomb_name].position
 			bomb.bomb_range = world_state.bombs[bomb_name].range
 			bomb.name = bomb_name
+			bomb.player = world_state.bombs[bomb_name].player
 			world.get_node("Bombs").add_child(bomb, true)
 	for powerup in world.get_node("Powerups").get_children():
 			if world_state.powerups.has(powerup.get_name()):

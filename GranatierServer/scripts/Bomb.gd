@@ -28,6 +28,8 @@ func _ready():
 	if player != null:
 		player.stats.layable_bombs -= 1
 		player.in_bomb=self
+	else:
+		set_collision_mask_bit(0,true)
 
 func _physics_process(delta):
 	if slide_dir!= Vector2.ZERO and not exploding:
@@ -155,11 +157,12 @@ func explode():
 
 func _on_PlayerIntersection_body_exited(body):
 	$CollisionShape2D.set_deferred("disabled", false)
+	set_collision_mask_bit(0,true)
 	if body.is_in_group("Players"):
 		body.in_bomb=null
 
 func _on_PlayerIntersection_body_entered(body):
-	if body.is_in_group("Players") and body.stats.can_kick and not $CollisionShape2D.disabled:
+	if body.is_in_group("Players") and body.stats.can_kick and not $CollisionShape2D.disabled and get_collision_mask_bit(0):
 		if body.stats.has_mirror:
 			move(-body.viewing_direction)
 		else:
