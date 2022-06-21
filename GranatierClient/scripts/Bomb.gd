@@ -146,13 +146,13 @@ func explode():
 				"arena_wall":
 					tilemap.destroy_cell(current_coords.x,current_coords.y)
 					var bomb_explosion = bomb_explosion_scene.instance()
-					add_child(bomb_explosion)
+					$BombExplosion.add_child(bomb_explosion)
 					bomb_explosion.global_position = get_center_coords_from_cell_in_world_coords()+(explode_directions[y]*i*40)
 					bomb_explosion.rotation = explode_rotations[y]
 					break
 				_:
 					var bomb_explosion = bomb_explosion_scene.instance()
-					add_child(bomb_explosion)
+					$BombExplosion.add_child(bomb_explosion)
 					bomb_explosion.global_position = get_center_coords_from_cell_in_world_coords()+(explode_directions[y]*i*40)
 					bomb_explosion.rotation = explode_rotations[y]
 	get_node("TimerAnim").start()

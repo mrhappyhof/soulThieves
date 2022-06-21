@@ -95,6 +95,8 @@ texture = ExtResource( 1 )
 anims/Bomb = SubResource( 1 )
 anims/fall = SubResource( 10 )
 
+[node name="BombExplosion" type="Node" parent="."]
+
 [node name="AnimatedExplosion" type="AnimatedSprite" parent="."]
 visible = false
 frames = SubResource( 7 )
