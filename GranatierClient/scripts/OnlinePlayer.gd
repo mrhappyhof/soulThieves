@@ -35,7 +35,6 @@ func _physics_process(_delta):
 	if next_positions.size() > 0 and next_positions[0].time <= Server.get_time() - 50:
 		pos_reached = false
 		$AnimatedSprite.play()
-		#print(str(position) + " -> " + str(next_positions[0].position))
 		var motion = (next_positions[0].position - position).normalized()
 		
 		if motion != Vector2.ZERO:
@@ -48,17 +47,11 @@ func _physics_process(_delta):
 				amplifier = 4
 			elif stats.slow:
 				amplifier = 0.5
-#			if stats.on_ice != Vector2.ZERO:
-#				if motion == Vector2.ZERO:
-#					move_and_slide(stats.on_ice * stats.speed * amplifier)
-#				else:
-#					amplifier *= 2
 			var _v = move_and_slide(motion * stats.speed * amplifier)
 		if position.distance_squared_to(next_positions[0].position) < 16:
 			position = next_positions[0].position
 			next_positions.pop_front()
 			pos_reached = true
-			#print("pos reached")
 	else:
 		$AnimatedSprite.stop()
 		$AnimatedSprite.frame = 0

@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 var stats = { 
 	"speed": 100,
-	"can_kick": true,
+	"can_kick": false,
 	"can_throw": false,
 	"has_shield": false,
 	"layable_bombs": 1,

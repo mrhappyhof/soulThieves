@@ -74,6 +74,10 @@ func _process(delta):
 						var dest_x=randi()%int(tilemap.columns)
 						var dest_y=randi()%int(tilemap.rows)
 						throw(Vector2(dest_x,dest_y))
+					"":
+						if moving_bomb_is_more_then_half_on_cell():
+							player.stats.layable_bombs += 1
+							queue_free()
 	else:
 		slide_dir=Vector2(0,0)
 		self.position = get_center_coords_from_cell_in_world_coords()
