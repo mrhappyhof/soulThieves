@@ -164,6 +164,7 @@ remote func join_world(name, timestamp):
 func leave_world(player_id):
 	var session = player_session_map[player_id]
 	var world = get_node(session + "/World")
+	stars.erase(player_id)
 	placed_bomb_count.erase(player_id)
 	if has_node(session + "/World"):
 		world.despawn_player(player_id)

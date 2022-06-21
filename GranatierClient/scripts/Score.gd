@@ -64,8 +64,9 @@ func create_player_scoreboard():
 func set_stars(stars):
 	for player_id in stars.keys():
 		for i in stars[int(player_id)]:
-			var index = (player_number_map[str(player_id)] * 6) + 1
-			$ScoreList.set_item_icon(index + i, starFrameFull)
+			if player_number_map.has(str(player_id)):
+				var index = (player_number_map[str(player_id)] * 6) + 1
+				$ScoreList.set_item_icon(index + i, starFrameFull)
 	
 # Checks if the scene at the given path exists and loads it
 func load_scene(var path):
