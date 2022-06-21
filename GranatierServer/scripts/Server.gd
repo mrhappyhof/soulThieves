@@ -42,7 +42,7 @@ func get_session_list():
 	for s in sessions.keys():
 		var world = get_node(s + "/World")
 		if not world.session_closed:
-			var max_players = world.get_node("TileMap").spawn_count
+			max_players = world.get_node("TileMap").spawn_count
 			var current_players = sessions[s].size()
 			list.push_back({"name": s, "map": world.map ,"players": str(current_players) + "/" + str(max_players)})
 	return list

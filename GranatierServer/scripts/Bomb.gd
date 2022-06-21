@@ -61,7 +61,7 @@ func _physics_process(delta):
 			self.position=self.position+move_tmp
 			move["progress"]=move["progress"]-move_tmp.length()
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if not exploding:
 		var celltype = get_celltype_from_coords()
 		if moving_bomb_is_more_then_half_on_cell():
